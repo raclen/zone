@@ -1,22 +1,177 @@
 ---
 import Layout from "../layouts/Layout.astro";
-import Nav from "../components/Nav.astro";
-import Hero from "../components/Hero.astro";
-import Features from "../components/Features.astro";
-import Screenshots from "../components/Screenshots.astro";
-import Download from "../components/Download.astro";
-import PluginsThemes from "../components/PluginsThemes.astro";
-import Footer from "../components/Footer.astro";
 ---
 
-<Layout>
-  <Nav />
-  <main>
-    <Hero />
-    <Features />
-    <Screenshots />
-    <Download />
-    <PluginsThemes />
-  </main>
-  <Footer />
+<Layout
+  title="Anhe - 个人空间"
+  description="Anhe 的个人空间，包含项目展示、工具与作品。"
+>
+  <div class="home">
+    <div class="container">
+      <div class="home-hero">
+        <h1 class="home-title">
+          <span class="wave">👋</span> 你好，我是 <strong>Anhe</strong>
+        </h1>
+        <p class="home-desc">欢迎来到我的个人空间</p>
+      </div>
+
+      <section class="projects">
+        <h2>项目</h2>
+        <div class="project-grid">
+          <a href="/anheplayer" class="project-card">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+              </svg>
+            </div>
+            <h3>AnhePlayer</h3>
+            <p>轻量级音乐播放器，支持插件、主题与歌词显示</p>
+            <span class="project-link-arrow">→</span>
+          </a>
+
+          <div class="project-card project-card-placeholder">
+            <div class="project-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5z"/>
+                <path d="M2 17l10 5 10-5M2 12l10 5 10-5"/>
+              </svg>
+            </div>
+            <h3>更多项目</h3>
+            <p>敬请期待...</p>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
 </Layout>
+
+<style>
+  .home {
+    min-height: 100vh;
+    padding: 120px 24px 80px;
+  }
+  .container {
+    max-width: 960px;
+    margin: 0 auto;
+  }
+
+  .home-hero {
+    text-align: center;
+    margin-bottom: 80px;
+  }
+  .home-title {
+    font-size: clamp(2.2rem, 5vw, 3.5rem);
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.2;
+  }
+  .home-title strong {
+    color: var(--brand-bright);
+  }
+  .wave {
+    display: inline-block;
+    animation: wave 2.5s ease-in-out infinite;
+  }
+  @keyframes wave {
+    0%, 100% { transform: rotate(0deg); }
+    10%, 30% { transform: rotate(14deg); }
+    20% { transform: rotate(-8deg); }
+  }
+  .home-desc {
+    font-size: 1.25rem;
+    color: var(--text-dim);
+  }
+
+  .projects h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 32px;
+  }
+
+  .project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .project-card {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    padding: 32px 28px;
+    border-radius: var(--radius);
+    background: var(--glass);
+    border: 1px solid var(--border);
+    transition: all 0.25s ease;
+    text-decoration: none;
+  }
+  .project-card:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: var(--glow-soft);
+  }
+
+  .project-card-placeholder {
+    opacity: 0.6;
+    cursor: default;
+  }
+  .project-card-placeholder:hover {
+    transform: none;
+    border-color: var(--border);
+    box-shadow: none;
+  }
+
+  .project-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 20px;
+    color: var(--brand-bright);
+  }
+  .project-icon svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  .project-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+  .project-card p {
+    font-size: 0.95rem;
+    color: var(--text-dim);
+    line-height: 1.6;
+    flex: 1;
+  }
+
+  .project-link-arrow {
+    position: absolute;
+    top: 28px;
+    right: 28px;
+    font-size: 1.5rem;
+    color: var(--brand-bright);
+    opacity: 0;
+    transform: translateX(-8px);
+    transition: all 0.25s ease;
+  }
+  .project-card:hover .project-link-arrow {
+    opacity: 1;
+    transform: translateX(0);
+  }
+
+  @media (max-width: 768px) {
+    .home {
+      padding: 100px 20px 60px;
+    }
+    .home-hero {
+      margin-bottom: 60px;
+    }
+  }
+</style>
