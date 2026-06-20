@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://anheplayer.pages.dev/sitemap-index.xml

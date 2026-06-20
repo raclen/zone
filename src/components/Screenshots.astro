@@ -1,0 +1,64 @@
+---
+import { Image } from "astro:assets";
+import mainImg from "../assets/screenshots/main.webp";
+import lyricsImg from "../assets/screenshots/lyrics.webp";
+---
+
+<section class="section" id="screenshots">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">界面预览</span>
+      <h2 class="section-title">简洁美观的<span class="gradient-text">音乐体验</span></h2>
+      <p class="section-desc">
+        精心设计的界面，流畅的交互，专注于音乐本身。
+      </p>
+    </div>
+
+    <div class="screenshots-grid">
+      <div class="screenshot-item glass reveal">
+        <Image
+          src={mainImg}
+          alt="AnhePlayer 主界面"
+          loading="lazy"
+          quality={85}
+        />
+      </div>
+      <div class="screenshot-item glass reveal">
+        <Image
+          src={lyricsImg}
+          alt="AnhePlayer 歌词显示"
+          loading="lazy"
+          quality={85}
+        />
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .screenshots-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 20px;
+  }
+  .screenshot-item {
+    overflow: hidden;
+    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+  .screenshot-item:hover {
+    transform: translateY(-4px);
+    border-color: var(--border-strong);
+    box-shadow: var(--glow-soft);
+  }
+  .screenshot-item img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
+
+  @media (max-width: 680px) {
+    .screenshots-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

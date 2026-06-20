@@ -1,0 +1,324 @@
+---
+import {
+  PLATFORMS,
+  OS_GROUPS,
+  LATEST_API,
+  RELEASES_LATEST_URL,
+  fallbackUrl,
+  type OsKey,
+  type IconKey,
+} from "../data/platforms";
+
+// 平台图标（Windows / Apple / Linux）
+const osIcons: Record<IconKey, string> = {
+  windows:
+    '<path d="M0 3.4 10 2v9H0V3.4ZM11 1.8l13-1.8v11H11V1.8ZM0 12.6V20l10 1.4V13H0Zm11 8.6L24 23V12H11v9.2Z"/>',
+  apple:
+    '<path d="M18.3 8.6c-.1 2.9 2.5 4.3 2.6 4.3-.1.3-.4 1.4-1.3 2.7-.8 1.1-1.6 2.3-2.9 2.3s-1.5-.8-2.9-.8c-1.3 0-1.8.8-2.9.8-1.1.1-2.2-1.3-3-2.4-1.7-2.3-3-6.5-1.2-9.4.8-1.4 2.3-2.3 3.9-2.3 1.2 0 2.2.8 3 .8.7 0 2-.9 3.4-.8.6 0 2.1.2 3.1 1.7-.1.1-1.8 1.1-1.8 3.1ZM15.8 2.6c.7-.8 1.1-2 1-3.1-1 .1-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/>',
+  linux:
+    '<ellipse cx="12" cy="7" rx="10" ry="5"/><path d="M12 12c3.4 0 6.4 1 8.5 2.5a3 3 0 0 1 1.5 2.6v2.9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2.9c0-1.1.5-2.1 1.5-2.6C5.6 13 8.6 12 12 12Z"/>',
+};
+---
+
+<section class="section download-section" id="download">
+  <div class="container">
+    <div class="section-head center reveal">
+      <span class="eyebrow">立即下载</span>
+      <h2 class="section-title">
+        选择适合你的<span class="gradient-text">安装包</span>
+      </h2>
+      <p class="section-desc">
+        跨平台支持 Windows、macOS 与 Linux，安装版与便携版任你选择。
+      </p>
+    </div>
+
+    <div class="download-groups">
+      {
+        OS_GROUPS.map((grp) => (
+          <div class="os-group reveal" data-os={grp.os}>
+            <div class="os-group-header">
+              <div class="os-icon">
+                <svg viewBox="0 0 24 24" fill="currentColor" set:html={osIcons[grp.icon]} />
+              </div>
+              <h3>{grp.label}</h3>
+            </div>
+            <div class="os-assets">
+              {PLATFORMS.filter((p) => p.os === grp.os).map((p) => (
+                <a
+                  class="asset-btn"
+                  data-asset-id={p.id}
+                  href={RELEASES_LATEST_URL}
+                  target="_blank"
+                  rel="noopener"
+                >
+                  <div class="asset-info">
+                    <span class="asset-label">{p.label}</span>
+                    <span class="asset-note">{p.note}</span>
+                  </div>
+                  <div class="asset-meta">
+                    <span class="asset-size" data-size="">—</span>
+                    <svg
+                      class="download-icon"
+                      viewBox="0 0 24 24"
+                      fill="none"
+                      stroke="currentColor"
+                      stroke-width="2"
+                    >
+                      <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
+                      <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                    </svg>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+        ))
+      }
+    </div>
+
+    <div class="download-footer reveal">
+      <a class="footer-link" href={RELEASES_LATEST_URL} target="_blank" rel="noopener">
+        查看全部历史版本 →
+      </a>
+      <p class="api-status" id="api-status">正在从 GitHub 获取最新版本…</p>
+    </div>
+  </div>
+</section>
+
+<script>
+  import {
+    PLATFORMS,
+    LATEST_API,
+    RELEASES_LATEST_URL,
+    fallbackUrl,
+    FALLBACK_VERSION,
+    type OsKey,
+  } from "../data/platforms";
+
+  // 检测用户操作系统
+  function detectOS(): OsKey {
+    const ua = navigator.userAgent.toLowerCase();
+    const plat = navigator.platform?.toLowerCase() || "";
+    if (ua.includes("win") || plat.includes("win")) return "windows";
+    if (ua.includes("mac") || plat.includes("mac")) return "macos";
+    return "linux";
+  }
+
+  // 格式化文件大小
+  function fmtSize(bytes: number): string {
+    if (bytes < 1024) return `${bytes} B`;
+    if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
+    return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
+  // 高亮当前系统的分组
+  function highlightOS(os: OsKey) {
+    document.querySelectorAll<HTMLElement>(".os-group").forEach((el) => {
+      el.classList.toggle("is-current", el.dataset.os === os);
+    });
+  }
+
+  // 填充下载链接与文件大小
+  async function fillDownloads() {
+    const status = document.getElementById("api-status");
+    const heroVersion = document.getElementById("hero-version");
+    const heroDownloads = document.getElementById("hero-downloads");
+    const heroBtn = document.getElementById("hero-download-btn") as HTMLButtonElement | null;
+    const heroBtnText = document.getElementById("hero-btn-text");
+
+    try {
+      const res = await fetch(LATEST_API, { signal: AbortSignal.timeout(8000) });
+      if (!res.ok) throw new Error(`API ${res.status}`);
+      const data = await res.json();
+
+      const version = data.tag_name || FALLBACK_VERSION;
+      const assets = data.assets || [];
+      let totalDownloads = 0;
+
+      // 匹配并填充每个平台
+      for (const p of PLATFORMS) {
+        const asset = assets.find((a: any) => a.name?.includes(p.match));
+        const btn = document.querySelector<HTMLAnchorElement>(`[data-asset-id="${p.id}"]`);
+        const sizeSpan = btn?.querySelector<HTMLElement>("[data-size]");
+
+        if (asset && btn) {
+          btn.href = asset.browser_download_url;
+          if (sizeSpan) sizeSpan.textContent = fmtSize(asset.size || 0);
+          totalDownloads += asset.download_count || 0;
+        } else if (btn) {
+          // 兜底：使用静态直链
+          btn.href = fallbackUrl(p, version.replace(/^v/, ""));
+        }
+      }
+
+      // 更新 Hero 元信息
+      if (heroVersion) heroVersion.textContent = version;
+      if (heroDownloads)
+        heroDownloads.textContent = `${totalDownloads.toLocaleString()} 次下载`;
+
+      // Hero 主按钮：指向当前系统的首选安装包
+      const os = detectOS();
+      const recommended = PLATFORMS.find((p) => p.os === os && p.recommended);
+      if (recommended && heroBtn) {
+        const asset = assets.find((a: any) => a.name?.includes(recommended.match));
+        heroBtn.disabled = false;
+        heroBtn.onclick = (e) => {
+          e.preventDefault();
+          window.open(
+            asset?.browser_download_url || fallbackUrl(recommended, version.replace(/^v/, "")),
+            "_blank",
+          );
+        };
+        if (heroBtnText) heroBtnText.textContent = `下载 ${recommended.label}`;
+      }
+
+      if (status) status.textContent = `已加载最新版本 ${version}`;
+      highlightOS(os);
+    } catch (err) {
+      console.warn("GitHub API 请求失败，使用兜底链接：", err);
+      // 兜底：填充静态直链
+      for (const p of PLATFORMS) {
+        const btn = document.querySelector<HTMLAnchorElement>(`[data-asset-id="${p.id}"]`);
+        if (btn) btn.href = fallbackUrl(p);
+      }
+      if (heroVersion) heroVersion.textContent = `v${FALLBACK_VERSION}`;
+      if (heroDownloads) heroDownloads.textContent = "—";
+      if (status) status.textContent = "API 不可用，已显示兜底下载链接";
+
+      const os = detectOS();
+      const recommended = PLATFORMS.find((p) => p.os === os && p.recommended);
+      if (recommended && heroBtn) {
+        heroBtn.disabled = false;
+        heroBtn.onclick = (e) => {
+          e.preventDefault();
+          window.open(fallbackUrl(recommended), "_blank");
+        };
+        if (heroBtnText) heroBtnText.textContent = `下载 ${recommended.label}`;
+      }
+      highlightOS(os);
+    }
+  }
+
+  fillDownloads();
+</script>
+
+<style>
+  .download-section {
+    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+  }
+  .download-groups {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+  }
+  .os-group {
+    opacity: 0.72;
+    transition: opacity 0.3s ease;
+  }
+  .os-group.is-current {
+    opacity: 1;
+  }
+  .os-group-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 18px;
+  }
+  .os-icon {
+    width: 42px;
+    height: 42px;
+    display: grid;
+    place-items: center;
+    border-radius: 11px;
+    background: linear-gradient(135deg, rgba(32, 167, 255, 0.16), rgba(139, 92, 246, 0.16));
+    border: 1px solid rgba(32, 167, 255, 0.22);
+  }
+  .os-icon svg {
+    width: 22px;
+    height: 22px;
+    color: var(--brand-bright);
+  }
+  .os-group h3 {
+    font-size: 1.2rem;
+    font-weight: 700;
+  }
+  .os-assets {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+  .asset-btn {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 18px;
+    border-radius: var(--radius-sm);
+    background: var(--glass);
+    border: 1px solid var(--border);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+  }
+  .asset-btn:hover {
+    transform: translateY(-2px);
+    border-color: var(--brand-bright);
+    background: rgba(32, 167, 255, 0.08);
+  }
+  .asset-info {
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .asset-label {
+    font-size: 0.98rem;
+    font-weight: 600;
+  }
+  .asset-note {
+    font-size: 0.84rem;
+    color: var(--text-faint);
+  }
+  .asset-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  .asset-size {
+    font-size: 0.85rem;
+    font-family: var(--font-mono);
+    color: var(--text-dim);
+  }
+  .download-icon {
+    width: 20px;
+    height: 20px;
+    color: var(--brand-bright);
+    flex-shrink: 0;
+  }
+
+  .download-footer {
+    margin-top: 48px;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .footer-link {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--brand-bright);
+    transition: color 0.18s ease;
+  }
+  .footer-link:hover {
+    color: var(--brand-deep);
+  }
+  .api-status {
+    font-size: 0.88rem;
+    color: var(--text-faint);
+  }
+
+  @media (max-width: 920px) {
+    .download-groups {
+      grid-template-columns: 1fr;
+      gap: 32px;
+    }
+  }
+</style>

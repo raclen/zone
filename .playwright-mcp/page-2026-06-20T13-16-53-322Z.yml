@@ -1,0 +1,246 @@
+- generic [active] [ref=e1]:
+  - banner [ref=e2]:
+    - generic [ref=e3]:
+      - link "AnhePlayer 首页" [ref=e4] [cursor=pointer]:
+        - /url: "#top"
+        - generic [ref=e5]: AnhePlayer
+      - navigation "主导航" [ref=e6]:
+        - link "功能" [ref=e7] [cursor=pointer]:
+          - /url: "#features"
+        - link "界面" [ref=e8] [cursor=pointer]:
+          - /url: "#screenshots"
+        - link "下载" [ref=e9] [cursor=pointer]:
+          - /url: "#download"
+        - link "插件 & 主题" [ref=e10] [cursor=pointer]:
+          - /url: "#plugins"
+      - generic [ref=e11]:
+        - link "在 GitHub 查看" [ref=e12] [cursor=pointer]:
+          - /url: https://github.com/raclen/AnhePlayer
+          - img [ref=e13]
+        - link "下载" [ref=e15] [cursor=pointer]:
+          - /url: "#download"
+    - navigation "移动导航" [ref=e16]:
+      - link "功能" [ref=e17] [cursor=pointer]:
+        - /url: "#features"
+      - link "界面" [ref=e18] [cursor=pointer]:
+        - /url: "#screenshots"
+      - link "下载" [ref=e19] [cursor=pointer]:
+        - /url: "#download"
+      - link "插件 & 主题" [ref=e20] [cursor=pointer]:
+        - /url: "#plugins"
+      - link "GitHub" [ref=e21] [cursor=pointer]:
+        - /url: https://github.com/raclen/AnhePlayer
+  - main [ref=e22]:
+    - generic [ref=e24]:
+      - generic [ref=e25]:
+        - generic [ref=e26]: 开源 · 跨平台 · 可定制
+        - heading "属于你自己的 桌面音乐播放器" [level=1] [ref=e27]:
+          - text: 属于你自己的
+          - text: 桌面音乐播放器
+        - paragraph [ref=e28]:
+          - text: 支持洛雪插件扩展在线音源，本地音乐管理，智能歌词，主题定制。
+          - text: 没有广告，不上传个人数据，音乐体验由你掌控。
+        - generic [ref=e29]:
+          - button "载入中…" [disabled] [ref=e30] [cursor=pointer]:
+            - img [ref=e31]
+            - generic [ref=e34]: 载入中…
+          - link "在 GitHub 查看" [ref=e35] [cursor=pointer]:
+            - /url: https://github.com/raclen/AnhePlayer
+            - img [ref=e36]
+            - text: 在 GitHub 查看
+        - generic [ref=e38]:
+          - generic [ref=e39]:
+            - img [ref=e40]
+            - generic [ref=e42]: —
+          - generic [ref=e43]:
+            - img [ref=e44]
+            - generic [ref=e47]: —
+      - generic [ref=e49]:
+        - img [ref=e50]
+        - paragraph [ref=e53]: 主界面截图占位
+        - generic [ref=e54]:
+          - text: 请将真实截图命名为 main.png
+          - text: 放入 src/assets/screenshots/
+    - generic [ref=e56]:
+      - generic [ref=e57]:
+        - generic [ref=e58]: 核心功能
+        - heading "一个播放器，该有的都有" [level=2] [ref=e59]
+        - paragraph [ref=e60]: 本地与在线兼顾，插件、歌词、主题、下载全面可定制 —— 纯净、自由、属于你自己的音乐空间。
+      - generic [ref=e61]:
+        - article [ref=e62]:
+          - img [ref=e64]
+          - heading "跨平台桌面端" [level=3] [ref=e67]
+          - paragraph [ref=e68]: Windows、macOS、Linux 全覆盖，安装版与便携版任你选择。
+        - article [ref=e69]:
+          - img [ref=e71]
+          - heading "洛雪插件扩展" [level=3] [ref=e74]
+          - paragraph [ref=e75]: 安装洛雪 .js 插件或订阅链接，自由扩展在线音源与解析能力。
+        - article [ref=e76]:
+          - img [ref=e78]
+          - heading "智能歌词" [level=3] [ref=e82]
+          - paragraph [ref=e83]: 自动联网匹配、内嵌同步歌词、翻译歌词与桌面歌词一应俱全。
+        - article [ref=e84]:
+          - img [ref=e86]
+          - heading "本地曲库管理" [level=3] [ref=e88]
+          - paragraph [ref=e89]: 扫描本地文件夹，按单曲、歌手、专辑、文件夹分类整理。
+        - article [ref=e90]:
+          - img [ref=e92]
+          - heading "在线浏览搜索" [level=3] [ref=e95]
+          - paragraph [ref=e96]: 经插件浏览歌曲、歌手、专辑、歌单与各类热门排行榜。
+        - article [ref=e97]:
+          - img [ref=e99]
+          - heading "主题随心换" [level=3] [ref=e104]
+          - paragraph [ref=e105]: 内置浅色与纯黑主题，支持本地及远程主题包深度定制外观。
+        - article [ref=e106]:
+          - img [ref=e108]
+          - heading "下载管理" [level=3] [ref=e111]
+          - paragraph [ref=e112]: 自定义下载目录、默认音质、并发数量与文件命名格式。
+        - article [ref=e113]:
+          - img [ref=e115]
+          - heading "无广告 · 重隐私" [level=3] [ref=e118]
+          - paragraph [ref=e119]: 没有广告打扰，应用数据默认留在本机，绝不上传个人信息。
+    - generic [ref=e121]:
+      - generic [ref=e122]:
+        - generic [ref=e123]: 界面预览
+        - heading "简洁美观的音乐体验" [level=2] [ref=e124]
+        - paragraph [ref=e125]: 精心设计的界面，流畅的交互，专注于音乐本身。
+      - generic [ref=e126]:
+        - generic [ref=e128]:
+          - img [ref=e129]
+          - paragraph [ref=e131]: 主界面
+        - generic [ref=e133]:
+          - img [ref=e134]
+          - paragraph [ref=e138]: 歌词显示
+        - generic [ref=e140]:
+          - img [ref=e141]
+          - paragraph [ref=e144]: 插件管理
+        - generic [ref=e146]:
+          - img [ref=e147]
+          - paragraph [ref=e149]: 设置面板
+      - paragraph [ref=e150]:
+        - text: 💡
+        - strong [ref=e151]: 开发者提示：
+        - text: 请将真实截图命名为 main.png、lyrics.png、plugins.png、themes.png 并放入
+        - code [ref=e152]: src/assets/screenshots/
+        - text: 目录，然后在本文件顶部引用并替换占位框。
+    - generic [ref=e154]:
+      - generic [ref=e155]:
+        - generic [ref=e156]: 立即下载
+        - heading "选择适合你的安装包" [level=2] [ref=e157]
+        - paragraph [ref=e158]: 跨平台支持 Windows、macOS 与 Linux，安装版与便携版任你选择。
+      - generic [ref=e159]:
+        - generic [ref=e160]:
+          - generic [ref=e161]:
+            - img [ref=e163]
+            - heading "Windows" [level=3] [ref=e165]
+          - generic [ref=e166]:
+            - link "安装版 推荐 · .exe 安装包 —" [ref=e167] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e168]:
+                - generic [ref=e169]: 安装版
+                - generic [ref=e170]: 推荐 · .exe 安装包
+              - generic [ref=e171]:
+                - generic [ref=e172]: —
+                - img [ref=e173]
+            - link "便携版 免安装 · .zip 解压即用 —" [ref=e176] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e177]:
+                - generic [ref=e178]: 便携版
+                - generic [ref=e179]: 免安装 · .zip 解压即用
+              - generic [ref=e180]:
+                - generic [ref=e181]: —
+                - img [ref=e182]
+        - generic [ref=e185]:
+          - generic [ref=e186]:
+            - img [ref=e188]
+            - heading "macOS" [level=3] [ref=e190]
+          - generic [ref=e191]:
+            - link "Apple 芯片 M1/M2/M3/M4 · .dmg —" [ref=e192] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e193]:
+                - generic [ref=e194]: Apple 芯片
+                - generic [ref=e195]: M1/M2/M3/M4 · .dmg
+              - generic [ref=e196]:
+                - generic [ref=e197]: —
+                - img [ref=e198]
+            - link "Intel 芯片 Intel 处理器 · .dmg —" [ref=e201] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e202]:
+                - generic [ref=e203]: Intel 芯片
+                - generic [ref=e204]: Intel 处理器 · .dmg
+              - generic [ref=e205]:
+                - generic [ref=e206]: —
+                - img [ref=e207]
+        - generic [ref=e210]:
+          - generic [ref=e211]:
+            - img [ref=e213]
+            - heading "Linux" [level=3] [ref=e216]
+          - generic [ref=e217]:
+            - link "DEB 包 Debian / Ubuntu · .deb —" [ref=e218] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e219]:
+                - generic [ref=e220]: DEB 包
+                - generic [ref=e221]: Debian / Ubuntu · .deb
+              - generic [ref=e222]:
+                - generic [ref=e223]: —
+                - img [ref=e224]
+            - link "RPM 包 Fedora / RHEL · .rpm —" [ref=e227] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases/latest
+              - generic [ref=e228]:
+                - generic [ref=e229]: RPM 包
+                - generic [ref=e230]: Fedora / RHEL · .rpm
+              - generic [ref=e231]:
+                - generic [ref=e232]: —
+                - img [ref=e233]
+      - generic [ref=e236]:
+        - link "查看全部历史版本 →" [ref=e237] [cursor=pointer]:
+          - /url: https://github.com/raclen/AnhePlayer/releases/latest
+        - paragraph [ref=e238]: 正在从 GitHub 获取最新版本…
+    - generic [ref=e240]:
+      - generic [ref=e241]:
+        - generic [ref=e242]: 扩展生态
+        - heading "插件 & 主题" [level=2] [ref=e243]
+        - paragraph [ref=e244]: 通过插件扩展在线音源，用主题包定制你的专属界面风格。
+      - generic [ref=e245]:
+        - article [ref=e246]:
+          - img [ref=e248]
+          - heading "洛雪插件系统" [level=3] [ref=e251]
+          - paragraph [ref=e252]:
+            - text: AnhePlayer 默认不内置音源，需安装洛雪插件扩展。
+            - text: 在插件管理中导入本地
+            - code [ref=e253]: .js
+            - text: 文件，或添加以
+            - code [ref=e254]: .js
+            - text: 结尾的 https 链接。
+            - text: 插件声明的 source 将作为播放解析源，支持多音质与音源重定向。
+        - article [ref=e255]:
+          - img [ref=e257]
+          - heading "主题包定制" [level=3] [ref=e262]
+          - paragraph [ref=e263]:
+            - text: 内置浅色主题和纯黑主题，支持导入本地或远程主题包（
+            - code [ref=e264]: .mftheme
+            - text: ）。
+            - text: 主题包可自定义颜色、背景、字体与界面布局，打造属于你的音乐播放器。
+            - text: 完整主题开发文档请参阅 GitHub 仓库。
+  - contentinfo [ref=e265]:
+    - generic [ref=e266]:
+      - generic [ref=e267]:
+        - generic [ref=e268]:
+          - generic [ref=e269]: AnhePlayer
+          - paragraph [ref=e270]: 支持洛雪插件 · 无广告的免费音乐播放器
+        - generic [ref=e271]:
+          - generic [ref=e272]:
+            - heading "项目" [level=4] [ref=e273]
+            - link "GitHub 仓库" [ref=e274] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer
+            - link "历史版本" [ref=e275] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/releases
+            - link "反馈问题" [ref=e276] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/issues
+          - generic [ref=e277]:
+            - heading "开源" [level=4] [ref=e278]
+            - link "AGPL-3.0 许可证" [ref=e279] [cursor=pointer]:
+              - /url: https://github.com/raclen/AnhePlayer/blob/master/LICENSE
+            - link "基于 MusicFreeDesktop" [ref=e280] [cursor=pointer]:
+              - /url: https://github.com/maotoumao/MusicFreeDesktop
+      - paragraph [ref=e282]: © 2026 AnhePlayer. 采用 AGPL-3.0 协议开源。

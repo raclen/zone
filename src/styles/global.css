@@ -1,0 +1,259 @@
+/* ============================================================
+   AnhePlayer 宣传页 · 全局样式
+   深色科技感：深蓝→紫渐变、品牌蓝霓虹、毛玻璃发光
+   ============================================================ */
+
+:root {
+  /* 品牌色（取自 Logo 渐变 H） */
+  --brand: #1677f2;
+  --brand-bright: #20a7ff;
+  --brand-deep: #085ee8;
+  --wave: #42c5ff;
+  --purple: #8b5cf6;
+  --purple-bright: #a855f7;
+
+  /* 渐变 */
+  --grad: linear-gradient(135deg, #20a7ff 0%, #1677f2 45%, #8b5cf6 100%);
+  --grad-soft: linear-gradient(135deg, #20a7ff 0%, #8b5cf6 100%);
+
+  /* 背景 */
+  --bg: #070b16;
+  --bg-2: #0b1120;
+  --bg-elev: #0e1426;
+
+  /* 文字 */
+  --text: #f1f5f9;
+  --text-dim: #aab4c5;
+  --text-faint: #6b7689;
+
+  /* 描边 / 玻璃 */
+  --border: rgba(255, 255, 255, 0.09);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  --glass: rgba(255, 255, 255, 0.035);
+  --glass-2: rgba(255, 255, 255, 0.06);
+
+  /* 发光 */
+  --glow-brand: 0 0 0 1px rgba(32, 167, 255, 0.25), 0 12px 40px -12px rgba(22, 119, 242, 0.55);
+  --glow-soft: 0 18px 50px -20px rgba(22, 119, 242, 0.4);
+
+  /* 尺寸 */
+  --maxw: 1180px;
+  --radius: 16px;
+  --radius-sm: 12px;
+  --nav-h: 64px;
+
+  --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
+    "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
+    "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-mono: "SF Mono", "JetBrains Mono", "Fira Code", ui-monospace,
+    Consolas, "Courier New", monospace;
+}
+
+/* --------- reset --------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: calc(var(--nav-h) + 16px);
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+  font-size: 16px;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  position: relative;
+}
+
+/* 全局氛围光晕（固定在背景） */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background:
+    radial-gradient(60rem 40rem at 80% -10%, rgba(22, 119, 242, 0.18), transparent 60%),
+    radial-gradient(50rem 40rem at 0% 10%, rgba(139, 92, 246, 0.14), transparent 55%),
+    radial-gradient(40rem 30rem at 50% 110%, rgba(66, 197, 255, 0.1), transparent 60%);
+  pointer-events: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button {
+  font: inherit;
+  cursor: pointer;
+}
+
+::selection {
+  background: rgba(32, 167, 255, 0.32);
+  color: #fff;
+}
+
+:focus-visible {
+  outline: 2px solid var(--brand-bright);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+/* --------- 布局工具 --------- */
+.container {
+  width: 100%;
+  max-width: var(--maxw);
+  margin-inline: auto;
+  padding-inline: 24px;
+}
+
+.section {
+  padding-block: clamp(64px, 9vw, 120px);
+  position: relative;
+}
+
+.eyebrow {
+  display: inline-block;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--brand-bright);
+  margin-bottom: 14px;
+}
+
+.section-title {
+  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  line-height: 1.15;
+}
+
+.section-desc {
+  margin-top: 14px;
+  max-width: 46ch;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+}
+
+.section-head {
+  margin-bottom: clamp(36px, 5vw, 56px);
+}
+
+.section-head.center {
+  text-align: center;
+}
+.section-head.center .section-desc {
+  margin-inline: auto;
+}
+
+/* --------- 文字渐变 --------- */
+.gradient-text {
+  background: var(--grad);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* --------- 按钮 --------- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 9px;
+  padding: 13px 24px;
+  border-radius: 999px;
+  font-weight: 600;
+  font-size: 0.98rem;
+  border: 1px solid transparent;
+  transition: transform 0.18s ease, box-shadow 0.18s ease,
+    background 0.18s ease, border-color 0.18s ease;
+  white-space: nowrap;
+}
+
+.btn svg {
+  width: 1.15em;
+  height: 1.15em;
+  flex-shrink: 0;
+}
+
+.btn-primary {
+  background: var(--grad);
+  color: #fff;
+  box-shadow: var(--glow-brand);
+}
+.btn-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 0 1px rgba(32, 167, 255, 0.4),
+    0 18px 50px -12px rgba(22, 119, 242, 0.7);
+}
+
+.btn-secondary {
+  background: var(--glass-2);
+  color: var(--text);
+  border-color: var(--border-strong);
+  -webkit-backdrop-filter: blur(8px);
+  backdrop-filter: blur(8px);
+}
+.btn-secondary:hover {
+  transform: translateY(-2px);
+  border-color: var(--brand-bright);
+  background: rgba(32, 167, 255, 0.1);
+}
+
+.btn-sm {
+  padding: 9px 18px;
+  font-size: 0.9rem;
+}
+
+/* --------- 毛玻璃卡片 --------- */
+.glass {
+  background: var(--glass);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+}
+
+/* --------- 通用淡入动画（IntersectionObserver 触发） --------- */
+.reveal {
+  opacity: 0;
+  transform: translateY(22px);
+  transition: opacity 0.6s ease, transform 0.6s ease;
+}
+.reveal.is-visible {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    transition-duration: 0.001ms !important;
+  }
+  .reveal {
+    opacity: 1;
+    transform: none;
+  }
+}
