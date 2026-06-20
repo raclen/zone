@@ -1,13 +1,28 @@
-# AnhePlayer 官方网站
+# Zone - Anhe 个人空间
 
-[AnhePlayer](https://github.com/raclen/AnhePlayer) 的宣传与下载页面，使用 Astro 构建的纯静态单页网站，部署在 Cloudflare Pages。
+Anhe 的个人空间站点，使用 Astro 构建的纯静态网站，部署在 Cloudflare Pages。
 
 ## 🌐 在线访问
 
-- 生产站点：`https://anheplayer.pages.dev`（绑定自定义域名后请在 `astro.config.mjs` 更新 `site`）
+- **生产站点**：https://raclen.cyou
+- **GitHub 仓库**：https://github.com/raclen/zone
+
+## 📂 站点结构
+
+```
+https://raclen.cyou/
+├── /                    → 个人空间首页（项目导航）
+└── /anheplayer/         → AnhePlayer 播放器介绍与下载
+```
 
 ## 🎨 特性
 
+### 个人空间首页 (`/`)
+- 简洁的个人介绍
+- 项目卡片网格展示
+- 响应式布局，易于扩展
+
+### AnhePlayer 页面 (`/anheplayer/`)
 - **深色科技感视觉**：深蓝→紫渐变、品牌蓝霓虹光晕、毛玻璃卡片
 - **动态版本与下载**：从 GitHub Releases API 自动拉取最新版本、安装包链接与累计下载量
 - **智能系统识别**：自动推荐当前操作系统对应的安装包
@@ -57,46 +72,23 @@ pnpm build
 pnpm preview
 ```
 
-## 📸 添加真实截图
-
-**重要**：当前页面中的截图为占位框，请替换为真实应用界面截图以获得最佳展示效果。
-
-1. 准备 2-4 张应用界面截图（建议分辨率 1920x1200 或 16:10 比例）。
-2. 将截图命名为 `main.png`（主界面）、`lyrics.png`（歌词）、`plugins.png`（插件）、`themes.png`（主题设置）。
-3. 放入 `src/assets/screenshots/` 目录。
-4. 在以下文件中引用并替换占位：
-   - `src/components/Hero.astro`（主视觉区大图）
-   - `src/components/Screenshots.astro`（截图展示网格）
-
-例如在 `Hero.astro` 中：
-
-```astro
----
-import mainImg from "../assets/screenshots/main.png";
----
-
-<img src={mainImg.src} alt="AnhePlayer 主界面" width={mainImg.width} height={mainImg.height} />
-```
-
-Astro 会自动优化图片（WebP、尺寸优化、懒加载）。
-
 ## 🌍 部署到 Cloudflare Pages
 
 ### 方式一：Git 连接（推荐，自动 CI）
 
-1. 将本项目推送到 GitHub 仓库（可以是独立仓库，或放在 AnhePlayer 主仓的 `website/` 子目录）。
+1. 推送代码到 GitHub 仓库。
 2. 登录 [Cloudflare Dashboard](https://dash.cloudflare.com/) → Pages → 创建项目 → 连接 Git 仓库。
-3. 构建配置：
+3. 选择 `raclen/zone` 仓库。
+4. 构建配置：
    - **Framework preset**: Astro
    - **Build command**: `npm run build`
    - **Output directory**: `dist`
-   - **Root directory**: `/`（如果在子目录则填 `website`）
-   - **Node version**: 22
-4. 点击部署，Cloudflare 会自动构建并上线。
-5. 绑定自定义域名：Pages 项目 → 自定义域 → 添加域名 → 按引导配置 DNS。
-6. **更新 site 配置**：域名绑定后，在 `astro.config.mjs` 中把 `site: "https://anheplayer.pages.dev"` 改为你的正式域名，重新部署。
+   - **Root directory**: `/`
+   - **Node version**: 22（环境变量 `NODE_VERSION=22`）
+5. 点击部署，Cloudflare 会自动构建并上线。
+6. 绑定自定义域名：Pages 项目 → 自定义域 → 添加 `raclen.cyou` → 按引导配置 DNS。
 
-每次 `git push` 到主分支，Cloudflare 会自动触发重新构建。
+每次 `git push` 到 main 分支，Cloudflare 会自动触发重新构建。
 
 ### 方式二：Wrangler CLI 直传
 
@@ -107,7 +99,7 @@ Astro 会自动优化图片（WebP、尺寸优化、懒加载）。
 pnpm build
 
 # 部署（首次会提示登录 Cloudflare 账号）
-npx wrangler pages deploy dist --project-name anheplayer
+npx wrangler pages deploy dist --project-name zone
 ```
 
 后续更新只需重新 `build` + `deploy`。
@@ -118,14 +110,35 @@ npx wrangler pages deploy dist --project-name anheplayer
 
 ### 更新站点域名
 
-编辑 `astro.config.mjs`：
+编辑 `astro.config.mjs`（已配置为 `https://raclen.cyou`）：
 
 ```js
 export default defineConfig({
-  site: "https://your-domain.com", // 改为你的正式域名
+  site: "https://raclen.cyou", // 更改域名后需更新
   // ...
 });
 ```
+
+同时更新 `public/robots.txt` 中的 sitemap URL。
+
+### 添加新页面
+
+在 `src/pages/` 创建新的 `.astro` 文件：
+
+```
+src/pages/
+├── index.astro          # 首页
+├── anheplayer/
+│   └── index.astro      # 播放器介绍
+├── blog/
+│   └── index.astro      # 博客（示例）
+└── about.astro          # 关于页面（示例）
+```
+
+Astro 会自动将文件映射为路由：
+- `index.astro` → `/`
+- `about.astro` → `/about`
+- `blog/index.astro` → `/blog/`
 
 ### 调整配色
 
@@ -139,7 +152,7 @@ export default defineConfig({
 }
 ```
 
-### 修改功能卡片
+### 修改 AnhePlayer 功能卡片
 
 编辑 `src/data/features.ts`，新增/修改功能条目。图标 key 在 `src/components/Features.astro` 的 `icons` 对象中映射。
 
@@ -161,11 +174,14 @@ zone/
 ├── src/
 │   ├── assets/          # 图片等资源（Astro 优化）
 │   │   ├── logo.svg
-│   │   └── screenshots/ # ★ 放真实截图
+│   │   └── screenshots/ # 播放器截图
 │   ├── components/      # UI 组件（Nav/Hero/Features...）
 │   ├── data/            # 数据文件（features/platforms）
 │   ├── layouts/         # 布局模板（Layout.astro）
-│   ├── pages/           # 路由页面（index.astro）
+│   ├── pages/           # 路由页面
+│   │   ├── index.astro          # 首页
+│   │   └── anheplayer/
+│   │       └── index.astro      # 播放器介绍
 │   └── styles/          # 全局样式（global.css）
 ├── astro.config.mjs     # Astro 配置
 ├── package.json
@@ -174,8 +190,9 @@ zone/
 
 ## 🛠 开发注意事项
 
-- **截图占位**：实现时先放占位框，截图到位后替换文件即可，无需改代码逻辑。
-- **API 兜底**：下载区同时实现了 API 动态拉取与静态兜底，确保用户始终能下载（即使 GitHub API 限流/断网）。
+- **页面路由**：`src/pages/` 下的目录结构直接映射为 URL 路径。
+- **组件复用**：`Layout.astro`、`global.css` 等可跨页面复用。
+- **API 兜底**：AnhePlayer 下载区同时实现了 API 动态拉取与静态兜底，确保用户始终能下载（即使 GitHub API 限流/断网）。
 - **版本号硬编码**：`platforms.ts` 中的 `FALLBACK_VERSION` 需手动与最新 Release 保持同步（每次发版后更新一次）。
 - **响应式测试**：开发完成后务必用浏览器 DevTools 测试移动端/平板视口，验证导航菜单、按钮、网格布局正常。
 
@@ -185,7 +202,7 @@ zone/
 A: 检查浏览器控制台是否有 CORS 或网络错误。GitHub API 有匿名请求频率限制（60次/小时/IP），超限后会触发兜底逻辑，按钮仍可用但显示兜底版本。
 
 **Q: 本地开发时图片 404？**  
-A: 确保截图文件已放入 `src/assets/screenshots/` 且在组件中正确 import。`public/` 目录的文件用绝对路径 `/filename` 引用。
+A: 确保图片文件已放入 `src/assets/` 且在组件中正确 import。`public/` 目录的文件用绝对路径 `/filename` 引用。
 
 **Q: 构建时 TypeScript 报错？**  
 A: 运行 `pnpm astro check` 查看详细错误。常见原因：data 文件类型不匹配、import 路径错误。
@@ -198,10 +215,12 @@ A: 检查构建日志：
 
 ## 📄 开源协议
 
-本项目采用 [AGPL-3.0](../LICENSE) 协议开源（继承 AnhePlayer 主项目协议）。
+本项目代码采用 MIT 协议开源。
+
+AnhePlayer 播放器本身基于 [MusicFreeDesktop](https://github.com/maotoumao/MusicFreeDesktop)，采用 AGPL-3.0 协议。
 
 ## 🙏 致谢
 
-- 基于 [MusicFreeDesktop](https://github.com/maotoumao/MusicFreeDesktop)
+- AnhePlayer 基于 [MusicFreeDesktop](https://github.com/maotoumao/MusicFreeDesktop)
 - 构建于 [Astro](https://astro.build/)
 - 部署在 [Cloudflare Pages](https://pages.cloudflare.com/)
