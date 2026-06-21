@@ -100,12 +100,14 @@ const links = [
     transition: background 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
     border-bottom: 1px solid transparent;
   }
+
   .nav.scrolled,
   .nav.menu-open {
-    background: rgba(7, 11, 22, 0.72);
+    background: rgba(255, 255, 255, 0.92);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
-    border-bottom-color: var(--border);
+    border-bottom-color: var(--hairline);
+    box-shadow: var(--shadow-sm);
   }
 
   .nav-inner {
@@ -122,25 +124,30 @@ const links = [
     gap: 10px;
     font-weight: 700;
     font-size: 1.1rem;
-    letter-spacing: -0.01em;
+    letter-spacing: -0.02em;
+    color: var(--ink);
   }
+
   .brand img {
     border-radius: 8px;
   }
 
   .nav-links {
     display: flex;
-    gap: 30px;
+    gap: 32px;
     margin-inline: auto;
   }
+
   .nav-links a {
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.7;
     font-size: 0.95rem;
     font-weight: 500;
-    transition: color 0.18s ease;
+    transition: opacity 0.2s ease;
   }
+
   .nav-links a:hover {
-    color: var(--text);
+    opacity: 1;
   }
 
   .nav-actions {
@@ -148,17 +155,21 @@ const links = [
     align-items: center;
     gap: 12px;
   }
+
   .icon-link {
     display: inline-flex;
-    color: var(--text-dim);
-    transition: color 0.18s ease, transform 0.18s ease;
+    color: var(--ink);
+    opacity: 0.7;
+    transition: opacity 0.2s ease, transform 0.2s ease;
   }
+
   .icon-link svg {
     width: 22px;
     height: 22px;
   }
+
   .icon-link:hover {
-    color: var(--text);
+    opacity: 1;
     transform: translateY(-1px);
   }
 
@@ -169,25 +180,29 @@ const links = [
     gap: 5px;
     width: 40px;
     height: 40px;
-    background: var(--glass-2);
-    border: 1px solid var(--border);
-    border-radius: 10px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    border-radius: var(--radius-md);
   }
+
   .nav-toggle span {
     display: block;
     width: 18px;
     height: 2px;
     margin-inline: auto;
-    background: var(--text);
+    background: var(--ink);
     border-radius: 2px;
     transition: 0.2s ease;
   }
+
   .nav-toggle[aria-expanded="true"] span:nth-child(1) {
     transform: translateY(7px) rotate(45deg);
   }
+
   .nav-toggle[aria-expanded="true"] span:nth-child(2) {
     opacity: 0;
   }
+
   .nav-toggle[aria-expanded="true"] span:nth-child(3) {
     transform: translateY(-7px) rotate(-45deg);
   }
@@ -197,23 +212,32 @@ const links = [
     top: var(--nav-h);
     left: 0;
     right: 0;
-    display: none; /* 默认隐藏 */
+    display: none;
     flex-direction: column;
     padding: 12px 24px 20px;
-    background: rgba(7, 11, 22, 0.96);
+    background: rgba(255, 255, 255, 0.96);
     -webkit-backdrop-filter: blur(14px);
     backdrop-filter: blur(14px);
-    border-bottom: 1px solid var(--border);
+    border-bottom: 1px solid var(--hairline);
+    box-shadow: var(--shadow-md);
   }
+
   .nav-mobile[hidden] {
     display: none;
   }
+
   .nav-mobile-link {
     padding: 13px 6px;
-    color: var(--text-dim);
-    border-bottom: 1px solid var(--border);
+    color: var(--ink);
+    opacity: 0.7;
+    border-bottom: 1px solid var(--hairline-soft);
     font-weight: 500;
   }
+
+  .nav-mobile-link:hover {
+    opacity: 1;
+  }
+
   .nav-mobile-link:last-child {
     border-bottom: none;
   }
@@ -223,6 +247,7 @@ const links = [
       display: none;
     }
   }
+
   @media (max-width: 560px) {
     .nav-toggle {
       display: flex;
@@ -230,7 +255,6 @@ const links = [
     .download-cta {
       display: none;
     }
-    /* 移动端才允许显示菜单 */
     .nav-mobile:not([hidden]) {
       display: flex;
     }

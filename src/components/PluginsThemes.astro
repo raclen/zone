@@ -50,47 +50,60 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
   }
+
   .plugin-card {
-    padding: 36px 32px;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    padding: 40px 36px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
   }
+
   .plugin-card:hover {
     transform: translateY(-4px);
-    border-color: var(--border-strong);
-    box-shadow: var(--glow-soft);
+    box-shadow: var(--shadow-lg);
   }
+
   .plugin-icon {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
     display: grid;
     place-items: center;
-    border-radius: 14px;
-    margin-bottom: 20px;
-    color: var(--brand-bright);
-    background: linear-gradient(135deg, rgba(32, 167, 255, 0.16), rgba(139, 92, 246, 0.16));
-    border: 1px solid rgba(32, 167, 255, 0.22);
+    border-radius: var(--radius-md);
+    margin-bottom: 24px;
+    color: var(--ink);
+    background: var(--block-lilac);
   }
+
   .plugin-icon svg {
-    width: 28px;
-    height: 28px;
+    width: 32px;
+    height: 32px;
   }
+
   .plugin-card h3 {
-    font-size: 1.35rem;
-    font-weight: 700;
-    margin-bottom: 14px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--ink);
   }
+
   .plugin-card p {
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.7;
     font-size: 0.98rem;
     line-height: 1.7;
+    font-weight: 320;
   }
+
   .plugin-card code {
     font-family: var(--font-mono);
     font-size: 0.9em;
-    padding: 2px 6px;
-    border-radius: 4px;
-    background: rgba(32, 167, 255, 0.15);
-    color: var(--brand-bright);
+    padding: 3px 7px;
+    border-radius: 5px;
+    background: var(--block-cream);
+    color: var(--ink);
+    font-weight: 500;
   }
 
   @media (max-width: 840px) {

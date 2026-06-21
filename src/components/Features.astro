@@ -19,6 +19,9 @@ const icons: Record<string, string> = {
   shield:
     '<path d="M12 2.5 4.5 5.5v5.5c0 4.6 3.2 7.9 7.5 9.5 4.3-1.6 7.5-4.9 7.5-9.5V5.5L12 2.5Z"/><path d="m9 11.5 2 2 4-4"/>',
 };
+
+// 为每个功能分配一个彩色背景
+const colorBlocks = ['lilac', 'pink', 'cream', 'coral', 'lime', 'mint', 'lilac', 'pink'];
 ---
 
 <section class="section" id="features">
@@ -33,14 +36,14 @@ const icons: Record<string, string> = {
 
     <div class="feature-grid">
       {
-        FEATURES.map((f) => (
-          <article class="feature-card glass reveal">
+        FEATURES.map((f, i) => (
+          <article class={`feature-card color-block color-block-${colorBlocks[i]} reveal`}>
             <div class="feature-icon">
               <svg
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
-                stroke-width="1.8"
+                stroke-width="2"
                 stroke-linecap="round"
                 stroke-linejoin="round"
                 aria-hidden="true"
@@ -60,41 +63,49 @@ const icons: Record<string, string> = {
   .feature-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 18px;
+    gap: 20px;
   }
+
   .feature-card {
-    padding: 26px 22px;
-    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 32px 28px;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: none;
   }
+
   .feature-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-strong);
-    box-shadow: var(--glow-soft);
+    transform: translateY(-6px) scale(1.02);
+    box-shadow: var(--shadow-hover);
   }
+
   .feature-icon {
-    width: 48px;
-    height: 48px;
+    width: 56px;
+    height: 56px;
     display: grid;
     place-items: center;
-    border-radius: 13px;
-    margin-bottom: 18px;
-    color: var(--brand-bright);
-    background: linear-gradient(135deg, rgba(32, 167, 255, 0.16), rgba(139, 92, 246, 0.16));
-    border: 1px solid rgba(32, 167, 255, 0.22);
+    border-radius: var(--radius-md);
+    margin-bottom: 20px;
+    color: var(--ink);
+    background: rgba(0, 0, 0, 0.08);
   }
+
   .feature-icon svg {
-    width: 24px;
-    height: 24px;
+    width: 28px;
+    height: 28px;
   }
+
   .feature-card h3 {
-    font-size: 1.12rem;
-    font-weight: 700;
-    margin-bottom: 8px;
+    font-size: 1.2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    color: var(--ink);
   }
+
   .feature-card p {
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.7;
     font-size: 0.95rem;
     line-height: 1.6;
+    font-weight: 320;
   }
 
   @media (max-width: 1024px) {
@@ -102,6 +113,7 @@ const icons: Record<string, string> = {
       grid-template-columns: repeat(2, 1fr);
     }
   }
+
   @media (max-width: 520px) {
     .feature-grid {
       grid-template-columns: 1fr;
