@@ -1,0 +1,69 @@
+---
+interface Props {
+  issueNumber: number;
+  issueUrl: string;
+}
+
+const { issueUrl } = Astro.props;
+---
+
+<section class="comments-section">
+  <div class="comments-header">
+    <h2>💬 评论</h2>
+    <p class="comments-subtitle">使用 GitHub 账号登录后即可评论</p>
+  </div>
+
+  <div class="giscus-container"></div>
+
+  <script
+    src="https://giscus.app/client.js"
+    data-repo="raclen/raclen.github.io"
+    data-repo-id="YOUR_REPO_ID"
+    data-category="General"
+    data-category-id="YOUR_CATEGORY_ID"
+    data-mapping="url"
+    data-strict="0"
+    data-reactions-enabled="1"
+    data-emit-metadata="0"
+    data-input-position="top"
+    data-theme="light"
+    data-lang="zh-CN"
+    data-loading="lazy"
+    crossorigin="anonymous"
+    async
+  ></script>
+</section>
+
+<style>
+  .comments-section {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .comments-header {
+    margin-bottom: 32px;
+  }
+
+  .comments-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .comments-subtitle {
+    opacity: 0.6;
+    font-size: 0.95rem;
+  }
+
+  .giscus-container {
+    min-height: 200px;
+  }
+
+  @media (max-width: 768px) {
+    .comments-section {
+      margin-top: 48px;
+      padding-top: 32px;
+    }
+  }
+</style>
