@@ -10,6 +10,7 @@ const CONFIG = {
   owner: 'raclen',
   repo: 'raclen.github.io',
   blogDir: path.join(__dirname, '../src/content/blog'),
+  commentsDir: path.join(__dirname, '../src/data/comments'),
   metaFile: path.join(__dirname, '../src/content/blog/.sync-meta.json'),
   apiBase: 'https://api.github.com',
 };
@@ -129,7 +130,7 @@ async function writeSyncMeta(meta) {
  * 从 GitHub API 获取 Issues
  */
 async function fetchIssues() {
-  const url = `${CONFIG.apiBase}/repos/${CONFIG.owner}/${CONFIG.repo}/issues?state=open&per_page=100`;
+  const url = `${CONFIG.apiBase}/repos/${CONFIG.owner}/${CONFIG.repo}/issues?state=open&labels=blog&per_page=100`;
 
   const headers = {
     'Accept': 'application/vnd.github.v3+json',
@@ -158,6 +159,50 @@ async function fetchIssues() {
 
   // 过滤掉 Pull Requests（GitHub API 会返回 PR）
   return issues.filter(issue => !issue.pull_request);
+}
+
+/**
+ * 获取 Issue 的评论
+ */
+async function fetchIssueComments(issueNumber) {
+  const url = `${CONFIG.apiBase}/repos/${CONFIG.owner}/${CONFIG.repo}/issues/${issueNumber}/comments`;
+
+  const headers = {
+    'Accept': 'application/vnd.github.v3.html+json',
+    'User-Agent': 'raclen-blog-sync',
+  };
+
+  if (process.env.GITHUB_TOKEN) {
+    headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+  }
+
+  try {
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      console.warn(`⚠️  获取 Issue #${issueNumber} 评论失败: ${response.status}`);
+      return [];
+    }
+
+    const comments = await response.json();
+
+    // 简化评论数据，只保留需要的字段
+    return comments.map(comment => ({
+      id: comment.id,
+      user: {
+        login: comment.user.login,
+        avatar_url: comment.user.avatar_url,
+        html_url: comment.user.html_url,
+      },
+      body: comment.body,
+      body_html: comment.body_html,
+      created_at: comment.created_at,
+      updated_at: comment.updated_at,
+    }));
+  } catch (error) {
+    console.warn(`⚠️  获取 Issue #${issueNumber} 评论失败:`, error.message);
+    return [];
+  }
 }
 
 /**
@@ -197,6 +242,7 @@ async function syncBlog() {
 
   // 确保目录存在
   await fs.mkdir(CONFIG.blogDir, { recursive: true });
+  await fs.mkdir(CONFIG.commentsDir, { recursive: true });
 
   // 1. 读取元数据
   console.log('📖 读取同步元数据...');
@@ -228,10 +274,18 @@ async function syncBlog() {
     await fs.writeFile(filepath, content, 'utf-8');
     console.log(`✏️  已写入: ${filename}`);
 
+    // 同步评论
+    console.log(`💬 同步 Issue #${issue.number} 的评论...`);
+    const comments = await fetchIssueComments(issue.number);
+    const commentsFile = path.join(CONFIG.commentsDir, `${issue.number}.json`);
+    await fs.writeFile(commentsFile, JSON.stringify(comments, null, 2), 'utf-8');
+    console.log(`   ✓ 已保存 ${comments.length} 条评论`);
+
     // 更新元数据
     meta.issues[issue.number] = {
       updatedAt: issue.updated_at,
       filename: filename,
+      commentsCount: comments.length,
     };
 
     processedCount++;
@@ -243,6 +297,16 @@ async function syncBlog() {
     try {
       await fs.unlink(filepath);
       console.log(`🗑️  已删除: ${item.filename}`);
+
+      // 同时删除评论文件
+      const commentsFile = path.join(CONFIG.commentsDir, `${item.issueNumber}.json`);
+      try {
+        await fs.unlink(commentsFile);
+        console.log(`   ✓ 已删除评论文件`);
+      } catch (e) {
+        // 评论文件可能不存在，忽略错误
+      }
+
       delete meta.issues[item.issueNumber];
     } catch (error) {
       console.warn(`⚠️  删除失败 ${item.filename}: ${error.message}`);

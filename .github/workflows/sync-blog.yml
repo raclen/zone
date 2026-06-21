@@ -1,55 +1,43 @@
-name: Sync Blog from GitHub Issues
+name: 同步博客和评论
 
 on:
-  # 每天北京时间 08:00 (UTC 00:00)
   schedule:
-    - cron: '0 0 * * *'
-
-  # 支持手动触发
-  workflow_dispatch:
-
-permissions:
-  contents: write  # 需要写权限来提交代码
+    # 每小时同步一次
+    - cron: '0 * * * *'
+  workflow_dispatch:  # 允许手动触发
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/sync-blog.yml'
 
 jobs:
   sync:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout
+      - name: 检出代码
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Setup Node.js
+      - name: 设置 Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '22'
+          node-version: '20'
 
-      - name: Setup pnpm
-        uses: pnpm/action-setup@v4
-        with:
-          version: 9
+      - name: 安装依赖
+        run: npm install
 
-      - name: Install dependencies
-        run: pnpm install
-
-      - name: Run sync script
+      - name: 同步博客和评论
+        run: npm run sync-blog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: pnpm sync-blog
 
-      - name: Commit and push if changed
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add src/content/blog/
-
-          # 检查是否有变化
-          if git diff --staged --quiet; then
-            echo "📝 没有变化，跳过提交"
-          else
-            git commit -m "chore: 自动同步博客文章 [skip ci]"
-            git push
-            echo "✅ 已提交并推送变化"
-          fi
+      - name: 提交更改
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: 'chore: 自动同步博客和评论 [skip ci]'
+          commit_user_name: 'github-actions[bot]'
+          commit_user_email: 'github-actions[bot]@users.noreply.github.com'
+          file_pattern: 'src/content/blog/*.md src/data/comments/*.json'

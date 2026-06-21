@@ -1,17 +1,18 @@
 ---
 // 搜索组件 - 使用 Pagefind
+const isDev = import.meta.env.DEV;
 ---
 
 <div id="search" class="search-container"></div>
 
-<script>
+<script define:vars={{ isDev }} is:inline>
   // 动态加载 Pagefind UI（仅在客户端）
   async function initSearch() {
-    // 检查是否为生产环境或 Pagefind 是否可用
-    if (import.meta.env.DEV) {
+    // 开发环境显示提示
+    if (isDev) {
       const searchContainer = document.querySelector('#search');
       if (searchContainer) {
-        searchContainer.innerHTML = '<p style="text-align: center; padding: 20px; opacity: 0.6;">搜索功能仅在生产构建后可用</p>';
+        searchContainer.innerHTML = '<div style="text-align: center; padding: 20px; background: var(--surface-soft); border-radius: 12px; opacity: 0.7;"><p style="margin: 0;">🔍 搜索功能仅在生产构建后可用</p><p style="margin: 8px 0 0; font-size: 0.9rem; opacity: 0.7;">运行 <code style="background: var(--canvas); padding: 2px 6px; border-radius: 4px;">npm run build</code> 后查看</p></div>';
       }
       return;
     }
@@ -44,6 +45,10 @@
       });
     } catch (error) {
       console.error('Failed to load Pagefind UI:', error);
+      const searchContainer = document.querySelector('#search');
+      if (searchContainer) {
+        searchContainer.innerHTML = '<p style="text-align: center; padding: 20px; opacity: 0.6;">搜索功能暂时不可用</p>';
+      }
     }
   }
 
@@ -58,25 +63,30 @@
 <style is:global>
   .search-container {
     max-width: 700px;
-    margin: 0 auto 48px;
+    margin: 0 auto 40px;
   }
 
   /* Pagefind UI 样式覆盖 */
   .pagefind-ui__search-input {
     background: var(--canvas);
-    border: 1px solid var(--hairline);
+    border: 2px solid var(--hairline);
     border-radius: 12px;
-    padding: 14px 20px;
+    padding: 16px 20px;
     font-size: 1rem;
     color: var(--ink);
     width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
 
+  .pagefind-ui__search-input::placeholder {
+    color: var(--ink);
+    opacity: 0.5;
+  }
+
   .pagefind-ui__search-input:focus {
     outline: none;
-    border-color: var(--ink);
-    box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.05);
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(60, 90, 120, 0.1);
   }
 
   .pagefind-ui__result {

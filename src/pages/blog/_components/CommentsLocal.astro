@@ -1,0 +1,247 @@
+---
+interface Props {
+  issueNumber: number;
+  issueUrl: string;
+}
+
+const { issueNumber, issueUrl } = Astro.props;
+
+// 从本地 JSON 文件读取评论
+let comments = [];
+let error = null;
+
+try {
+  // 尝试读取本地评论文件
+  const commentsData = await import(`@/data/comments/${issueNumber}.json`);
+  comments = commentsData.default || [];
+} catch (e) {
+  // 文件不存在或读取失败
+  console.log(`评论文件 ${issueNumber}.json 不存在或读取失败`);
+}
+---
+
+<section class="comments-section">
+  <div class="comments-header">
+    <h2>💬 评论</h2>
+    <p class="comments-subtitle">
+      {comments.length > 0 ? `共 ${comments.length} 条评论` : ''}
+    </p>
+  </div>
+
+  {comments.length > 0 ? (
+    <div class="comments-list">
+      {comments.map((comment: any) => {
+        const date = new Date(comment.created_at).toLocaleDateString('zh-CN', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        });
+
+        return (
+          <article class="comment-item">
+            <div class="comment-header">
+              <div class="comment-author">
+                <img
+                  src={comment.user.avatar_url}
+                  alt={comment.user.login}
+                  class="author-avatar"
+                  width="40"
+                  height="40"
+                />
+                <div class="author-info">
+                  <a
+                    href={comment.user.html_url}
+                    class="author-name"
+                    target="_blank"
+                    rel="noopener"
+                  >
+                    {comment.user.login}
+                  </a>
+                  <time class="comment-date" datetime={comment.created_at}>
+                    {date}
+                  </time>
+                </div>
+              </div>
+            </div>
+            <div class="comment-body" set:html={comment.body_html || comment.body} />
+          </article>
+        );
+      })}
+    </div>
+  ) : (
+    <div class="comments-empty">
+      <p>还没有评论，快来抢沙发吧！</p>
+    </div>
+  )}
+
+  <div class="comments-cta">
+    <a
+      href={issueUrl}
+      class="btn-comment"
+      target="_blank"
+      rel="noopener"
+    >
+      在 GitHub 上评论
+    </a>
+  </div>
+</section>
+
+<style>
+  .comments-section {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px solid var(--hairline-soft);
+  }
+
+  .comments-header {
+    margin-bottom: 32px;
+  }
+
+  .comments-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+  }
+
+  .comments-subtitle {
+    opacity: 0.6;
+    font-size: 0.95rem;
+  }
+
+  .comments-list {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  .comment-item {
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: 12px;
+    padding: 24px;
+    transition: border-color 0.2s;
+  }
+
+  .comment-item:hover {
+    border-color: var(--hairline);
+  }
+
+  .comment-header {
+    margin-bottom: 16px;
+  }
+
+  .comment-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .author-avatar {
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+  }
+
+  .author-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+
+  .author-name {
+    font-weight: 600;
+    font-size: 0.95rem;
+    color: var(--ink);
+    text-decoration: none;
+    transition: opacity 0.2s;
+  }
+
+  .author-name:hover {
+    opacity: 0.7;
+  }
+
+  .comment-date {
+    font-size: 0.85rem;
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .comment-body {
+    font-size: 1rem;
+    line-height: 1.6;
+    color: var(--ink);
+  }
+
+  .comment-body :global(p) {
+    margin-bottom: 12px;
+  }
+
+  .comment-body :global(p:last-child) {
+    margin-bottom: 0;
+  }
+
+  .comment-body :global(code) {
+    background: var(--surface-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .comment-body :global(pre) {
+    background: var(--surface-soft);
+    padding: 16px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin: 12px 0;
+  }
+
+  .comment-body :global(a) {
+    color: var(--primary);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+
+  .comments-empty {
+    text-align: center;
+    padding: 48px 24px;
+    opacity: 0.5;
+  }
+
+  .comments-cta {
+    text-align: center;
+    margin-top: 32px;
+  }
+
+  .btn-comment {
+    display: inline-block;
+    padding: 12px 32px;
+    background: var(--primary);
+    color: var(--on-primary);
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-comment:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  @media (max-width: 768px) {
+    .comments-section {
+      margin-top: 48px;
+      padding-top: 32px;
+    }
+
+    .comment-item {
+      padding: 20px;
+    }
+
+    .comment-body {
+      font-size: 0.95rem;
+    }
+  }
+</style>
