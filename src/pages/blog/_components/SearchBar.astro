@@ -6,48 +6,69 @@ const isDev = import.meta.env.DEV;
 <div id="search" class="search-container"></div>
 
 <script define:vars={{ isDev }} is:inline>
-  // 动态加载 Pagefind UI（仅在客户端）
+  // 动态加载 Pagefind UI
   async function initSearch() {
     // 开发环境显示提示
     if (isDev) {
       const searchContainer = document.querySelector('#search');
       if (searchContainer) {
-        searchContainer.innerHTML = '<div style="text-align: center; padding: 20px; background: var(--surface-soft); border-radius: 12px; opacity: 0.7;"><p style="margin: 0;">🔍 搜索功能仅在生产构建后可用</p><p style="margin: 8px 0 0; font-size: 0.9rem; opacity: 0.7;">运行 <code style="background: var(--canvas); padding: 2px 6px; border-radius: 4px;">npm run build</code> 后查看</p></div>';
+        searchContainer.innerHTML = '<div style="text-align: center; padding: 20px; background: var(--color-bg-alt); border-radius: 12px; opacity: 0.7;"><p style="margin: 0;">🔍 搜索功能仅在生产构建后可用</p><p style="margin: 8px 0 0; font-size: 0.9rem; opacity: 0.7;">运行 <code style="background: var(--color-bg); padding: 2px 6px; border-radius: 4px;">npm run build && npm run preview</code> 查看</p></div>';
       }
       return;
     }
 
     try {
-      // 动态加载 Pagefind UI 脚本和样式
-      const pagefindUI = await import(
-        /* @vite-ignore */
-        '/pagefind/pagefind-ui.js'
-      );
+      // 加载 Pagefind UI CSS
+      const link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = '/pagefind/pagefind-ui.css';
+      document.head.appendChild(link);
 
-      new pagefindUI.PagefindUI({
-        element: '#search',
-        showSubResults: true,
-        showImages: false,
-        excerptLength: 15,
-        translations: {
-          placeholder: '搜索博客文章...',
-          clear_search: '清除',
-          load_more: '加载更多结果',
-          search_label: '搜索此站点',
-          filters_label: '过滤',
-          zero_results: '未找到结果',
-          many_results: '找到 [COUNT] 条结果',
-          one_result: '找到 [COUNT] 条结果',
-          alt_search: '未找到 [SEARCH_TERM] 的结果。显示 [DIFFERENT_TERM] 的结果：',
-          search_suggestion: '未找到 [SEARCH_TERM] 的结果。尝试以下搜索：',
-          searching: '搜索中...',
-        },
+      // 等待 CSS 加载
+      await new Promise((resolve) => {
+        link.onload = resolve;
+        setTimeout(resolve, 100); // 超时保护
       });
+
+      // 动态加载 Pagefind UI 脚本
+      const script = document.createElement('script');
+      script.src = '/pagefind/pagefind-ui.js';
+      script.type = 'text/javascript';
+
+      await new Promise((resolve, reject) => {
+        script.onload = resolve;
+        script.onerror = reject;
+        document.head.appendChild(script);
+      });
+
+      // 初始化 Pagefind UI
+      if (window.PagefindUI) {
+        new window.PagefindUI({
+          element: '#search',
+          showSubResults: true,
+          showImages: false,
+          excerptLength: 15,
+          resetStyles: false,
+          translations: {
+            placeholder: '搜索博客文章...',
+            clear_search: '清除',
+            load_more: '加载更多结果',
+            search_label: '搜索此站点',
+            filters_label: '过滤',
+            zero_results: '未找到 "[SEARCH_TERM]" 的结果',
+            many_results: '找到 [COUNT] 条结果',
+            one_result: '找到 [COUNT] 条结果',
+            alt_search: '未找到 [SEARCH_TERM] 的结果。显示 [DIFFERENT_TERM] 的结果：',
+            search_suggestion: '未找到 [SEARCH_TERM] 的结果。尝试以下搜索：',
+            searching: '搜索中...',
+          },
+        });
+      }
     } catch (error) {
       console.error('Failed to load Pagefind UI:', error);
       const searchContainer = document.querySelector('#search');
       if (searchContainer) {
-        searchContainer.innerHTML = '<p style="text-align: center; padding: 20px; opacity: 0.6;">搜索功能暂时不可用</p>';
+        searchContainer.innerHTML = '<div style="text-align: center; padding: 20px; background: var(--color-bg-alt); border-radius: 8px; opacity: 0.7;"><p style="margin: 0;">搜索功能加载失败</p><p style="margin: 8px 0 0; font-size: 0.85rem;">请刷新页面重试</p></div>';
       }
     }
   }
@@ -68,38 +89,41 @@ const isDev = import.meta.env.DEV;
 
   /* Pagefind UI 样式覆盖 */
   .pagefind-ui__search-input {
-    background: var(--canvas);
-    border: 2px solid var(--hairline);
+    background: var(--color-bg, #ffffff);
+    border: 2px solid var(--color-border, #e5e7eb);
     border-radius: 12px;
     padding: 16px 20px;
     font-size: 1rem;
-    color: var(--ink);
+    color: var(--color-text-1, #1f2937);
     width: 100%;
     transition: border-color 0.2s, box-shadow 0.2s;
   }
 
   .pagefind-ui__search-input::placeholder {
-    color: var(--ink);
-    opacity: 0.5;
+    color: var(--color-text-3, #9ca3af);
   }
 
   .pagefind-ui__search-input:focus {
     outline: none;
-    border-color: var(--primary);
-    box-shadow: 0 0 0 3px rgba(60, 90, 120, 0.1);
+    border-color: var(--color-brand, #3b82f6);
+    box-shadow: 0 0 0 3px var(--color-brand-soft, rgba(59, 130, 246, 0.1));
+  }
+
+  .pagefind-ui__results-area {
+    margin-top: 1rem;
   }
 
   .pagefind-ui__result {
-    border: 1px solid var(--hairline-soft);
+    border: 1px solid var(--color-border, #e5e7eb);
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 16px;
-    background: var(--canvas);
+    background: var(--color-bg, #ffffff);
     transition: all 0.2s;
   }
 
   .pagefind-ui__result:hover {
-    border-color: var(--hairline);
+    border-color: var(--color-brand, #3b82f6);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
     transform: translateY(-2px);
   }
@@ -107,15 +131,14 @@ const isDev = import.meta.env.DEV;
   .pagefind-ui__result-title {
     font-size: 1.2rem;
     font-weight: 600;
-    color: var(--ink);
+    color: var(--color-text-1, #1f2937);
     margin-bottom: 8px;
   }
 
   .pagefind-ui__result-excerpt {
     font-size: 0.95rem;
     line-height: 1.6;
-    color: var(--ink);
-    opacity: 0.7;
+    color: var(--color-text-2, #4b5563);
   }
 
   .pagefind-ui__result-link {
@@ -126,13 +149,13 @@ const isDev = import.meta.env.DEV;
   .pagefind-ui__message {
     text-align: center;
     padding: 32px;
-    opacity: 0.6;
+    color: var(--color-text-3, #9ca3af);
     font-size: 1rem;
   }
 
   .pagefind-ui__button {
-    background: var(--primary);
-    color: var(--on-primary);
+    background: var(--color-brand, #3b82f6);
+    color: white;
     border: none;
     border-radius: 50px;
     padding: 10px 24px;
@@ -144,6 +167,14 @@ const isDev = import.meta.env.DEV;
   .pagefind-ui__button:hover {
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 修复搜索图标和清除按钮 */
+  .pagefind-ui__search-clear {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
   }
 
   @media (max-width: 768px) {
