@@ -92,6 +92,36 @@ interface ShareLink {
   linkTitle?: string;
 }
 
+type GiscusMapping =
+  | "pathname"
+  | "url"
+  | "title"
+  | "og:title"
+  | "specific"
+  | "number";
+
+type CommentsConfig =
+  | { enabled: false }
+  | {
+      enabled: true;
+      provider: "giscus";
+      /** GitHub repository in owner/name form, e.g. "raclen/zone" */
+      repo: string;
+      /** Repository GraphQL node id from giscus.app */
+      repoId: string;
+      /** GitHub Discussions category name */
+      category: string;
+      /** Discussion category GraphQL node id from giscus.app */
+      categoryId: string;
+      mapping?: GiscusMapping;
+      strict?: "0" | "1";
+      reactionsEnabled?: boolean;
+      emitMetadata?: boolean;
+      inputPosition?: "top" | "bottom";
+      theme?: string;
+      lang?: string;
+    };
+
 interface AstroPaperConfig {
   site: SiteConfig;
   posts?: PostsConfig;
@@ -100,6 +130,8 @@ interface AstroPaperConfig {
   socials?: SocialLink[];
   /** Share links shown on post detail pages */
   shareLinks?: ShareLink[];
+  /** Optional post comments integration. */
+  comments?: CommentsConfig;
 }
 
 type ResolvedSiteConfig = Required<
@@ -123,6 +155,7 @@ export interface ResolvedAstroPaperConfig {
   features: Required<FeaturesConfig>;
   socials: SocialLink[];
   shareLinks: ShareLink[];
+  comments: CommentsConfig;
 }
 
 /**

@@ -69,8 +69,6 @@ const {
   timezone,
   tags,
   hideEditPost,
-  issueNumber,
-  issueUrl,
 } = post.data;
 
 const { Content } = await render(post);
@@ -149,7 +147,7 @@ const ogImage = ogImageUrl
 
     <ShareLinks />
 
-    {issueNumber && issueUrl && <GiscusComments {issueNumber} {issueUrl} />}
+    <GiscusComments />
 
     <hr class="my-8 border-dashed" />
 

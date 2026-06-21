@@ -9,6 +9,21 @@ import type { ResolvedAstroPaperConfig } from "./types/config";
 
 const DEFAULT_OG_IMAGE = "default-og.jpg";
 
+const commentsConfig = userConfig.comments?.enabled
+  ? {
+      provider: "giscus" as const,
+      category: "General",
+      mapping: "url" as const,
+      strict: "0" as const,
+      reactionsEnabled: true,
+      emitMetadata: false,
+      inputPosition: "top" as const,
+      theme: "light",
+      lang: "zh-CN",
+      ...userConfig.comments,
+    }
+  : { enabled: false as const };
+
 const config: ResolvedAstroPaperConfig = {
   site: {
     ...userConfig.site,
@@ -34,6 +49,7 @@ const config: ResolvedAstroPaperConfig = {
   },
   socials: userConfig.socials ?? [],
   shareLinks: userConfig.shareLinks ?? [],
+  comments: commentsConfig,
 };
 
 export default config;

@@ -36,4 +36,14 @@ export default defineAstroPaperConfig({
     { name: "telegram", url: "https://t.me/share/url?url=" },
     { name: "mail", url: "mailto:?subject=推荐一篇文章&body=" },
   ],
+  comments: {
+    enabled: false,
+    // Enable after installing https://github.com/apps/giscus on raclen/zone
+    // and copying repoId/categoryId from https://giscus.app/zh-CN.
+    // provider: "giscus",
+    // repo: "raclen/zone",
+    // repoId: "R_kgDOTAMRcg",
+    // category: "General",
+    // categoryId: "...",
+  },
 });

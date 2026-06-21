@@ -1,38 +1,40 @@
 ---
-interface Props {
-  issueNumber: number;
-  issueUrl: string;
-}
+import config from "@/config";
 
-const { issueUrl } = Astro.props;
+const comments = config.comments;
+const giscus = comments.enabled && comments.provider === "giscus" ? comments : null;
 ---
 
-<section class="comments-section">
-  <div class="comments-header">
-    <h2>评论</h2>
-    <p class="comments-subtitle">使用 GitHub 账号登录后即可评论</p>
-  </div>
+{
+  giscus && (
+    <section class="comments-section">
+      <div class="comments-header">
+        <h2>评论</h2>
+        <p class="comments-subtitle">使用 GitHub 账号登录后即可评论</p>
+      </div>
 
-  <div class="giscus-container"></div>
+      <div class="giscus-container" />
 
-  <script
-    src="https://giscus.app/client.js"
-    data-repo="raclen/raclen.github.io"
-    data-repo-id="YOUR_REPO_ID"
-    data-category="General"
-    data-category-id="YOUR_CATEGORY_ID"
-    data-mapping="url"
-    data-strict="0"
-    data-reactions-enabled="1"
-    data-emit-metadata="0"
-    data-input-position="top"
-    data-theme="light"
-    data-lang="zh-CN"
-    data-loading="lazy"
-    crossorigin="anonymous"
-    async
-  ></script>
-</section>
+      <script
+        src="https://giscus.app/client.js"
+        data-repo={giscus.repo}
+        data-repo-id={giscus.repoId}
+        data-category={giscus.category}
+        data-category-id={giscus.categoryId}
+        data-mapping={giscus.mapping}
+        data-strict={giscus.strict}
+        data-reactions-enabled={giscus.reactionsEnabled ? "1" : "0"}
+        data-emit-metadata={giscus.emitMetadata ? "1" : "0"}
+        data-input-position={giscus.inputPosition}
+        data-theme={giscus.theme}
+        data-lang={giscus.lang}
+        data-loading="lazy"
+        crossorigin="anonymous"
+        async
+      />
+    </section>
+  )
+}
 
 <style>
   .comments-section {
