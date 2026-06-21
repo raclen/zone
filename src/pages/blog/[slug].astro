@@ -1,0 +1,373 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+export async function getStaticPaths() {
+  const posts = await getCollection('blog');
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content, headings } = await post.render();
+const { title, description, pubDate, updatedDate, tags, issueUrl, author } =
+  post.data;
+
+// 格式化日期
+const formattedPubDate = new Date(pubDate).toLocaleDateString('zh-CN', {
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric',
+});
+
+const formattedUpdatedDate = updatedDate
+  ? new Date(updatedDate).toLocaleDateString('zh-CN', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    })
+  : null;
+
+// 估算阅读时间（中文约 300 字/分钟）
+const content = post.body;
+const readingTime = Math.ceil(content.length / 300);
+---
+
+<Layout title={title} description={description || title}>
+  <article class="blog-post">
+    <div class="container">
+      <!-- 返回链接 -->
+      <a href="/blog" class="back-link"> ← 返回博客列表 </a>
+
+      <!-- 文章头部 -->
+      <header class="post-header">
+        <time datetime={pubDate.toISOString()}>{formattedPubDate}</time>
+
+        <h1>{title}</h1>
+
+        {description && <p class="lead">{description}</p>}
+
+        <div class="post-meta">
+          {
+            tags.map((tag) => (
+              <span class="tag">{tag}</span>
+            ))
+          }
+          <span class="reading-time">· 约 {readingTime} 分钟</span>
+        </div>
+      </header>
+
+      <!-- 文章内容 -->
+      <div class="post-content">
+        <Content />
+
+        <!-- 更新时间 -->
+        {
+          formattedUpdatedDate && pubDate.toDateString() !== updatedDate?.toDateString() && (
+            <p class="updated-note">最后更新于 {formattedUpdatedDate}</p>
+          )
+        }
+
+        <!-- GitHub 讨论链接 -->
+        <div class="discussion-cta">
+          <h3>💬 参与讨论</h3>
+          <p>在 GitHub Issue 中查看评论和参与讨论</p>
+          <a
+            href={issueUrl}
+            class="btn-primary"
+            target="_blank"
+            rel="noopener"
+          >
+            前往 GitHub 讨论
+          </a>
+        </div>
+      </div>
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .blog-post {
+    padding: 0 24px;
+  }
+
+  .container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 48px) 0 clamp(64px, 8vw, 96px);
+  }
+
+  /* 返回链接 */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 32px;
+    font-weight: 480;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+  .back-link:hover {
+    opacity: 1;
+  }
+
+  /* 文章头部 */
+  .post-header {
+    text-align: center;
+    margin-bottom: 48px;
+    padding-bottom: 32px;
+    border-bottom: 1px solid var(--hairline-soft);
+  }
+
+  .post-header time {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 0.5;
+    display: block;
+    margin-bottom: 16px;
+  }
+
+  .post-header h1 {
+    font-size: clamp(2rem, 5vw, 3rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.2;
+    margin: 0 0 20px;
+    color: var(--ink);
+  }
+
+  .post-header .lead {
+    font-size: 1.15rem;
+    line-height: 1.6;
+    opacity: 0.75;
+    margin-bottom: 24px;
+  }
+
+  .post-meta {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+
+  .tag {
+    padding: 6px 14px;
+    border-radius: 50px;
+    background: var(--surface-soft);
+    font-size: 0.85rem;
+    font-weight: 500;
+  }
+
+  .reading-time {
+    font-size: 0.85rem;
+    opacity: 0.5;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  /* 文章内容 */
+  .post-content {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    color: var(--ink);
+  }
+
+  /* Markdown 样式 */
+  .post-content :global(h2) {
+    font-size: 1.85rem;
+    font-weight: 600;
+    margin: 48px 0 20px;
+    letter-spacing: -0.02em;
+    line-height: 1.3;
+  }
+
+  .post-content :global(h3) {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 36px 0 16px;
+    line-height: 1.3;
+  }
+
+  .post-content :global(h4) {
+    font-size: 1.25rem;
+    font-weight: 600;
+    margin: 28px 0 12px;
+  }
+
+  .post-content :global(p) {
+    margin-bottom: 24px;
+  }
+
+  .post-content :global(a) {
+    color: var(--ink);
+    text-decoration: underline;
+    text-decoration-color: var(--hairline);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 0.2s;
+  }
+
+  .post-content :global(a:hover) {
+    text-decoration-color: var(--ink);
+  }
+
+  .post-content :global(strong) {
+    font-weight: 600;
+  }
+
+  .post-content :global(ul),
+  .post-content :global(ol) {
+    margin-bottom: 24px;
+    padding-left: 1.5em;
+  }
+
+  .post-content :global(li) {
+    margin-bottom: 8px;
+  }
+
+  .post-content :global(blockquote) {
+    margin: 32px 0;
+    padding: 20px 24px;
+    background: var(--surface-soft);
+    border-left: 4px solid var(--hairline);
+    border-radius: 4px;
+    font-style: italic;
+  }
+
+  .post-content :global(pre) {
+    background: var(--surface-soft);
+    padding: 20px;
+    border-radius: 8px;
+    overflow-x: auto;
+    margin: 32px 0;
+    border: 1px solid var(--hairline-soft);
+    font-size: 0.9em;
+    line-height: 1.6;
+  }
+
+  .post-content :global(code) {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+  }
+
+  .post-content :global(p code) {
+    background: var(--surface-soft);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.9em;
+  }
+
+  .post-content :global(img) {
+    max-width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin: 32px 0;
+    display: block;
+  }
+
+  .post-content :global(hr) {
+    border: none;
+    border-top: 1px solid var(--hairline-soft);
+    margin: 48px 0;
+  }
+
+  .post-content :global(table) {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 32px 0;
+    font-size: 0.95em;
+  }
+
+  .post-content :global(th),
+  .post-content :global(td) {
+    padding: 12px;
+    border: 1px solid var(--hairline-soft);
+    text-align: left;
+  }
+
+  .post-content :global(th) {
+    background: var(--surface-soft);
+    font-weight: 600;
+  }
+
+  /* 更新提示 */
+  .updated-note {
+    margin-top: 48px;
+    padding: 16px 20px;
+    background: var(--surface-soft);
+    border-radius: 6px;
+    font-size: 0.9rem;
+    opacity: 0.7;
+    text-align: center;
+  }
+
+  /* 讨论 CTA */
+  .discussion-cta {
+    margin-top: 64px;
+    padding: 40px;
+    background: #dceeb1; /* block-lime */
+    border-radius: 12px;
+    text-align: center;
+  }
+
+  .discussion-cta h3 {
+    font-size: 1.5rem;
+    margin-bottom: 12px;
+    font-weight: 600;
+  }
+
+  .discussion-cta p {
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  .btn-primary {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--primary);
+    color: var(--on-primary);
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .blog-post {
+      padding: 0 16px;
+    }
+
+    .post-header h1 {
+      font-size: 1.75rem;
+    }
+
+    .post-content {
+      font-size: 1rem;
+    }
+
+    .post-content :global(h2) {
+      font-size: 1.5rem;
+      margin: 36px 0 16px;
+    }
+
+    .post-content :global(h3) {
+      font-size: 1.25rem;
+      margin: 28px 0 12px;
+    }
+
+    .discussion-cta {
+      padding: 32px 24px;
+    }
+  }
+</style>

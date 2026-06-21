@@ -1,0 +1,19 @@
+# 博客文章目录
+
+此目录存放从 GitHub Issues 自动同步的博客文章。
+
+**重要提示：**
+- 请勿手动编辑此目录下的文件
+- 所有内容由 GitHub Actions 自动同步
+- 内容源：https://github.com/raclen/raclen.github.io/issues
+- 同步频率：每天北京时间 08:00
+
+## 文件命名规则
+
+格式：`YYYY-MM-DD-{issue-number}-{slug}.md`
+
+示例：`2024-06-21-068-my-first-blog.md`
+
+- 日期：Issue 创建时间
+- issue-number：GitHub Issue 编号（3位数，补零）
+- slug：从 Issue 标题生成的 URL 友好字符串
