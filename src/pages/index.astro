@@ -3,179 +3,379 @@ import Layout from "../layouts/Layout.astro";
 ---
 
 <Layout
-  title="Anhe - 个人空间"
-  description="Anhe 的个人空间，包含项目展示、工具与作品。"
+  title="Anhe - 开发者 & 创作者"
+  description="Anhe 的个人空间，专注于构建优雅的产品与工具。"
 >
   <div class="home">
-    <div class="container">
-      <div class="home-hero">
-        <h1 class="home-title">
-          <span class="wave"></span> 你好，我是 <strong>Anhe</strong>
-        </h1>
-        <p class="home-desc">欢迎来到我的个人空间</p>
-      </div>
-
-      <section class="projects">
-        <h2>项目</h2>
-        <div class="project-grid">
-          <a href="/anheplayer" class="project-card">
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <circle cx="12" cy="12" r="10"/>
-                <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+    <!-- Hero Section -->
+    <section class="hero">
+      <div class="container">
+        <div class="hero-content reveal">
+          <span class="eyebrow">开发者 & 创作者</span>
+          <h1 class="hero-title">
+            构建<span class="highlight">优雅</span>的产品
+          </h1>
+          <p class="hero-desc">
+            我是 Anhe，专注于前端开发与用户体验设计。<br />
+            热衷于创造简洁、高效、有温度的数字产品。
+          </p>
+          <div class="hero-actions">
+            <a href="/blog" class="btn btn-primary">
+              阅读博客
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
+            </a>
+            <a href="/anheplayer" class="btn btn-secondary">
+              探索项目
+            </a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Projects Section -->
+    <section class="projects section">
+      <div class="container">
+        <div class="section-head reveal">
+          <span class="eyebrow">作品集</span>
+          <h2 class="section-title">精选项目</h2>
+          <p class="section-desc">
+            这些项目代表了我对技术与设计的追求
+          </p>
+        </div>
+
+        <div class="project-grid">
+          <a href="/anheplayer" class="project-card color-block-lilac reveal">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <circle cx="12" cy="12" r="10"/>
+                  <polygon points="10 8 16 12 10 16 10 8" fill="currentColor"/>
+                </svg>
+              </div>
+              <span class="project-badge">桌面应用</span>
             </div>
-            <h3>AnhePlayer</h3>
-            <p>轻量级音乐播放器，支持插件、主题与歌词显示</p>
-            <span class="project-link-arrow">→</span>
+            <h3 class="project-title">AnhePlayer</h3>
+            <p class="project-desc">跨平台音乐播放器，支持洛雪插件系统、自定义主题与歌词显示。无广告，开源免费。</p>
+            <div class="project-tags">
+              <span class="tag">Electron</span>
+              <span class="tag">React</span>
+              <span class="tag">TypeScript</span>
+            </div>
+            <span class="project-arrow" aria-hidden="true">→</span>
           </a>
 
-          <a href="/blog" class="project-card">
-            <div class="project-icon">
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
-                <polyline points="14 2 14 8 20 8"/>
-                <line x1="16" y1="13" x2="8" y2="13"/>
-                <line x1="16" y1="17" x2="8" y2="17"/>
-                <polyline points="10 9 9 9 8 9"/>
-              </svg>
+          <a href="https://www.anhe-etf.bond" target="_blank" rel="noopener noreferrer" class="project-card color-block-coral reveal">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                  <line x1="12" y1="1" x2="12" y2="23"></line>
+                  <path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"></path>
+                </svg>
+              </div>
+              <span class="project-badge">投资工具</span>
             </div>
-            <h3>博客</h3>
-            <p>技术笔记、学习记录与思考</p>
-            <span class="project-link-arrow">→</span>
+            <h3 class="project-title">ETF 投资助手</h3>
+            <p class="project-desc">智能 ETF 投资组合分析工具，提供数据可视化、回测分析与投资策略建议。</p>
+            <div class="project-tags">
+              <span class="tag">Next.js</span>
+              <span class="tag">数据分析</span>
+              <span class="tag">可视化</span>
+            </div>
+            <span class="project-arrow" aria-hidden="true">→</span>
+          </a>
+
+          <a href="/blog" class="project-card color-block-mint reveal">
+            <div class="project-header">
+              <div class="project-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                  <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/>
+                  <polyline points="14 2 14 8 20 8"/>
+                  <line x1="16" y1="13" x2="8" y2="13"/>
+                  <line x1="16" y1="17" x2="8" y2="17"/>
+                </svg>
+              </div>
+              <span class="project-badge">内容平台</span>
+            </div>
+            <h3 class="project-title">技术博客</h3>
+            <p class="project-desc">记录开发过程中的思考与实践，分享前端技术、工具使用和工程经验。</p>
+            <div class="project-tags">
+              <span class="tag">Astro</span>
+              <span class="tag">GitHub Issues</span>
+              <span class="tag">自动化</span>
+            </div>
+            <span class="project-arrow" aria-hidden="true">→</span>
           </a>
         </div>
-      </section>
-    </div>
+      </div>
+    </section>
+
+    <!-- About Section -->
+    <section class="about section">
+      <div class="container">
+        <div class="about-grid">
+          <div class="about-card color-block-cream reveal">
+            <h3>技术栈</h3>
+            <p>React, TypeScript, Node.js, Electron</p>
+            <p>专注于现代 Web 开发与跨平台应用</p>
+          </div>
+          <div class="about-card color-block-pink reveal">
+            <h3>设计理念</h3>
+            <p>简洁至上，注重用户体验</p>
+            <p>追求功能与美学的平衡</p>
+          </div>
+          <div class="about-card color-block-lime reveal">
+            <h3>开源贡献</h3>
+            <p>积极参与开源社区</p>
+            <p>相信协作与分享的力量</p>
+          </div>
+        </div>
+      </div>
+    </section>
   </div>
 </Layout>
 
+
 <style>
-  .home {
-    min-height: 100vh;
-    padding: 120px 24px 80px;
-  }
-  .container {
-    max-width: 960px;
-    margin: 0 auto;
+  /* ========== Hero Section ========== */
+  .hero {
+    min-height: 85vh;
+    display: flex;
+    align-items: center;
+    padding-top: 80px;
+    padding-bottom: 80px;
+    position: relative;
   }
 
-  .home-hero {
-    text-align: center;
-    margin-bottom: 80px;
+  .hero-content {
+    max-width: 680px;
   }
-  .home-title {
-    font-size: clamp(2.2rem, 5vw, 3.5rem);
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 16px;
-    line-height: 1.2;
+
+  .hero-title {
+    font-size: clamp(2.8rem, 7vw, 5rem);
+    font-weight: 650;
+    letter-spacing: -0.04em;
+    line-height: 1.08;
+    color: var(--ink);
+    margin-bottom: 24px;
   }
-  .home-title strong {
-    color: var(--brand-bright);
-  }
-  .wave {
+
+  .hero-title .highlight {
+    position: relative;
     display: inline-block;
-    animation: wave 2.5s ease-in-out infinite;
-  }
-  @keyframes wave {
-    0%, 100% { transform: rotate(0deg); }
-    10%, 30% { transform: rotate(14deg); }
-    20% { transform: rotate(-8deg); }
-  }
-  .home-desc {
-    font-size: 1.25rem;
-    color: var(--text-dim);
   }
 
-  .projects h2 {
-    font-size: 1.75rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 32px;
+  .hero-title .highlight::after {
+    content: '';
+    position: absolute;
+    bottom: 0.1em;
+    left: -0.05em;
+    right: -0.05em;
+    height: 0.45em;
+    background: var(--block-lime);
+    z-index: -1;
+    border-radius: 4px;
+  }
+
+  .hero-desc {
+    font-size: 1.15rem;
+    line-height: 1.7;
+    color: var(--ink);
+    opacity: 0.68;
+    margin-bottom: 36px;
+    max-width: 520px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 16px;
+    flex-wrap: wrap;
+  }
+
+  /* ========== Projects Section ========== */
+  .projects {
+    background: var(--surface-soft);
   }
 
   .project-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 24px;
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+    gap: 28px;
   }
 
   .project-card {
     position: relative;
     display: flex;
     flex-direction: column;
-    padding: 32px 28px;
-    border-radius: var(--radius);
-    background: var(--glass);
-    border: 1px solid var(--border);
-    transition: all 0.25s ease;
+    padding: 36px;
+    border-radius: var(--radius-xl);
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
     text-decoration: none;
-  }
-  .project-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-strong);
-    box-shadow: var(--glow-soft);
+    color: var(--ink);
+    overflow: hidden;
   }
 
-  .project-card-placeholder {
-    opacity: 0.6;
-    cursor: default;
+  .project-card:hover {
+    transform: translateY(-6px);
+    box-shadow: var(--shadow-lg);
   }
-  .project-card-placeholder:hover {
-    transform: none;
-    border-color: var(--border);
-    box-shadow: none;
+
+  .project-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
   }
 
   .project-icon {
-    width: 48px;
-    height: 48px;
+    width: 52px;
+    height: 52px;
     display: flex;
     align-items: center;
     justify-content: center;
-    margin-bottom: 20px;
-    color: var(--brand-bright);
-  }
-  .project-icon svg {
-    width: 100%;
-    height: 100%;
+    background: rgba(0, 0, 0, 0.08);
+    border-radius: var(--radius-md);
+    color: var(--ink);
   }
 
-  .project-card h3 {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: var(--text);
-    margin-bottom: 10px;
+  .project-icon svg {
+    width: 28px;
+    height: 28px;
   }
-  .project-card p {
-    font-size: 0.95rem;
-    color: var(--text-dim);
-    line-height: 1.6;
+
+  .project-badge {
+    font-size: 0.75rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    background: rgba(0, 0, 0, 0.08);
+    padding: 6px 12px;
+    border-radius: var(--radius-pill);
+  }
+
+  .project-title {
+    font-size: 1.65rem;
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    margin-bottom: 12px;
+    color: var(--ink);
+  }
+
+  .project-desc {
+    font-size: 0.98rem;
+    line-height: 1.65;
+    opacity: 0.72;
+    margin-bottom: 20px;
     flex: 1;
   }
 
-  .project-link-arrow {
-    position: absolute;
-    top: 28px;
-    right: 28px;
-    font-size: 1.5rem;
-    color: var(--brand-bright);
-    opacity: 0;
-    transform: translateX(-8px);
-    transition: all 0.25s ease;
+  .project-tags {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 12px;
   }
-  .project-card:hover .project-link-arrow {
-    opacity: 1;
+
+  .tag {
+    font-size: 0.8rem;
+    font-weight: 480;
+    padding: 5px 12px;
+    background: rgba(0, 0, 0, 0.06);
+    border-radius: var(--radius-pill);
+    font-family: var(--font-mono);
+  }
+
+  .project-arrow {
+    position: absolute;
+    bottom: 32px;
+    right: 36px;
+    font-size: 2rem;
+    font-weight: 300;
+    opacity: 0;
+    transform: translateX(-12px);
+    transition: all 0.25s ease;
+    color: var(--ink);
+  }
+
+  .project-card:hover .project-arrow {
+    opacity: 0.4;
     transform: translateX(0);
   }
 
+  /* ========== About Section ========== */
+  .about-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+  }
+
+  .about-card {
+    padding: 32px;
+    border-radius: var(--radius-xl);
+    transition: transform 0.2s ease;
+  }
+
+  .about-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .about-card h3 {
+    font-size: 1.4rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .about-card p {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    opacity: 0.72;
+    margin-bottom: 8px;
+  }
+
+  .about-card p:last-child {
+    margin-bottom: 0;
+  }
+
+  /* ========== Responsive ========== */
   @media (max-width: 768px) {
-    .home {
-      padding: 100px 20px 60px;
+    .hero {
+      min-height: 70vh;
+      padding-top: 60px;
     }
-    .home-hero {
-      margin-bottom: 60px;
+
+    .hero-title {
+      font-size: clamp(2.2rem, 9vw, 3.5rem);
+    }
+
+    .hero-actions {
+      flex-direction: column;
+    }
+
+    .hero-actions .btn {
+      width: 100%;
+    }
+
+    .project-grid,
+    .about-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .project-card {
+      padding: 28px;
+    }
+
+    .project-arrow {
+      bottom: 24px;
+      right: 28px;
     }
   }
+
+  /* ========== Animation Delays ========== */
+  .reveal:nth-child(1) { transition-delay: 0.1s; }
+  .reveal:nth-child(2) { transition-delay: 0.2s; }
+  .reveal:nth-child(3) { transition-delay: 0.3s; }
+  .reveal:nth-child(4) { transition-delay: 0.4s; }
 </style>
