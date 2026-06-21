@@ -99,3 +99,19 @@ data-theme="light"  // 或 "dark"、"preferred_color_scheme"
 - Giscus 官网：https://giscus.app/zh-CN
 - GitHub Discussions：https://github.com/raclen/zone/discussions
 - Giscus 文档：https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md
+
+<script src="https://giscus.app/client.js"
+        data-repo="raclen/zone"
+        data-repo-id="R_kgDOTAMRcg"
+        data-category="General"
+        data-category-id="DIC_kwDOTAMRcs4C_n62"
+        data-mapping="url"
+        data-strict="0"
+        data-reactions-enabled="1"
+        data-emit-metadata="0"
+        data-input-position="bottom"
+        data-theme="preferred_color_scheme"
+        data-lang="zh-CN"
+        crossorigin="anonymous"
+        async>
+</script>
