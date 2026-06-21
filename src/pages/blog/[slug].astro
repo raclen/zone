@@ -1,328 +1,245 @@
 ---
-import { getCollection } from 'astro:content';
-import Layout from '@/layouts/Layout.astro';
-import GiscusComments from './_components/GiscusComments.astro';
+import { type CollectionEntry, getCollection, render } from "astro:content";
+import PostLayout from "@/layouts/PostLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import Datetime from "@/components/Datetime.astro";
+import Tag from "@/components/Tag.astro";
+import { getPostSlug } from "@/utils/getPostPaths";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { slugifyStr } from "@/utils/slugify";
+import { toTransitionName } from "@/utils/toTransitionName";
+import EditPost from "./_components/EditPost.astro";
+import ShareLinks from "./_components/ShareLinks.astro";
+import BackButton from "./_components/BackButton.astro";
+import BackToTopButton from "./_components/BackToTopButton.astro";
+import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
+import GiscusComments from "./_components/GiscusComments.astro";
+import config from "@/config";
 
 export async function getStaticPaths() {
-  const posts = await getCollection('blog');
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
+  const posts = await getCollection("posts");
+  const sortedPosts = getSortedPosts(posts);
+
+  return sortedPosts.map((post, index) => ({
+    params: { slug: getPostSlug(post.id, post.filePath).replace(/^\/+/, "") },
+    props: {
+      post,
+      prevPost:
+        index > 0
+          ? {
+              id: sortedPosts[index - 1].id,
+              title: sortedPosts[index - 1].data.title,
+              filePath: sortedPosts[index - 1].filePath,
+            }
+          : null,
+      nextPost:
+        index < sortedPosts.length - 1
+          ? {
+              id: sortedPosts[index + 1].id,
+              title: sortedPosts[index + 1].data.title,
+              filePath: sortedPosts[index + 1].filePath,
+            }
+          : null,
+    },
   }));
 }
 
-const { post } = Astro.props;
-const { Content, headings } = await post.render();
-const { title, description, pubDate, updatedDate, tags, issueUrl, author } =
-  post.data;
+type AdjacentPost = {
+  id: string;
+  title: string;
+  filePath: string | undefined;
+} | null;
 
-// 格式化日期
-const formattedPubDate = new Date(pubDate).toLocaleDateString('zh-CN', {
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric',
-});
+type Props = {
+  post: CollectionEntry<"posts">;
+  prevPost: AdjacentPost;
+  nextPost: AdjacentPost;
+};
 
-const formattedUpdatedDate = updatedDate
-  ? new Date(updatedDate).toLocaleDateString('zh-CN', {
-      year: 'numeric',
-      month: 'long',
-      day: 'numeric',
-    })
-  : null;
+const { post, prevPost, nextPost } = Astro.props;
 
-// 估算阅读时间（中文约 300 字/分钟）
-const content = post.body;
-const readingTime = Math.ceil(content.length / 300);
+const {
+  title,
+  description,
+  ogImage: initOgImage,
+  canonicalURL,
+  pubDatetime,
+  modDatetime,
+  timezone,
+  tags,
+  hideEditPost,
+  issueNumber,
+  issueUrl,
+} = post.data;
+
+const { Content } = await render(post);
+
+let ogImageUrl: string | undefined;
+
+if (typeof initOgImage === "string") {
+  ogImageUrl = initOgImage;
+} else if (initOgImage?.src) {
+  ogImageUrl = initOgImage.src;
+}
+
+const ogImage = ogImageUrl
+  ? new URL(ogImageUrl, Astro.url.origin).href
+  : undefined;
 ---
 
-<Layout title={title} description={description || title}>
-  <article class="blog-post">
-    <div class="container">
-      <!-- 返回链接 -->
-      <a href="/blog" class="back-link"> ← 返回博客列表 </a>
+<PostLayout
+  title={`${title} | ${config.site.title}`}
+  description={description}
+  ogImage={ogImage}
+  canonicalURL={canonicalURL}
+  pubDatetime={pubDatetime}
+  modDatetime={modDatetime}
+>
+  <Header />
 
-      <!-- 文章头部 -->
-      <header class="post-header">
-        <time datetime={pubDate.toISOString()}>{formattedPubDate}</time>
+  <BackButton />
 
-        <h1>{title}</h1>
+  <main
+    id="main-content"
+    class:list={["app-layout", { "mt-8": !config.features.showBackButton }]}
+    data-pagefind-body
+  >
+    <h1
+      style={{ viewTransitionName: toTransitionName(title) }}
+      class="text-accent inline-block text-2xl font-bold sm:text-3xl"
+    >
+      {title}
+    </h1>
 
-        <div class="post-meta">
-          {
-            tags.map((tag) => (
-              <span class="tag">{tag}</span>
-            ))
-          }
-          <span class="reading-time">· 约 {readingTime} 分钟</span>
-        </div>
-      </header>
-
-      <!-- 文章内容 -->
-      <div class="post-content">
-        <Content />
-
-        <!-- 更新时间 -->
-        {
-          formattedUpdatedDate && pubDate.toDateString() !== updatedDate?.toDateString() && (
-            <p class="updated-note">最后更新于 {formattedUpdatedDate}</p>
-          )
-        }
-
-      </div>
-
-      <!-- 评论区 -->
-      <GiscusComments issueNumber={post.data.issueNumber} issueUrl={issueUrl} />
+    <div class="my-2 flex items-center gap-2">
+      <Datetime {pubDatetime} {modDatetime} {timezone} size="lg" />
+      <span
+        aria-hidden="true"
+        class:list={[
+          "text-muted-foreground max-sm:hidden",
+          { hidden: !config.features.editPost?.enabled || hideEditPost },
+        ]}
+      >
+        |
+      </span>
+      <EditPost {hideEditPost} {post} class="max-sm:hidden" />
     </div>
-  </article>
-</Layout>
 
-<style>
-  .blog-post {
-    padding: 0 24px;
+    <article
+      id="article"
+      class:list={[
+        "mt-8 w-full",
+        "app-prose max-w-app",
+        "prose-pre:bg-(--shiki-light-bg) dark:prose-pre:bg-(--shiki-dark-bg)",
+      ]}
+    >
+      <Content />
+    </article>
+
+    <hr class="my-8 border-dashed" />
+
+    <EditPost class="sm:hidden" {hideEditPost} {post} />
+
+    <BackToTopButton />
+
+    <ul class="mt-4 mb-8 flex flex-wrap gap-4 sm:my-8">
+      {tags.map(tag => <Tag tag={slugifyStr(tag)} tagName={tag} size="sm" />)}
+    </ul>
+
+    <ShareLinks />
+
+    {issueNumber && issueUrl && <GiscusComments {issueNumber} {issueUrl} />}
+
+    <hr class="my-8 border-dashed" />
+
+    <AdjacentPostNav {prevPost} {nextPost} />
+  </main>
+  <Footer />
+</PostLayout>
+
+<script is:inline data-astro-rerun>
+  function createProgressBar() {
+    if (document.getElementById("myBar")) return;
+    const progressContainer = document.createElement("div");
+    progressContainer.className =
+      "progress-container fixed top-0 z-10 h-1 w-full bg-background";
+
+    const progressBar = document.createElement("div");
+    progressBar.className = "progress-bar h-1 w-0 bg-accent";
+    progressBar.id = "myBar";
+
+    progressContainer.appendChild(progressBar);
+    document.body.appendChild(progressContainer);
   }
+  createProgressBar();
 
-  .container {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: clamp(32px, 5vw, 48px) 0 clamp(64px, 8vw, 96px);
+  function updateScrollProgress() {
+    document.addEventListener("scroll", () => {
+      const winScroll =
+        document.body.scrollTop || document.documentElement.scrollTop;
+      const height =
+        document.documentElement.scrollHeight -
+        document.documentElement.clientHeight;
+      const scrolled = height > 0 ? (winScroll / height) * 100 : 0;
+      const myBar = document.getElementById("myBar");
+      if (myBar) myBar.style.width = scrolled + "%";
+    });
   }
+  updateScrollProgress();
 
-  /* 返回链接 */
-  .back-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    margin: 0 0 32px;
-    font-weight: 480;
-    opacity: 0.7;
-    transition: opacity 0.2s;
-    text-decoration: none;
-    color: var(--ink);
-    font-size: 0.95rem;
-  }
-  .back-link:hover {
-    opacity: 1;
-  }
+  function addHeadingLinks() {
+    const headings = Array.from(
+      document.querySelectorAll("h2, h3, h4, h5, h6")
+    );
+    for (const heading of headings) {
+      heading.classList.add("group");
+      const link = document.createElement("a");
+      link.className =
+        "heading-link ms-2 no-underline opacity-75 md:opacity-0 md:group-hover:opacity-100 md:focus:opacity-100";
+      link.href = "#" + heading.id;
 
-  /* 文章头部 */
-  .post-header {
-    text-align: center;
-    margin-bottom: 48px;
-    padding-bottom: 32px;
-    border-bottom: 1px solid var(--hairline-soft);
-  }
-
-  .post-header time {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-    font-size: 0.85rem;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    opacity: 0.5;
-    display: block;
-    margin-bottom: 16px;
-  }
-
-  .post-header h1 {
-    font-size: clamp(1.75rem, 5vw, 2.25rem);
-    font-weight: 600;
-    letter-spacing: -0.03em;
-    line-height: 1.2;
-    margin: 0 0 18px;
-    color: var(--ink);
-  }
-
-  .post-meta {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
-
-  .tag {
-    padding: 6px 14px;
-    border-radius: 50px;
-    background: var(--surface-soft);
-    font-size: 0.85rem;
-    font-weight: 500;
-  }
-
-  .reading-time {
-    font-size: 0.85rem;
-    opacity: 0.5;
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-  }
-
-  /* 文章内容 */
-  .post-content {
-    font-size: 0.95rem;
-    line-height: 1.6;
-    color: var(--ink);
-  }
-
-  /* Markdown 样式 */
-  .post-content :global(h2) {
-    font-size: 1.5rem;
-    font-weight: 600;
-    margin: 32px 0 12px;
-    letter-spacing: -0.02em;
-    line-height: 1.3;
-  }
-
-  .post-content :global(h3) {
-    font-size: 1.2rem;
-    font-weight: 600;
-    margin: 24px 0 10px;
-    line-height: 1.3;
-  }
-
-  .post-content :global(h4) {
-    font-size: 1.05rem;
-    font-weight: 600;
-    margin: 20px 0 8px;
-  }
-
-  .post-content :global(p) {
-    margin-bottom: 14px;
-  }
-
-  .post-content :global(a) {
-    color: var(--ink);
-    text-decoration: underline;
-    text-decoration-color: var(--hairline);
-    text-underline-offset: 3px;
-    transition: text-decoration-color 0.2s;
-  }
-
-  .post-content :global(a:hover) {
-    text-decoration-color: var(--ink);
-  }
-
-  .post-content :global(strong) {
-    font-weight: 600;
-  }
-
-  .post-content :global(ul),
-  .post-content :global(ol) {
-    margin-bottom: 16px;
-    padding-left: 1.5em;
-  }
-
-  .post-content :global(li) {
-    margin-bottom: 4px;
-  }
-
-  .post-content :global(blockquote) {
-    margin: 20px 0;
-    padding: 14px 18px;
-    background: var(--surface-soft);
-    border-left: 4px solid var(--hairline);
-    border-radius: 4px;
-    font-style: italic;
-  }
-
-  .post-content :global(pre) {
-    background: var(--surface-soft);
-    padding: 14px;
-    border-radius: 8px;
-    overflow-x: auto;
-    margin: 20px 0;
-    border: 1px solid var(--hairline-soft);
-    font-size: 0.88em;
-    line-height: 1.5;
-  }
-
-  .post-content :global(code) {
-    font-family: 'JetBrains Mono', 'Courier New', monospace;
-  }
-
-  .post-content :global(p code) {
-    background: var(--surface-soft);
-    padding: 2px 6px;
-    border-radius: 4px;
-    font-size: 0.9em;
-  }
-
-  .post-content :global(img) {
-    max-width: 100%;
-    height: auto;
-    border-radius: 8px;
-    margin: 20px 0;
-    display: block;
-  }
-
-  .post-content :global(hr) {
-    border: none;
-    border-top: 1px solid var(--hairline-soft);
-    margin: 32px 0;
-  }
-
-  .post-content :global(table) {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 20px 0;
-    font-size: 0.9em;
-  }
-
-  .post-content :global(th),
-  .post-content :global(td) {
-    padding: 12px;
-    border: 1px solid var(--hairline-soft);
-    text-align: left;
-  }
-
-  .post-content :global(th) {
-    background: var(--surface-soft);
-    font-weight: 600;
-  }
-
-  /* 更新提示 */
-  .updated-note {
-    margin-top: 40px;
-    padding: 16px 20px;
-    background: var(--surface-soft);
-    border-radius: 6px;
-    font-size: 0.9rem;
-    opacity: 0.7;
-    text-align: center;
-  }
-
-  /* 响应式 */
-  @media (max-width: 768px) {
-    .blog-post {
-      padding: 0 16px;
-    }
-
-    .post-header h1 {
-      font-size: 1.5rem;
-    }
-
-    .post-content {
-      font-size: 0.9rem;
-    }
-
-    .post-content :global(h2) {
-      font-size: 1.3rem;
-      margin: 28px 0 10px;
-    }
-
-    .post-content :global(h3) {
-      font-size: 1.1rem;
-      margin: 20px 0 8px;
-    }
-
-    .comments-section {
-      margin-top: 40px;
-      padding-top: 28px;
-    }
-
-    .comment-item {
-      padding: 16px;
-    }
-
-    .comment-body {
-      font-size: 0.88rem;
+      const span = document.createElement("span");
+      span.ariaHidden = "true";
+      span.innerText = "#";
+      link.appendChild(span);
+      heading.appendChild(link);
     }
   }
-</style>
+  addHeadingLinks();
+
+  function attachCopyButtons() {
+    const copyButtonLabel = "Copy";
+    const codeBlocks = Array.from(document.querySelectorAll("pre"));
+
+    for (const codeBlock of codeBlocks) {
+      if (codeBlock.querySelector(".copy-code")) continue;
+      const wrapper = document.createElement("div");
+      wrapper.style.position = "relative";
+
+      const copyButton = document.createElement("button");
+      copyButton.className =
+        "copy-code absolute end-3 -top-3 rounded bg-muted border border-muted px-2 py-1 text-xs leading-4 text-foreground font-medium";
+      copyButton.innerHTML = copyButtonLabel;
+      codeBlock.setAttribute("tabindex", "0");
+      codeBlock.appendChild(copyButton);
+
+      codeBlock?.parentNode?.insertBefore(wrapper, codeBlock);
+      wrapper.appendChild(codeBlock);
+
+      copyButton.addEventListener("click", async () => {
+        const code = codeBlock.querySelector("code");
+        await navigator.clipboard.writeText(code?.innerText ?? "");
+        copyButton.innerText = "Copied";
+        setTimeout(() => {
+          copyButton.innerText = copyButtonLabel;
+        }, 700);
+      });
+    }
+  }
+  attachCopyButtons();
+
+  document.addEventListener("astro:after-swap", () =>
+    window.scrollTo({ left: 0, top: 0, behavior: "instant" })
+  );
+</script>

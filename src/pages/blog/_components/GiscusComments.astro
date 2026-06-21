@@ -9,7 +9,7 @@ const { issueUrl } = Astro.props;
 
 <section class="comments-section">
   <div class="comments-header">
-    <h2>💬 评论</h2>
+    <h2>评论</h2>
     <p class="comments-subtitle">使用 GitHub 账号登录后即可评论</p>
   </div>
 
@@ -38,7 +38,7 @@ const { issueUrl } = Astro.props;
   .comments-section {
     margin-top: 64px;
     padding-top: 48px;
-    border-top: 1px solid var(--hairline-soft);
+    border-top: 1px dashed var(--border);
   }
 
   .comments-header {
@@ -49,10 +49,11 @@ const { issueUrl } = Astro.props;
     font-size: 1.75rem;
     font-weight: 600;
     margin-bottom: 8px;
+    color: var(--foreground);
   }
 
   .comments-subtitle {
-    opacity: 0.6;
+    color: var(--muted-foreground);
     font-size: 0.95rem;
   }
 
