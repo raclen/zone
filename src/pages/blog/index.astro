@@ -16,14 +16,14 @@ const totalPosts = posts.length;
 ---
 
 <Layout
-  title="博客 - Anhe"
-  description="Anhe 的技术博客，记录学习与思考"
+  title="当下的七炎"
+  description="当下的七炎 的技术博客，记录学习与思考"
 >
   <div class="blog-page">
     <div class="container">
       <!-- Hero -->
       <div class="blog-hero">
-        <h1 class="blog-title">博客</h1>
+        <h1 class="blog-title">当下的七炎</h1>
         <p class="blog-subtitle">记录技术、思考与成长</p>
         <div class="blog-stats">
           <span class="stat-item">{totalPosts} 篇文章</span>
@@ -34,6 +34,16 @@ const totalPosts = posts.length;
 
       <!-- 搜索框 -->
       <SearchBar />
+
+      <!-- 快捷导航 -->
+      <div class="quick-nav">
+        <a href="/blog/archive" class="nav-link">
+          📚 归档
+        </a>
+        <a href="/blog/friends" class="nav-link">
+          🔗 友链
+        </a>
+      </div>
 
       <!-- 标签筛选 -->
       {
@@ -115,6 +125,32 @@ const totalPosts = posts.length;
 
   .stat-divider {
     opacity: 0.3;
+  }
+
+  /* 快捷导航 */
+  .quick-nav {
+    display: flex;
+    justify-content: center;
+    gap: 16px;
+    margin-bottom: 32px;
+  }
+
+  .nav-link {
+    padding: 10px 24px;
+    border-radius: 50px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    font-size: 0.95rem;
+    font-weight: 500;
+    text-decoration: none;
+    color: var(--ink);
+    transition: all 0.2s ease;
+  }
+
+  .nav-link:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
   }
 
   /* 标签筛选 */

@@ -1,0 +1,280 @@
+---
+import Layout from '@/layouts/Layout.astro';
+
+// 友情链接数据
+const friendLinks = [
+  {
+    name: '示例博客1',
+    url: 'https://example.com',
+    avatar: 'https://via.placeholder.com/80',
+    description: '这是一个示例博客的描述',
+  },
+  {
+    name: '示例博客2',
+    url: 'https://example.com',
+    avatar: 'https://via.placeholder.com/80',
+    description: '这是另一个示例博客的描述',
+  },
+  // 在这里添加更多友情链接
+];
+---
+
+<Layout
+  title="友情链接 - 当下的七炎"
+  description="我的朋友们和推荐的优秀博客"
+>
+  <div class="friends-page">
+    <div class="container">
+      <!-- Hero -->
+      <div class="friends-hero">
+        <h1 class="friends-title">友情链接</h1>
+        <p class="friends-subtitle">我的朋友们和推荐的优秀博客</p>
+      </div>
+
+      <!-- 返回链接 -->
+      <a href="/blog" class="back-link">
+        ← 返回博客列表
+      </a>
+
+      <!-- 申请说明 -->
+      <div class="apply-notice">
+        <h2>💌 申请友链</h2>
+        <p>欢迎交换友情链接！请在 GitHub Issue 中提交以下信息：</p>
+        <ul>
+          <li>网站名称</li>
+          <li>网站地址</li>
+          <li>网站头像（80x80 或更大）</li>
+          <li>网站简介（一句话描述）</li>
+        </ul>
+        <a
+          href="https://github.com/raclen/raclen.github.io/issues/new?labels=友链申请&template=friend-link.md"
+          class="btn-apply"
+          target="_blank"
+          rel="noopener"
+        >
+          提交友链申请
+        </a>
+      </div>
+
+      <!-- 友链列表 -->
+      <div class="friends-grid">
+        {friendLinks.map((friend) => (
+          <a
+            href={friend.url}
+            class="friend-card"
+            target="_blank"
+            rel="noopener"
+          >
+            <img
+              src={friend.avatar}
+              alt={friend.name}
+              class="friend-avatar"
+              width="80"
+              height="80"
+            />
+            <div class="friend-info">
+              <h3 class="friend-name">{friend.name}</h3>
+              <p class="friend-desc">{friend.description}</p>
+            </div>
+          </a>
+        ))}
+      </div>
+
+      {friendLinks.length === 0 && (
+        <div class="empty-state">
+          <p>暂无友情链接</p>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .friends-page {
+    padding: 0 24px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 48px) 0 clamp(64px, 8vw, 96px);
+  }
+
+  /* Hero */
+  .friends-hero {
+    text-align: center;
+    padding: clamp(32px, 6vw, 64px) 0 clamp(32px, 5vw, 48px);
+  }
+
+  .friends-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .friends-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-weight: 330;
+    opacity: 0.7;
+  }
+
+  /* 返回链接 */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 32px;
+    font-weight: 480;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+  }
+
+  /* 申请说明 */
+  .apply-notice {
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: 12px;
+    padding: 32px;
+    margin-bottom: 48px;
+  }
+
+  .apply-notice h2 {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .apply-notice p {
+    margin-bottom: 12px;
+    opacity: 0.8;
+    line-height: 1.6;
+  }
+
+  .apply-notice ul {
+    list-style: disc;
+    padding-left: 24px;
+    margin-bottom: 24px;
+    opacity: 0.8;
+  }
+
+  .apply-notice li {
+    margin-bottom: 8px;
+    line-height: 1.6;
+  }
+
+  .btn-apply {
+    display: inline-block;
+    padding: 12px 28px;
+    background: var(--primary);
+    color: var(--on-primary);
+    border-radius: 50px;
+    font-weight: 500;
+    text-decoration: none;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+
+  .btn-apply:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  }
+
+  /* 友链网格 */
+  .friends-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 24px;
+  }
+
+  .friend-card {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    padding: 20px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline-soft);
+    border-radius: 12px;
+    text-decoration: none;
+    color: inherit;
+    transition: all 0.2s ease;
+  }
+
+  .friend-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+    border-color: var(--hairline);
+  }
+
+  .friend-avatar {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    flex-shrink: 0;
+  }
+
+  .friend-info {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .friend-name {
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--ink);
+  }
+
+  .friend-desc {
+    font-size: 0.9rem;
+    opacity: 0.7;
+    line-height: 1.4;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  /* 空状态 */
+  .empty-state {
+    text-align: center;
+    padding: 64px 0;
+    opacity: 0.5;
+    font-size: 1.1rem;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .friends-page {
+      padding: 0 16px;
+    }
+
+    .apply-notice {
+      padding: 24px;
+    }
+
+    .friends-grid {
+      grid-template-columns: 1fr;
+      gap: 16px;
+    }
+
+    .friend-card {
+      padding: 16px;
+    }
+
+    .friend-avatar {
+      width: 56px;
+      height: 56px;
+    }
+  }
+</style>

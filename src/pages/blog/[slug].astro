@@ -1,6 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
 import Layout from '@/layouts/Layout.astro';
+import CommentsLocal from './_components/CommentsLocal.astro';
 
 export async function getStaticPaths() {
   const posts = await getCollection('blog');
@@ -47,8 +48,6 @@ const readingTime = Math.ceil(content.length / 300);
 
         <h1>{title}</h1>
 
-        {description && <p class="lead">{description}</p>}
-
         <div class="post-meta">
           {
             tags.map((tag) => (
@@ -70,20 +69,10 @@ const readingTime = Math.ceil(content.length / 300);
           )
         }
 
-        <!-- GitHub 讨论链接 -->
-        <div class="discussion-cta">
-          <h3>💬 参与讨论</h3>
-          <p>在 GitHub Issue 中查看评论和参与讨论</p>
-          <a
-            href={issueUrl}
-            class="btn-primary"
-            target="_blank"
-            rel="noopener"
-          >
-            前往 GitHub 讨论
-          </a>
-        </div>
       </div>
+
+      <!-- 评论区 -->
+      <CommentsLocal issueNumber={post.data.issueNumber} issueUrl={issueUrl} />
     </div>
   </article>
 </Layout>
@@ -135,19 +124,12 @@ const readingTime = Math.ceil(content.length / 300);
   }
 
   .post-header h1 {
-    font-size: clamp(2rem, 5vw, 3rem);
+    font-size: clamp(1.75rem, 5vw, 2.25rem);
     font-weight: 600;
     letter-spacing: -0.03em;
     line-height: 1.2;
-    margin: 0 0 20px;
+    margin: 0 0 18px;
     color: var(--ink);
-  }
-
-  .post-header .lead {
-    font-size: 1.15rem;
-    line-height: 1.6;
-    opacity: 0.75;
-    margin-bottom: 24px;
   }
 
   .post-meta {
@@ -174,35 +156,35 @@ const readingTime = Math.ceil(content.length / 300);
 
   /* 文章内容 */
   .post-content {
-    font-size: 1.1rem;
-    line-height: 1.8;
+    font-size: 0.95rem;
+    line-height: 1.6;
     color: var(--ink);
   }
 
   /* Markdown 样式 */
   .post-content :global(h2) {
-    font-size: 1.85rem;
+    font-size: 1.5rem;
     font-weight: 600;
-    margin: 48px 0 20px;
+    margin: 32px 0 12px;
     letter-spacing: -0.02em;
     line-height: 1.3;
   }
 
   .post-content :global(h3) {
-    font-size: 1.5rem;
+    font-size: 1.2rem;
     font-weight: 600;
-    margin: 36px 0 16px;
+    margin: 24px 0 10px;
     line-height: 1.3;
   }
 
   .post-content :global(h4) {
-    font-size: 1.25rem;
+    font-size: 1.05rem;
     font-weight: 600;
-    margin: 28px 0 12px;
+    margin: 20px 0 8px;
   }
 
   .post-content :global(p) {
-    margin-bottom: 24px;
+    margin-bottom: 14px;
   }
 
   .post-content :global(a) {
@@ -223,17 +205,17 @@ const readingTime = Math.ceil(content.length / 300);
 
   .post-content :global(ul),
   .post-content :global(ol) {
-    margin-bottom: 24px;
+    margin-bottom: 16px;
     padding-left: 1.5em;
   }
 
   .post-content :global(li) {
-    margin-bottom: 8px;
+    margin-bottom: 4px;
   }
 
   .post-content :global(blockquote) {
-    margin: 32px 0;
-    padding: 20px 24px;
+    margin: 20px 0;
+    padding: 14px 18px;
     background: var(--surface-soft);
     border-left: 4px solid var(--hairline);
     border-radius: 4px;
@@ -242,13 +224,13 @@ const readingTime = Math.ceil(content.length / 300);
 
   .post-content :global(pre) {
     background: var(--surface-soft);
-    padding: 20px;
+    padding: 14px;
     border-radius: 8px;
     overflow-x: auto;
-    margin: 32px 0;
+    margin: 20px 0;
     border: 1px solid var(--hairline-soft);
-    font-size: 0.9em;
-    line-height: 1.6;
+    font-size: 0.88em;
+    line-height: 1.5;
   }
 
   .post-content :global(code) {
@@ -266,21 +248,21 @@ const readingTime = Math.ceil(content.length / 300);
     max-width: 100%;
     height: auto;
     border-radius: 8px;
-    margin: 32px 0;
+    margin: 20px 0;
     display: block;
   }
 
   .post-content :global(hr) {
     border: none;
     border-top: 1px solid var(--hairline-soft);
-    margin: 48px 0;
+    margin: 32px 0;
   }
 
   .post-content :global(table) {
     width: 100%;
     border-collapse: collapse;
-    margin: 32px 0;
-    font-size: 0.95em;
+    margin: 20px 0;
+    font-size: 0.9em;
   }
 
   .post-content :global(th),
@@ -297,49 +279,13 @@ const readingTime = Math.ceil(content.length / 300);
 
   /* 更新提示 */
   .updated-note {
-    margin-top: 48px;
+    margin-top: 40px;
     padding: 16px 20px;
     background: var(--surface-soft);
     border-radius: 6px;
     font-size: 0.9rem;
     opacity: 0.7;
     text-align: center;
-  }
-
-  /* 讨论 CTA */
-  .discussion-cta {
-    margin-top: 64px;
-    padding: 40px;
-    background: #dceeb1; /* block-lime */
-    border-radius: 12px;
-    text-align: center;
-  }
-
-  .discussion-cta h3 {
-    font-size: 1.5rem;
-    margin-bottom: 12px;
-    font-weight: 600;
-  }
-
-  .discussion-cta p {
-    margin-bottom: 24px;
-    opacity: 0.8;
-  }
-
-  .btn-primary {
-    display: inline-block;
-    padding: 12px 28px;
-    background: var(--primary);
-    color: var(--on-primary);
-    border-radius: 50px;
-    font-weight: 500;
-    text-decoration: none;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-
-  .btn-primary:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   /* 响应式 */
@@ -349,25 +295,34 @@ const readingTime = Math.ceil(content.length / 300);
     }
 
     .post-header h1 {
-      font-size: 1.75rem;
+      font-size: 1.5rem;
     }
 
     .post-content {
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
     .post-content :global(h2) {
-      font-size: 1.5rem;
-      margin: 36px 0 16px;
+      font-size: 1.3rem;
+      margin: 28px 0 10px;
     }
 
     .post-content :global(h3) {
-      font-size: 1.25rem;
-      margin: 28px 0 12px;
+      font-size: 1.1rem;
+      margin: 20px 0 8px;
     }
 
-    .discussion-cta {
-      padding: 32px 24px;
+    .comments-section {
+      margin-top: 40px;
+      padding-top: 28px;
+    }
+
+    .comment-item {
+      padding: 16px;
+    }
+
+    .comment-body {
+      font-size: 0.88rem;
     }
   }
 </style>

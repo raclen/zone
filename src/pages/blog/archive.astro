@@ -1,0 +1,291 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+
+// 获取所有非草稿的博客文章
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 按年份分组
+const postsByYear = posts.reduce((acc, post) => {
+  const year = new Date(post.data.pubDate).getFullYear();
+  if (!acc[year]) {
+    acc[year] = [];
+  }
+  acc[year].push(post);
+  return acc;
+}, {} as Record<number, typeof posts>);
+
+// 排序年份（降序）
+const years = Object.keys(postsByYear).sort((a, b) => Number(b) - Number(a));
+
+// 统计
+const totalPosts = posts.length;
+const totalYears = years.length;
+---
+
+<Layout
+  title="文章归档 - 当下的七炎"
+  description="按时间归档的所有文章"
+>
+  <div class="archive-page">
+    <div class="container">
+      <!-- Hero -->
+      <div class="archive-hero">
+        <h1 class="archive-title">文章归档</h1>
+        <p class="archive-subtitle">按时间顺序浏览所有文章</p>
+        <div class="archive-stats">
+          <span class="stat-item">{totalPosts} 篇文章</span>
+          <span class="stat-divider">·</span>
+          <span class="stat-item">{totalYears} 年</span>
+        </div>
+      </div>
+
+      <!-- 返回链接 -->
+      <a href="/blog" class="back-link">
+        ← 返回博客列表
+      </a>
+
+      <!-- 归档列表 -->
+      <div class="archive-content">
+        {years.map((year) => (
+          <section class="year-section">
+            <h2 class="year-title">{year}</h2>
+            <div class="posts-list">
+              {postsByYear[Number(year)].map((post) => {
+                const date = new Date(post.data.pubDate);
+                const monthDay = date.toLocaleDateString('zh-CN', {
+                  month: '2-digit',
+                  day: '2-digit',
+                });
+
+                return (
+                  <article class="archive-item">
+                    <time class="post-date" datetime={post.data.pubDate.toISOString()}>
+                      {monthDay}
+                    </time>
+                    <a href={`/blog/${post.slug}`} class="post-link">
+                      <span class="post-title">{post.data.title}</span>
+                      {post.data.tags.length > 0 && (
+                        <div class="post-tags">
+                          {post.data.tags.slice(0, 3).map((tag) => (
+                            <span class="tag-badge">{tag}</span>
+                          ))}
+                        </div>
+                      )}
+                    </a>
+                  </article>
+                );
+              })}
+            </div>
+          </section>
+        ))}
+      </div>
+
+      {posts.length === 0 && (
+        <div class="empty-state">
+          <p>暂无文章</p>
+        </div>
+      )}
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .archive-page {
+    padding: 0 24px;
+  }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 48px) 0 clamp(64px, 8vw, 96px);
+  }
+
+  /* Hero */
+  .archive-hero {
+    text-align: center;
+    padding: clamp(32px, 6vw, 64px) 0 clamp(32px, 5vw, 48px);
+  }
+
+  .archive-title {
+    font-size: clamp(2.5rem, 6vw, 4rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .archive-subtitle {
+    font-size: clamp(1.1rem, 2.5vw, 1.25rem);
+    font-weight: 330;
+    opacity: 0.7;
+    margin-bottom: 20px;
+  }
+
+  .archive-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-divider {
+    opacity: 0.3;
+  }
+
+  /* 返回链接 */
+  .back-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    margin: 0 0 40px;
+    font-weight: 480;
+    opacity: 0.7;
+    transition: opacity 0.2s;
+    text-decoration: none;
+    color: var(--ink);
+    font-size: 0.95rem;
+  }
+
+  .back-link:hover {
+    opacity: 1;
+  }
+
+  /* 归档内容 */
+  .archive-content {
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .year-section {
+    position: relative;
+  }
+
+  .year-title {
+    font-size: 2rem;
+    font-weight: 700;
+    margin-bottom: 24px;
+    color: var(--ink);
+    position: sticky;
+    top: 0;
+    background: var(--bg);
+    padding: 12px 0;
+    z-index: 10;
+    border-bottom: 2px solid var(--hairline-soft);
+  }
+
+  .posts-list {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .archive-item {
+    display: flex;
+    gap: 20px;
+    padding: 16px 0;
+    border-bottom: 1px solid var(--hairline-soft);
+    transition: background 0.2s;
+  }
+
+  .archive-item:last-child {
+    border-bottom: none;
+  }
+
+  .archive-item:hover {
+    background: var(--surface-soft);
+    margin: 0 -12px;
+    padding: 16px 12px;
+    border-radius: 8px;
+  }
+
+  .post-date {
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    font-size: 0.85rem;
+    opacity: 0.5;
+    min-width: 60px;
+    padding-top: 2px;
+  }
+
+  .post-link {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    text-decoration: none;
+    color: var(--ink);
+  }
+
+  .post-title {
+    font-size: 1.05rem;
+    font-weight: 500;
+    line-height: 1.4;
+    transition: opacity 0.2s;
+  }
+
+  .post-link:hover .post-title {
+    opacity: 0.7;
+  }
+
+  .post-tags {
+    display: flex;
+    gap: 6px;
+    flex-wrap: wrap;
+  }
+
+  .tag-badge {
+    font-size: 0.7rem;
+    padding: 3px 8px;
+    border-radius: 4px;
+    background: var(--surface-soft);
+    font-weight: 500;
+    white-space: nowrap;
+  }
+
+  /* 空状态 */
+  .empty-state {
+    text-align: center;
+    padding: 64px 0;
+    opacity: 0.5;
+    font-size: 1.1rem;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .archive-page {
+      padding: 0 16px;
+    }
+
+    .year-title {
+      font-size: 1.75rem;
+    }
+
+    .archive-item {
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .post-date {
+      min-width: auto;
+    }
+
+    .post-link {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 8px;
+    }
+
+    .post-tags {
+      order: -1;
+    }
+  }
+</style>
