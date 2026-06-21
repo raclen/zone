@@ -1,9 +1,9 @@
-name: 同步博客和评论
+name: 同步博客文章
 
 on:
   schedule:
-    # 每小时同步一次
-    - cron: '0 * * * *'
+    # GitHub Actions cron uses UTC: 00:00/12:00 UTC = 08:00/20:00 Asia/Shanghai
+    - cron: '0 0,12 * * *'
   workflow_dispatch:  # 允许手动触发
   push:
     branches:
@@ -29,7 +29,7 @@ jobs:
       - name: 安装依赖
         run: npm install
 
-      - name: 同步博客和评论
+      - name: 同步博客文章
         run: npm run sync-blog
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
@@ -37,7 +37,7 @@ jobs:
       - name: 提交更改
         uses: stefanzweifel/git-auto-commit-action@v5
         with:
-          commit_message: 'chore: 自动同步博客和评论 [skip ci]'
+          commit_message: 'chore: 自动同步博客文章 [skip ci]'
           commit_user_name: 'github-actions[bot]'
           commit_user_email: 'github-actions[bot]@users.noreply.github.com'
-          file_pattern: 'src/content/blog/*.md src/data/comments/*.json'
+          file_pattern: 'src/content/blog/*.md src/content/blog/.sync-meta.json'
