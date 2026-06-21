@@ -1,0 +1,213 @@
+---
+import { getCollection } from 'astro:content';
+import Layout from '@/layouts/Layout.astro';
+import BlogCard from './_components/BlogCard.astro';
+import SearchBar from './_components/SearchBar.astro';
+
+// 获取所有非草稿的博客文章
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// 获取所有标签
+const allTags = [...new Set(posts.flatMap((p) => p.data.tags))].sort();
+
+// 统计
+const totalPosts = posts.length;
+---
+
+<Layout
+  title="博客 - Anhe"
+  description="Anhe 的技术博客，记录学习与思考"
+>
+  <div class="blog-page">
+    <div class="container">
+      <!-- Hero -->
+      <div class="blog-hero">
+        <h1 class="blog-title">博客</h1>
+        <p class="blog-subtitle">记录技术、思考与成长</p>
+        <div class="blog-stats">
+          <span class="stat-item">{totalPosts} 篇文章</span>
+          <span class="stat-divider">·</span>
+          <span class="stat-item">{allTags.length} 个标签</span>
+        </div>
+      </div>
+
+      <!-- 搜索框 -->
+      <SearchBar />
+
+      <!-- 标签筛选 -->
+      {
+        allTags.length > 0 && (
+          <div class="tag-filter">
+            <button class="tag-pill active" data-tag="all">
+              全部
+            </button>
+            {allTags.map((tag) => (
+              <button class="tag-pill" data-tag={tag}>
+                {tag}
+              </button>
+            ))}
+          </div>
+        )
+      }
+
+      <!-- 文章列表 -->
+      <div class="blog-grid">
+        {posts.map((post) => <BlogCard post={post} />)}
+      </div>
+
+      <!-- 空状态 -->
+      {
+        posts.length === 0 && (
+          <div class="empty-state">
+            <p>暂无文章</p>
+          </div>
+        )
+      }
+    </div>
+  </div>
+</Layout>
+
+<style>
+  .blog-page {
+    padding: 0 24px;
+  }
+
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: clamp(32px, 5vw, 64px) 0 clamp(64px, 8vw, 96px);
+  }
+
+  /* Hero */
+  .blog-hero {
+    text-align: center;
+    padding: clamp(48px, 8vw, 80px) 0 clamp(40px, 6vw, 64px);
+  }
+
+  .blog-title {
+    font-size: clamp(3rem, 8vw, 5rem);
+    font-weight: 600;
+    letter-spacing: -0.03em;
+    line-height: 1.1;
+    margin-bottom: 16px;
+    color: var(--ink);
+  }
+
+  .blog-subtitle {
+    font-size: clamp(1.15rem, 2.5vw, 1.35rem);
+    font-weight: 330;
+    opacity: 0.7;
+    margin-bottom: 24px;
+  }
+
+  .blog-stats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    font-size: 0.9rem;
+    opacity: 0.6;
+    font-family: 'JetBrains Mono', 'Courier New', monospace;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  .stat-divider {
+    opacity: 0.3;
+  }
+
+  /* 标签筛选 */
+  .tag-filter {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-bottom: 48px;
+    justify-content: center;
+  }
+
+  .tag-pill {
+    padding: 10px 20px;
+    border-radius: 50px;
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    font-size: 0.9rem;
+    font-weight: 480;
+    transition: all 0.2s ease;
+    cursor: pointer;
+    color: var(--ink);
+  }
+
+  .tag-pill:hover {
+    border-color: var(--ink);
+    transform: translateY(-2px);
+  }
+
+  .tag-pill.active {
+    background: var(--primary);
+    color: var(--on-primary);
+    border-color: var(--primary);
+  }
+
+  /* 文章网格 */
+  .blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+    gap: 32px;
+  }
+
+  /* 空状态 */
+  .empty-state {
+    text-align: center;
+    padding: 64px 0;
+    opacity: 0.5;
+    font-size: 1.1rem;
+  }
+
+  /* 响应式 */
+  @media (max-width: 768px) {
+    .blog-page {
+      padding: 0 16px;
+    }
+
+    .blog-grid {
+      grid-template-columns: 1fr;
+      gap: 24px;
+    }
+
+    .tag-filter {
+      justify-content: flex-start;
+    }
+  }
+</style>
+
+<script>
+  // 标签筛选功能
+  document.addEventListener('DOMContentLoaded', () => {
+    const tagButtons = document.querySelectorAll('.tag-pill');
+    const blogCards = document.querySelectorAll('.blog-card');
+
+    tagButtons.forEach((button) => {
+      button.addEventListener('click', () => {
+        const selectedTag = button.getAttribute('data-tag');
+
+        // 更新按钮状态
+        tagButtons.forEach((btn) => btn.classList.remove('active'));
+        button.classList.add('active');
+
+        // 筛选文章
+        blogCards.forEach((card) => {
+          const cardTags = Array.from(card.querySelectorAll('.tag-badge')).map(
+            (badge) => badge.textContent?.trim()
+          );
+
+          if (selectedTag === 'all' || cardTags.includes(selectedTag)) {
+            (card as HTMLElement).style.display = 'block';
+          } else {
+            (card as HTMLElement).style.display = 'none';
+          }
+        });
+      });
+    });
+  });
+</script>

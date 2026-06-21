@@ -7,7 +7,7 @@ import {
   fallbackUrl,
   type OsKey,
   type IconKey,
-} from "../data/platforms";
+} from "@/data/platforms";
 
 // 平台图标（Windows / Apple / Linux）
 const osIcons: Record<IconKey, string> = {
@@ -93,7 +93,7 @@ const osIcons: Record<IconKey, string> = {
     fallbackUrl,
     FALLBACK_VERSION,
     type OsKey,
-  } from "../data/platforms";
+  } from "@/data/platforms";
 
   // 检测用户操作系统
   function detectOS(): OsKey {
@@ -204,115 +204,137 @@ const osIcons: Record<IconKey, string> = {
 
 <style>
   .download-section {
-    background: linear-gradient(180deg, var(--bg) 0%, var(--bg-2) 100%);
+    background: var(--surface-soft);
   }
+
   .download-groups {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     gap: 24px;
   }
+
   .os-group {
-    opacity: 0.72;
+    opacity: 0.7;
     transition: opacity 0.3s ease;
   }
+
   .os-group.is-current {
     opacity: 1;
   }
+
   .os-group-header {
     display: flex;
     align-items: center;
     gap: 12px;
-    margin-bottom: 18px;
+    margin-bottom: 20px;
   }
+
   .os-icon {
-    width: 42px;
-    height: 42px;
+    width: 48px;
+    height: 48px;
     display: grid;
     place-items: center;
-    border-radius: 11px;
-    background: linear-gradient(135deg, rgba(32, 167, 255, 0.16), rgba(139, 92, 246, 0.16));
-    border: 1px solid rgba(32, 167, 255, 0.22);
+    border-radius: var(--radius-md);
+    background: var(--ink);
   }
+
   .os-icon svg {
-    width: 22px;
-    height: 22px;
-    color: var(--brand-bright);
+    width: 24px;
+    height: 24px;
+    color: var(--canvas);
   }
+
   .os-group h3 {
-    font-size: 1.2rem;
-    font-weight: 700;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--ink);
   }
+
   .os-assets {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+    gap: 12px;
   }
+
   .asset-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 18px;
-    border-radius: var(--radius-sm);
-    background: var(--glass);
-    border: 1px solid var(--border);
-    -webkit-backdrop-filter: blur(12px);
-    backdrop-filter: blur(12px);
-    transition: transform 0.2s ease, border-color 0.2s ease, background 0.2s ease;
+    padding: 18px 20px;
+    border-radius: var(--radius-md);
+    background: var(--canvas);
+    border: 1px solid var(--hairline);
+    transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease;
+    box-shadow: var(--shadow-sm);
   }
+
   .asset-btn:hover {
     transform: translateY(-2px);
-    border-color: var(--brand-bright);
-    background: rgba(32, 167, 255, 0.08);
+    border-color: var(--primary);
+    box-shadow: var(--shadow-md);
   }
+
   .asset-info {
     display: flex;
     flex-direction: column;
-    gap: 3px;
+    gap: 4px;
   }
+
   .asset-label {
-    font-size: 0.98rem;
+    font-size: 1rem;
     font-weight: 600;
+    color: var(--ink);
   }
+
   .asset-note {
-    font-size: 0.84rem;
-    color: var(--text-faint);
+    font-size: 0.85rem;
+    color: var(--ink);
+    opacity: 0.6;
   }
+
   .asset-meta {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 12px;
   }
+
   .asset-size {
     font-size: 0.85rem;
     font-family: var(--font-mono);
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.6;
   }
+
   .download-icon {
     width: 20px;
     height: 20px;
-    color: var(--brand-bright);
+    color: var(--ink);
     flex-shrink: 0;
   }
 
   .download-footer {
-    margin-top: 48px;
+    margin-top: 56px;
     text-align: center;
     display: flex;
     flex-direction: column;
     gap: 12px;
   }
+
   .footer-link {
     font-size: 1rem;
     font-weight: 600;
-    color: var(--brand-bright);
-    transition: color 0.18s ease;
+    color: var(--ink);
+    transition: opacity 0.2s ease;
   }
+
   .footer-link:hover {
-    color: var(--brand-deep);
+    opacity: 0.7;
   }
+
   .api-status {
     font-size: 0.88rem;
-    color: var(--text-faint);
+    color: var(--ink);
+    opacity: 0.5;
   }
 
   @media (max-width: 920px) {

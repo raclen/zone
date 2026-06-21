@@ -1,7 +1,7 @@
 ---
 import { Image } from "astro:assets";
-import mainImg from "../assets/screenshots/main.webp";
-import lyricsImg from "../assets/screenshots/lyrics.webp";
+import mainImg from "@/assets/screenshots/main.webp";
+import lyricsImg from "@/assets/screenshots/lyrics.webp";
 ---
 
 <section class="section" id="screenshots">
@@ -15,7 +15,7 @@ import lyricsImg from "../assets/screenshots/lyrics.webp";
     </div>
 
     <div class="screenshots-grid">
-      <div class="screenshot-item glass reveal">
+      <div class="screenshot-item card reveal">
         <Image
           src={mainImg}
           alt="AnhePlayer 主界面"
@@ -23,7 +23,7 @@ import lyricsImg from "../assets/screenshots/lyrics.webp";
           quality={85}
         />
       </div>
-      <div class="screenshot-item glass reveal">
+      <div class="screenshot-item card reveal">
         <Image
           src={lyricsImg}
           alt="AnhePlayer 歌词显示"
@@ -39,17 +39,15 @@ import lyricsImg from "../assets/screenshots/lyrics.webp";
   .screenshots-grid {
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
+    gap: 24px;
   }
+
   .screenshot-item {
     overflow: hidden;
-    transition: transform 0.25s ease, border-color 0.25s ease, box-shadow 0.25s ease;
+    padding: 0;
+    background: var(--canvas);
   }
-  .screenshot-item:hover {
-    transform: translateY(-4px);
-    border-color: var(--border-strong);
-    box-shadow: var(--glow-soft);
-  }
+
   .screenshot-item img {
     width: 100%;
     height: auto;

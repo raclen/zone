@@ -1,47 +1,54 @@
 /* ============================================================
    AnhePlayer 宣传页 · 全局样式
-   深色科技感：深蓝→紫渐变、品牌蓝霓虹、毛玻璃发光
+   Figma 风格：黑白编辑框 + 彩色色块 + 轻盈排版
    ============================================================ */
 
 :root {
-  /* 品牌色（取自 Logo 渐变 H） */
-  --brand: #1677f2;
-  --brand-bright: #20a7ff;
-  --brand-deep: #085ee8;
-  --wave: #42c5ff;
-  --purple: #8b5cf6;
-  --purple-bright: #a855f7;
+  /* 主色 - 黑白系统 */
+  --primary: #000000;
+  --on-primary: #ffffff;
+  --ink: #000000;
+  --canvas: #ffffff;
+  --inverse-canvas: #000000;
+  --inverse-ink: #ffffff;
 
-  /* 渐变 */
-  --grad: linear-gradient(135deg, #20a7ff 0%, #1677f2 45%, #8b5cf6 100%);
-  --grad-soft: linear-gradient(135deg, #20a7ff 0%, #8b5cf6 100%);
+  /* 边框 / 分隔线 */
+  --hairline: #e6e6e6;
+  --hairline-soft: #f1f1f1;
 
-  /* 背景 */
-  --bg: #070b16;
-  --bg-2: #0b1120;
-  --bg-elev: #0e1426;
+  /* 表面 */
+  --surface-soft: #f7f7f5;
 
-  /* 文字 */
-  --text: #f1f5f9;
-  --text-dim: #aab4c5;
-  --text-faint: #6b7689;
+  /* 彩色色块 - 小清新配色 */
+  --block-lime: #dceeb1;
+  --block-lilac: #c5b0f4;
+  --block-cream: #f4ecd6;
+  --block-pink: #efd4d4;
+  --block-mint: #c8e6cd;
+  --block-coral: #f3c9b6;
+  --block-navy: #1f1d3d;
 
-  /* 描边 / 玻璃 */
-  --border: rgba(255, 255, 255, 0.09);
-  --border-strong: rgba(255, 255, 255, 0.16);
-  --glass: rgba(255, 255, 255, 0.035);
-  --glass-2: rgba(255, 255, 255, 0.06);
+  /* 强调色 */
+  --accent-magenta: #ff3d8b;
+  --semantic-success: #1ea64a;
 
-  /* 发光 */
-  --glow-brand: 0 0 0 1px rgba(32, 167, 255, 0.25), 0 12px 40px -12px rgba(22, 119, 242, 0.55);
-  --glow-soft: 0 18px 50px -20px rgba(22, 119, 242, 0.4);
+  /* 阴影 */
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 8px rgba(0, 0, 0, 0.08);
+  --shadow-lg: 0 8px 16px rgba(0, 0, 0, 0.12);
+  --shadow-hover: 0 12px 24px rgba(0, 0, 0, 0.15);
 
   /* 尺寸 */
   --maxw: 1180px;
-  --radius: 16px;
-  --radius-sm: 12px;
-  --nav-h: 64px;
+  --radius-xs: 4px;
+  --radius-sm: 6px;
+  --radius-md: 8px;
+  --radius-lg: 12px;
+  --radius-xl: 16px;
+  --radius-pill: 50px;
+  --nav-h: 68px;
 
+  /* 字体 */
   --font-sans: "Inter", -apple-system, BlinkMacSystemFont, "Segoe UI",
     "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC",
     "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -66,27 +73,14 @@ html {
 
 body {
   font-family: var(--font-sans);
-  background-color: var(--bg);
-  color: var(--text);
+  background-color: var(--canvas);
+  color: var(--ink);
   line-height: 1.6;
   font-size: 16px;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   position: relative;
-}
-
-/* 全局氛围光晕（固定在背景） */
-body::before {
-  content: "";
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  background:
-    radial-gradient(60rem 40rem at 80% -10%, rgba(22, 119, 242, 0.18), transparent 60%),
-    radial-gradient(50rem 40rem at 0% 10%, rgba(139, 92, 246, 0.14), transparent 55%),
-    radial-gradient(40rem 30rem at 50% 110%, rgba(66, 197, 255, 0.1), transparent 60%);
-  pointer-events: none;
 }
 
 img {
@@ -102,15 +96,17 @@ a {
 button {
   font: inherit;
   cursor: pointer;
+  border: none;
+  background: none;
 }
 
 ::selection {
-  background: rgba(32, 167, 255, 0.32);
-  color: #fff;
+  background: var(--block-lilac);
+  color: var(--ink);
 }
 
 :focus-visible {
-  outline: 2px solid var(--brand-bright);
+  outline: 2px solid var(--primary);
   outline-offset: 3px;
   border-radius: 4px;
 }
@@ -129,31 +125,37 @@ button {
 }
 
 .eyebrow {
+  font-family: var(--font-mono);
   display: inline-block;
-  font-size: 0.8rem;
-  font-weight: 600;
-  letter-spacing: 0.12em;
+  font-size: 0.75rem;
+  font-weight: 400;
+  letter-spacing: 0.05em;
   text-transform: uppercase;
-  color: var(--brand-bright);
-  margin-bottom: 14px;
+  color: var(--ink);
+  margin-bottom: 16px;
+  opacity: 0.7;
 }
 
 .section-title {
-  font-size: clamp(1.7rem, 3.6vw, 2.6rem);
-  font-weight: 800;
-  letter-spacing: -0.02em;
-  line-height: 1.15;
+  font-size: clamp(2rem, 4vw, 3.2rem);
+  font-weight: 600;
+  letter-spacing: -0.03em;
+  line-height: 1.10;
+  color: var(--ink);
 }
 
 .section-desc {
-  margin-top: 14px;
-  max-width: 46ch;
-  color: var(--text-dim);
-  font-size: 1.05rem;
+  margin-top: 18px;
+  max-width: 52ch;
+  color: var(--ink);
+  opacity: 0.65;
+  font-size: 1.1rem;
+  line-height: 1.6;
+  font-weight: 320;
 }
 
 .section-head {
-  margin-bottom: clamp(36px, 5vw, 56px);
+  margin-bottom: clamp(40px, 5vw, 64px);
 }
 
 .section-head.center {
@@ -163,83 +165,123 @@ button {
   margin-inline: auto;
 }
 
-/* --------- 文字渐变 --------- */
+/* --------- 文字渐变（保留但用新色） --------- */
 .gradient-text {
-  background: var(--grad);
+  background: linear-gradient(135deg, var(--accent-magenta) 0%, var(--block-lilac) 100%);
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
 }
 
-/* --------- 按钮 --------- */
+/* --------- 按钮 - Figma 药丸风格 --------- */
 .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 9px;
-  padding: 13px 24px;
-  border-radius: 999px;
-  font-weight: 600;
-  font-size: 0.98rem;
-  border: 1px solid transparent;
-  transition: transform 0.18s ease, box-shadow 0.18s ease,
-    background 0.18s ease, border-color 0.18s ease;
+  gap: 8px;
+  padding: 12px 24px;
+  border-radius: var(--radius-pill);
+  font-weight: 480;
+  font-size: 1rem;
+  letter-spacing: -0.01em;
+  border: none;
+  transition: transform 0.15s ease, box-shadow 0.15s ease,
+    background 0.15s ease;
   white-space: nowrap;
+  text-decoration: none;
 }
 
 .btn svg {
-  width: 1.15em;
-  height: 1.15em;
+  width: 1.2em;
+  height: 1.2em;
   flex-shrink: 0;
 }
 
 .btn-primary {
-  background: var(--grad);
-  color: #fff;
-  box-shadow: var(--glow-brand);
+  background: var(--primary);
+  color: var(--on-primary);
+  box-shadow: var(--shadow-md);
 }
 .btn-primary:hover {
   transform: translateY(-2px);
-  box-shadow: 0 0 0 1px rgba(32, 167, 255, 0.4),
-    0 18px 50px -12px rgba(22, 119, 242, 0.7);
+  box-shadow: var(--shadow-hover);
+}
+.btn-primary:active {
+  transform: translateY(0);
 }
 
 .btn-secondary {
-  background: var(--glass-2);
-  color: var(--text);
-  border-color: var(--border-strong);
-  -webkit-backdrop-filter: blur(8px);
-  backdrop-filter: blur(8px);
+  background: var(--canvas);
+  color: var(--ink);
+  border: 1px solid var(--hairline);
+  box-shadow: var(--shadow-sm);
 }
 .btn-secondary:hover {
   transform: translateY(-2px);
-  border-color: var(--brand-bright);
-  background: rgba(32, 167, 255, 0.1);
+  box-shadow: var(--shadow-md);
+  border-color: var(--primary);
 }
 
 .btn-sm {
-  padding: 9px 18px;
+  padding: 8px 18px;
   font-size: 0.9rem;
 }
 
-/* --------- 毛玻璃卡片 --------- */
-.glass {
-  background: var(--glass);
-  border: 1px solid var(--border);
-  border-radius: var(--radius);
-  -webkit-backdrop-filter: blur(12px);
-  backdrop-filter: blur(12px);
+/* --------- 卡片 --------- */
+.card {
+  background: var(--canvas);
+  border: 1px solid var(--hairline-soft);
+  border-radius: var(--radius-lg);
+  padding: 32px;
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  box-shadow: var(--shadow-sm);
 }
 
-/* --------- 通用淡入动画（IntersectionObserver 触发） --------- */
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-lg);
+  border-color: var(--hairline);
+}
+
+/* --------- 彩色色块区域 --------- */
+.color-block {
+  border-radius: var(--radius-lg);
+  padding: clamp(48px, 8vw, 96px) clamp(24px, 5vw, 48px);
+  position: relative;
+}
+
+.color-block-lime { background: var(--block-lime); }
+.color-block-lilac { background: var(--block-lilac); }
+.color-block-cream { background: var(--block-cream); }
+.color-block-pink { background: var(--block-pink); }
+.color-block-mint { background: var(--block-mint); }
+.color-block-coral { background: var(--block-coral); }
+.color-block-navy {
+  background: var(--block-navy);
+  color: var(--on-primary);
+}
+
+/* --------- 通用淡入动画 --------- */
 .reveal {
   opacity: 0;
-  transform: translateY(22px);
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transform: translateY(20px);
+  transition: opacity 0.5s ease, transform 0.5s ease;
 }
 .reveal.is-visible {
   opacity: 1;
   transform: none;
+}
+
+/* --------- 响应式 --------- */
+@media (max-width: 768px) {
+  .section {
+    padding-block: clamp(48px, 8vw, 80px);
+  }
+
+  .btn {
+    padding: 11px 20px;
+    font-size: 0.95rem;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -1,5 +1,5 @@
 ---
-import { GITHUB_REPO_URL, UPSTREAM_URL } from "../data/platforms";
+import { GITHUB_REPO_URL, UPSTREAM_URL } from "@/data/platforms";
 
 const year = new Date().getFullYear();
 ---
@@ -38,63 +38,79 @@ const year = new Date().getFullYear();
 
 <style>
   .footer {
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--hairline);
     padding-block: 64px 32px;
-    background: var(--bg-2);
+    background: var(--surface-soft);
   }
+
   .footer-inner {
     display: flex;
     justify-content: space-between;
     gap: 48px;
     margin-bottom: 48px;
   }
+
   .footer-brand {
     max-width: 280px;
   }
+
   .footer-brand img {
     border-radius: 10px;
     margin-bottom: 12px;
   }
+
   .footer-name {
     display: block;
     font-size: 1.2rem;
     font-weight: 700;
     margin-bottom: 8px;
+    color: var(--ink);
   }
+
   .footer-desc {
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.6;
     font-size: 0.92rem;
     line-height: 1.6;
   }
+
   .footer-links {
     display: flex;
     gap: 56px;
   }
+
   .footer-col h4 {
     font-size: 0.88rem;
     font-weight: 600;
     text-transform: uppercase;
     letter-spacing: 0.06em;
     margin-bottom: 14px;
-    color: var(--text-faint);
+    color: var(--ink);
+    opacity: 0.5;
   }
+
   .footer-col a {
     display: block;
     font-size: 0.95rem;
-    color: var(--text-dim);
+    color: var(--ink);
+    opacity: 0.7;
     margin-bottom: 10px;
-    transition: color 0.18s ease;
+    transition: opacity 0.2s ease;
   }
+
   .footer-col a:hover {
-    color: var(--brand-bright);
+    opacity: 1;
   }
+
   .footer-bottom {
     padding-top: 32px;
-    border-top: 1px solid var(--border);
+    border-top: 1px solid var(--hairline);
     text-align: center;
   }
+
   .footer-bottom p {
-    color: var(--text-faint);
+    color: var(--ink);
+    opacity: 0.5;
     font-size: 0.88rem;
   }
 
@@ -107,6 +123,7 @@ const year = new Date().getFullYear();
       gap: 36px;
     }
   }
+
   @media (max-width: 480px) {
     .footer-links {
       flex-direction: column;
