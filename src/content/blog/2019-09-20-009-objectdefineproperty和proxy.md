@@ -106,4 +106,3 @@ console.log("w===========", w == 'a' && w == 'b' && w == 'c');//true
 
 ---
 
-💬 **[在 GitHub Issue 讨论这篇文章](https://github.com/raclen/raclen.github.io/issues/9)**

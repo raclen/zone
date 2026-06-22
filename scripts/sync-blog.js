@@ -44,6 +44,7 @@ function generateFilename(issue) {
 function extractDescription(body) {
   if (!body) return '';
   const cleaned = body
+    .replace(/\n?💬 \*\*\[在 GitHub Issue 讨论这篇文章\]\([^\n]+\)\*\*\s*\n?/g, '\n')
     .replace(/#{1,6}\s/g, '')
     .replace(/!\[.*?\]\(.*?\)/g, '')
     .replace(/\[.*?\]\(.*?\)/g, '')
@@ -57,9 +58,13 @@ function extractDescription(body) {
  * 构建 Markdown 文件内容
  */
 function buildMarkdown(issue) {
+  const contentBody = (issue.body || '').replace(
+    /\n?💬 \*\*\[在 GitHub Issue 讨论这篇文章\]\([^\n]+\)\*\*\s*\n?/g,
+    '\n'
+  );
   const frontmatter = {
     title: issue.title,
-    description: extractDescription(issue.body),
+    description: extractDescription(contentBody),
     pubDate: issue.created_at,
     updatedDate: issue.updated_at,
     issueNumber: issue.number,
@@ -92,7 +97,7 @@ function buildMarkdown(issue) {
 
   return `${yamlLines.join('\n')}
 
-${issue.body || ''}
+${contentBody}
 `;
 }
 

@@ -105,4 +105,3 @@ const yahooFinance = require('yahoo-finance2').default;
 
 ---
 
-💬 **[在 GitHub Issue 讨论这篇文章](https://github.com/raclen/raclen.github.io/issues/40)**
