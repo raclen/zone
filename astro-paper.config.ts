@@ -24,7 +24,7 @@ export default defineAstroPaperConfig({
     showBackButton: true,
     editPost: {
       enabled: true,
-      url: "https://github.com/raclen/raclen.github.io/edit/main/",
+      url: "https://github.com/raclen/zone/edit/main/",
     },
     search: "pagefind",
   },

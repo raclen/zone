@@ -8,7 +8,7 @@ const __dirname = path.dirname(__filename);
 // 配置
 const CONFIG = {
   owner: 'raclen',
-  repo: 'raclen.github.io',
+  repo: 'zone',
   blogDir: path.join(__dirname, '../src/content/blog'),
   metaFile: path.join(__dirname, '../src/content/blog/.sync-meta.json'),
   apiBase: 'https://api.github.com',
@@ -28,10 +28,48 @@ function generateSlug(title) {
 }
 
 /**
+ * 读取导入脚本写入 Issue 正文中的历史发布时间。
+ */
+function extractBlogMeta(body) {
+  if (!body) return {};
+
+  const match = body.match(/<!--\s*blog-meta\s*([\s\S]*?)\s*-->/i);
+  if (!match) return {};
+
+  return match[1].split('\n').reduce((meta, line) => {
+    const item = line.match(/^\s*([A-Za-z][\w-]*)\s*:\s*(.+?)\s*$/);
+    if (item) meta[item[1]] = item[2];
+    return meta;
+  }, {});
+}
+
+function getIssuePubDate(issue) {
+  const meta = extractBlogMeta(issue.body || '');
+  return meta.pubDate || issue.created_at;
+}
+
+function getIssueUpdatedDate(issue) {
+  const meta = extractBlogMeta(issue.body || '');
+  if (meta.updatedDate) return meta.updatedDate;
+  if (meta.pubDate) return null;
+  return issue.updated_at;
+}
+
+function stripBlogMeta(body) {
+  return (body || '').replace(/\n?<!--\s*blog-meta\s*[\s\S]*?\s*-->\s*\n?/i, '\n');
+}
+
+function yamlString(value) {
+  return String(value)
+    .replace(/\\/g, '\\\\')
+    .replace(/"/g, '\\"');
+}
+
+/**
  * 生成文件名
  */
 function generateFilename(issue) {
-  const date = new Date(issue.created_at);
+  const date = new Date(getIssuePubDate(issue));
   const dateStr = date.toISOString().split('T')[0];
   const issueNum = String(issue.number).padStart(3, '0');
   const slug = generateSlug(issue.title);
@@ -58,15 +96,18 @@ function extractDescription(body) {
  * 构建 Markdown 文件内容
  */
 function buildMarkdown(issue) {
-  const contentBody = (issue.body || '').replace(
-    /\n?💬 \*\*\[在 GitHub Issue 讨论这篇文章\]\([^\n]+\)\*\*\s*\n?/g,
-    '\n'
-  );
+  const contentBody = stripBlogMeta(issue.body || '')
+    .replace(
+      /\n?💬 \*\*\[在 GitHub Issue 讨论这篇文章\]\([^\n]+\)\*\*\s*\n?/g,
+      '\n'
+    );
+  const pubDate = getIssuePubDate(issue);
+  const updatedDate = getIssueUpdatedDate(issue);
   const frontmatter = {
     title: issue.title,
     description: extractDescription(contentBody),
-    pubDate: issue.created_at,
-    updatedDate: issue.updated_at,
+    pubDate,
+    updatedDate,
     issueNumber: issue.number,
     issueUrl: issue.html_url,
     tags: issue.labels
@@ -81,16 +122,16 @@ function buildMarkdown(issue) {
 
   const yamlLines = [
     '---',
-    `title: "${frontmatter.title.replace(/"/g, '\\"')}"`,
-    frontmatter.description ? `description: "${frontmatter.description.replace(/"/g, '\\"')}"` : '',
+    `title: "${yamlString(frontmatter.title)}"`,
+    frontmatter.description ? `description: "${yamlString(frontmatter.description)}"` : '',
     `pubDate: ${frontmatter.pubDate}`,
     frontmatter.updatedDate ? `updatedDate: ${frontmatter.updatedDate}` : '',
     `issueNumber: ${frontmatter.issueNumber}`,
     `issueUrl: ${frontmatter.issueUrl}`,
-    `tags: [${frontmatter.tags.map(t => `"${t}"`).join(', ')}]`,
+    `tags: [${frontmatter.tags.map(t => `"${yamlString(t)}"`).join(', ')}]`,
     `author:`,
-    `  name: "${frontmatter.author.name}"`,
-    frontmatter.author.avatar ? `  avatar: "${frontmatter.author.avatar}"` : '',
+    `  name: "${yamlString(frontmatter.author.name)}"`,
+    frontmatter.author.avatar ? `  avatar: "${yamlString(frontmatter.author.avatar)}"` : '',
     `draft: ${frontmatter.draft}`,
     '---',
   ].filter(Boolean);
@@ -118,8 +159,6 @@ async function writeSyncMeta(meta) {
 }
 
 async function fetchIssues() {
-  const url = `${CONFIG.apiBase}/repos/${CONFIG.owner}/${CONFIG.repo}/issues?state=open&labels=blog&per_page=100`;
-
   const headers = {
     'Accept': 'application/vnd.github.v3+json',
     'User-Agent': 'raclen-blog-sync',
@@ -129,20 +168,33 @@ async function fetchIssues() {
     headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
   }
 
-  console.log(`正在获取 Issues: ${url}`);
-  const response = await fetch(url, { headers });
+  const issues = [];
+  let page = 1;
+  let remaining = null;
+  let limit = null;
 
-  if (!response.ok) {
-    const error = await response.text();
-    throw new Error(`GitHub API 错误: ${response.status} ${error}`);
+  while (true) {
+    const url = `${CONFIG.apiBase}/repos/${CONFIG.owner}/${CONFIG.repo}/issues?state=open&labels=blog&per_page=100&page=${page}`;
+    console.log(`正在获取 Issues: ${url}`);
+    const response = await fetch(url, { headers });
+
+    if (!response.ok) {
+      const error = await response.text();
+      throw new Error(`GitHub API 错误: ${response.status} ${error}`);
+    }
+
+    remaining = response.headers.get('X-RateLimit-Remaining');
+    limit = response.headers.get('X-RateLimit-Limit');
+
+    const pageIssues = await response.json();
+    issues.push(...pageIssues.filter(issue => !issue.pull_request));
+
+    if (pageIssues.length < 100) break;
+    page++;
   }
 
-  const remaining = response.headers.get('X-RateLimit-Remaining');
-  const limit = response.headers.get('X-RateLimit-Limit');
   console.log(`API 速率限制: ${remaining}/${limit}`);
-
-  const issues = await response.json();
-  return issues.filter(issue => !issue.pull_request);
+  return issues;
 }
 
 function detectChanges(issues, meta) {

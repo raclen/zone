@@ -1,0 +1,73 @@
+---
+title: "javascript模板-ICanHaz.js"
+description: "官网地址"
+pubDate: 2014-12-08T03:26:54.000Z
+issueNumber: 37
+issueUrl: https://github.com/raclen/zone/issues/37
+tags: ["legacy", "JavaScript"]
+author:
+  name: "raclen"
+  avatar: "https://avatars.githubusercontent.com/u/7697758?v=4"
+draft: false
+---
+
+
+```html
+<!DOCTYPE html>
+<html>
+<head>
+    <title>ICanHaz.js Demo</title>
+    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
+    <script src="ICanHaz.js"></script>
+
+    <script id="user" type="text/html">
+        <li>
+            <p>Hi I&apos;m <a href="http://twitter.com/{{ twitter }}">@{{ twitter }}</a></p>
+
+            <p>I work for {{ employer }} as a {{ job_title }}.</p>
+        </li>
+    </script>
+
+    <script type="text/javascript">
+        // when the dom's ready
+        $(document).ready(function () {
+            // add a simple click handler for the "add user" button.
+            $('#add_user').click(function () {
+                var user_data, user;
+
+                // build a simple user object, in a real app this
+                // would probably come from a server somewhere.
+                // Otherwise hardcoding here is just silly.
+                user_data = {
+                    name: "Henrik Joreteg",
+                    twitter: "HenrikJoreteg",
+                    employer: "&yet",
+                    job_title: "JS nerd"
+                };
+
+                // Here's all the magic.
+                user = ich.user(user_data);
+
+                // append it to the list, tada!
+                //Now go do something more useful with this.
+                $('#user_list').append(user);
+            });
+        });
+    </script>
+
+    <style>
+        body {
+            font-family: Helvetica;
+        }
+    </style>
+</head>
+<body>
+<h1>ICanHaz.js Demo</h1>
+<h3>User List</h3>
+<button id="add_user">Add User</button>
+<ul id="user_list"></ul>
+</body>
+</html>
+```
+官网地址[icanhazjs](http://icanhazjs.com/)
+

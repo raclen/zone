@@ -94,13 +94,14 @@ Giscus 的详细配置说明见 [GISCUS_SETUP.md](/home/ubuntu/Github/zone/GISCU
 pnpm sync-blog
 ```
 
-它会从 `raclen/raclen.github.io` 仓库中拉取带 `blog` 标签的 Issues，并同步到本仓库的 `src/content/blog/`。
+它会从 `raclen/zone` 仓库中拉取带 `blog` 标签的 Issues，并同步到本仓库的 `src/content/blog/`。
 
 GitHub Actions 工作流文件是 [.github/workflows/sync-blog.yml](/home/ubuntu/Github/zone/.github/workflows/sync-blog.yml)。
 
 当前行为：
 
 - 只同步文章，不再同步评论 JSON
+- 只读取带 `blog` 标签的 open Issues，避免友链申请或普通 Issue 混入文章列表
 - 自动提交 `src/content/blog/*.md` 和 `src/content/blog/.sync-meta.json`
 - 支持手动触发 `workflow_dispatch`
 

@@ -37,7 +37,7 @@
 
 ### 1. 在 GitHub Issues 中写作
 
-访问 [raclen/raclen.github.io Issues](https://github.com/raclen/raclen.github.io/issues) 创建新的 Issue 作为博客文章。
+访问 [raclen/zone Issues](https://github.com/raclen/zone/issues) 创建新的 Issue 作为博客文章。
 
 **建议**：
 - 使用清晰的标题
@@ -107,7 +107,7 @@ description: "文章摘要（自动提取前 150 字）"
 pubDate: 2024-06-21T00:00:00Z
 updatedDate: 2024-06-21T00:00:00Z
 issueNumber: 68
-issueUrl: https://github.com/raclen/raclen.github.io/issues/68
+issueUrl: https://github.com/raclen/zone/issues/179
 tags: [技术, 前端]
 author:
   name: "raclen"
@@ -119,7 +119,7 @@ draft: false
 
 ---
 
-💬 **[在 GitHub Issue 讨论这篇文章](https://github.com/raclen/raclen.github.io/issues/68)**
+💬 **[在 GitHub Issue 讨论这篇文章](https://github.com/raclen/zone/issues/179)**
 ```
 
 ## 🔧 配置说明
@@ -171,17 +171,17 @@ integrations: [sitemap(), pagefind()]
 
 ## 📊 统计
 
-当前同步了 **66 篇文章**，从 2019 年至今的技术笔记和学习记录。
+当前同步了 **178 篇文章**，从 2013 年至今的技术笔记和学习记录。
 
 ## 🔗 相关链接
 
-- **内容源**：[raclen/raclen.github.io Issues](https://github.com/raclen/raclen.github.io/issues)
+- **内容源**：[raclen/zone Issues](https://github.com/raclen/zone/issues)
 - **博客地址**：https://raclen.cyou/blog
 - **项目主页**：https://raclen.cyou
 
 ## 🤝 贡献
 
-欢迎在 [GitHub Issues](https://github.com/raclen/raclen.github.io/issues) 中提出建议或报告问题！
+欢迎在 [GitHub Issues](https://github.com/raclen/zone/issues) 中提出建议或报告问题！
 
 ## 📄 许可
 
