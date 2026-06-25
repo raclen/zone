@@ -26,7 +26,16 @@ export default defineConfig({
   devToolbar: {
     enabled: false,
   },
-  integrations: [mdx(), sitemap(), pagefind()],
+  integrations: [
+    mdx(),
+    sitemap(),
+    pagefind({
+      indexConfig: {
+        forceLanguage: "zh",
+        includeCharacters: "-_+#.?:",
+      },
+    }),
+  ],
   i18n: {
     locales: ["zh-CN"],
     defaultLocale: "zh-CN",
