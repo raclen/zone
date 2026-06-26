@@ -1,116 +1,70 @@
 {
   "freeSites": [
     {
-      "name": "tokendock",
-      "url": "#",
-      "badge": "公益 · 可签到 · 在线",
-      "desc": "公益大模型 API 中转站，支持签到获取额度，适合日常体验和轻量测试。",
+      "name": "Token码头",
+      "url": "https://tokendock.online/sign-up?aff=V83E",
+      "badge": "公益",
+      "desc": "支持签到获取额度，适合日常体验和轻量测试",
       "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "登仙 API",
-      "url": "#",
-      "badge": "公益 · 签到",
-      "desc": "公益 API 中转站，支持签到获取额度，适合模型调用入门和低频使用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
+        "OpenAI"
       ]
     },
     {
       "name": "Any Router",
-      "url": "#",
+      "url": "https://anyrouter.top/register?aff=H1r4",
       "badge": "公益",
-      "desc": "公益模型路由站点，适合对比不同模型接口和 OpenAI 兼容调用。",
+      "desc": "注册送五十刀，每日签到送25刀，只能用edu.cn教育邮箱注册。注：注册邮箱填写@后面edu前面的字母得大写",
       "models": [
         "OpenAI",
         "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Gemini"
       ]
     },
     {
       "name": "Agent Router",
-      "url": "#",
-      "badge": "公益 · 签到",
-      "desc": "Agent API 路由站点，退出后重新登录可签到，适合 Claude Code 和 Agent 工具测试。",
-      "models": [
-        "Claude",
-        "OpenAI",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "无限画布",
-      "url": "#",
+      "url": "https://agentrouter.org/register?aff=rRRe",
       "badge": "公益",
-      "desc": "公益 API 入口，适合 AI 工具、创作类应用和轻量模型调用体验。",
+      "desc": "Agent API 路由站点，退出后重新登录可签到，只能用github注册和登陆",
       "models": [
-        "OpenAI",
         "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Universe Federation",
-      "url": "#",
-      "badge": "公益",
-      "desc": "Universe Federation 公益入口，适合大模型 API 体验和多模型调用测试。",
-      "models": [
         "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
+        "GLM"
       ]
     },
     {
       "name": "猫羽雫API",
-      "url": "#",
+      "url": "https://maoyulin.xyz/register?aff=135S",
       "badge": "公益",
-      "desc": "公益 API 中转站，适合个人开发者进行模型调用和接口测试。",
+      "desc": "国产大模型 API 中转站，可签到",
       "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
+        "qwen",
         "DeepSeek"
       ]
     },
     {
       "name": "77 Code",
-      "url": "#",
+      "url": "https://api.azx.us/sign-up?aff=lnsi",
       "badge": "公益",
-      "desc": "面向代码和开发工具场景的公益 API 入口，适合编程助手与 Agent 测试。",
+      "desc": "可签到获取额度，适合日常体验和轻量测试，支持多模型调用。",
       "models": [
         "Claude",
-        "OpenAI",
-        "DeepSeek",
-        "Gemini"
+        "OpenAI"
       ]
     },
     {
       "name": "qianxing",
-      "url": "#",
+      "url": "https://fast.qianxing.pro/register?aff=Y8Da",
       "badge": "公益",
       "desc": "公益大模型 API 中转站，适合低频调用、学习和工具配置。",
       "models": [
         "OpenAI",
         "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Gemini"
       ]
     },
     {
       "name": "哈基米 API",
-      "url": "#",
+      "url": "https://lanxiu.cc/profile",
       "badge": "公益",
       "desc": "公益 API 入口，适合体验 OpenAI 兼容接口和主流大模型调用。",
       "models": [
@@ -124,9 +78,9 @@
   "paidSites": [
     {
       "name": "Walk AI Coding",
-      "url": "#",
+      "url": "https://walkai.top/register?aff=XGNVU3397BL7",
       "badge": "收费",
-      "desc": "收费 API 中转站，主打 0.05 倍率 GPT，适合低成本模型调用。",
+      "desc": "注册不送，超低倍率 GPT，适合低成本模型调用。",
       "models": [
         "GPT",
         "OpenAI",
@@ -135,205 +89,95 @@
       ]
     },
     {
-      "name": "车",
-      "url": "#",
+      "name": "Stable Al",
+      "url": "https://api.aiigo.cloud/register?aff=LWTP7F26RWVR",
       "badge": "收费",
-      "desc": "收费 API 中转站，适合日常模型调用和工具配置。",
+      "desc": "注册送3刀，低倍率 GPT，适合低成本模型调用。",
       "models": [
         "OpenAI",
         "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Stable AI",
-      "url": "#",
-      "badge": "收费",
-      "desc": "稳定耐用的收费 API 中转站，支持充值，适合长期使用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "可",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，适合基础模型调用与轻量开发。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Unity2.Ai",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，提供仪表盘入口，适合统一管理模型调用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "HC 中转站",
-      "url": "#",
-      "badge": "收费",
-      "desc": "稳定耐用的收费 API 中转站，支持充值，适合长期调用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "君の星辰",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，适合多模型体验和常规开发调用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Torch AI",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，适合 AI 编程、模型测试和工具接入。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Feifeimiao",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，提供仪表盘入口，适合统一查看额度与调用。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Code",
-      "url": "#",
-      "badge": "收费",
-      "desc": "低倍率、满血模型的收费 API 中转站，适合代码类和高频调用场景。",
-      "models": [
-        "Claude",
-        "OpenAI",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Coder API",
-      "url": "#",
-      "badge": "收费",
-      "desc": "付费 API 中转站，适合编程助手、代码生成和开发工具接入。",
-      "models": [
-        "Claude",
-        "OpenAI",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Pro API",
-      "url": "#",
-      "badge": "收费",
-      "desc": "收费 API 中转站，适合需要稳定模型调用的项目。",
-      "models": [
-        "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
-      ]
-    },
-    {
-      "name": "Claude 360",
-      "url": "#",
-      "badge": "收费",
-      "desc": "Claude 方向的收费 API 中转站，适合 Claude Code 与长文本任务。",
-      "models": [
-        "Claude",
-        "OpenAI",
         "Gemini"
       ]
     },
     {
-      "name": "EvoMap",
-      "url": "#",
+      "name": "Unity2.Ai",
+      "url": "https://unity2.ai/register?ref=R2WlAb3X",
       "badge": "收费",
-      "desc": "AI Self-Evolution Infrastructure，适合 AI Agent 和进阶模型调用场景。",
+      "desc": "注册送2刀，进群送10刀，邀请送5刀，稳定，可开发票",
       "models": [
         "OpenAI",
         "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Gemini"
       ]
     },
     {
-      "name": "坤坤API",
-      "url": "#",
+      "name": "HC 中转站",
+      "url": "https://api.hostcentral.cc/register?aff=UGKF9G5SQWGU",
       "badge": "收费",
-      "desc": "收费 API 中转站，提供仪表盘入口，适合管理额度和 API 调用。",
+      "desc": "注册送0.4刀，低倍率 GPT，适合低成本模型调用。",
       "models": [
         "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Claude"
       ]
     },
     {
-      "name": "中",
-      "url": "#",
+      "name": "Torch AI",
+      "url": "https://torchai.ai/register?aff=4KGq",
       "badge": "收费",
-      "desc": "收费 API 中转站，适合大模型接口测试与工具接入。",
+      "desc": "注册进群送体验金，低倍率 GPT",
       "models": [
         "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Claude"
       ]
     },
     {
-      "name": "Codex 不限量",
-      "url": "#",
+      "name": "Feifeimiao",
+      "url": "https://api.feifeimiao.top/register?aff=82U7LL6M47XQ",
       "badge": "收费",
-      "desc": "Codex 不限量相关收费入口，适合 AI 编程与代码生成场景。",
+      "desc": "注册送5刀，邀请好友送5刀",
       "models": [
-        "Codex",
+        "OpenAI",
+        "Claude"
+      ]
+    },
+    {
+      "name": "Code",
+      "url": "https://xpeach.codes/register?aff=CHJEHYRLUBWF",
+      "badge": "收费",
+      "desc": "学校背景，号称满血，注册输兑换码 “20CREDIT” 可以获得20刀额度，适合低成本模型调用。",
+      "models": [
         "Claude",
         "OpenAI"
       ]
     },
     {
-      "name": "合租巴士",
-      "url": "#",
+      "name": "Coder API",
+      "url": "https://api.qlhazycoder.top/sign-up?aff=sKpE",
       "badge": "收费",
-      "desc": "收费 API 或合租类入口，适合低成本体验大模型服务。",
+      "desc": "注册不送，倍率低，可以先尝试其他的",
+      "models": [
+        "Claude",
+        "OpenAI"
+      ]
+    },
+    {
+      "name": "Pro API",
+      "url": "https://newapi.prorisehub.com/sign-up?aff=lWLY",
+      "badge": "收费",
+      "desc": "注册送3刀，低倍率 GPT，适合低成本模型调用。",
       "models": [
         "OpenAI",
-        "Claude",
-        "Gemini",
-        "DeepSeek"
+        "Claude"
+      ]
+    },
+    {
+      "name": "合租巴士",
+      "url": "https://hezu.ink/sign-up?aff=bjYF",
+      "badge": "收费",
+      "desc": "注册送10刀，费率低",
+      "models": [
+        "OpenAI",
+        "Claude"
       ]
     }
   ]
