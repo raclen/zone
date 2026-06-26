@@ -1,0 +1,469 @@
+---
+import apiSites from "./llm-api.json";
+
+type SiteItem = {
+  name: string;
+  url: string;
+  badge: string;
+  desc: string;
+  models: string[];
+};
+
+const { freeSites, paidSites } = apiSites as {
+  freeSites: SiteItem[];
+  paidSites: SiteItem[];
+};
+
+const title = "大模型API中转站导航 | 公益与收费AI API接口大全";
+const description =
+  "大模型API中转站导航，按公益和收费分类收录 OpenAI API、Claude API、Gemini API、DeepSeek API、ChatGPT API、OpenAI 兼容接口与 LLM API 聚合平台。";
+const keywords = [
+  "大模型API中转站导航",
+  "AI API 中转站",
+  "公益 API 中转站",
+  "收费 API 中转站",
+  "OpenAI API 中转",
+  "Claude API 中转",
+  "Gemini API 中转",
+  "DeepSeek API 中转",
+  "ChatGPT API",
+  "OpenAI 兼容接口",
+  "LLM API",
+  "大模型接口代理",
+].join(", ");
+
+const canonical = Astro.site
+  ? new URL(Astro.url.pathname, Astro.site).href
+  : Astro.url.href;
+const socialImage = Astro.site
+  ? new URL("/og-image.png", Astro.site).href
+  : "/og-image.png";
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="title" content={title} />
+    <meta name="description" content={description} />
+    <meta name="keywords" content={keywords} />
+    <meta name="robots" content="index,follow" />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <meta name="theme-color" content="#ffffff" />
+    <meta name="generator" content={Astro.generator} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:locale" content="zh_CN" />
+    <meta property="og:site_name" content="当下的七炎" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:image" content={socialImage} />
+  </head>
+
+  <body>
+    <header class="topbar">
+      <div class="wrap nav">
+        <a class="brand" href="/" aria-label="返回首页">
+          <span class="brand-mark">API</span>
+          <span>中转站导航</span>
+        </a>
+        <nav aria-label="分类导航">
+          <a href="#free">公益</a>
+          <a href="#paid">收费</a>
+        </nav>
+      </div>
+    </header>
+
+    <main>
+      <section class="hero">
+        <div class="wrap hero-inner">
+          <div>
+            <p class="kicker">LLM API Directory</p>
+            <h1>大模型API中转站导航</h1>
+            <p class="lead">
+              个人自用 OpenAI、Claude、Gemini、DeepSeek、ChatGPT 等大模型 API 中转站，按公益和收费两类整理，更新日期: 2026-06-26
+            </p>
+          </div>
+          <div class="hero-panel">
+            <a href="#free"><strong>{freeSites.length}</strong><span>公益站点</span></a>
+            <a href="#paid"><strong>{paidSites.length}</strong><span>收费站点</span></a>
+          </div>
+        </div>
+      </section>
+
+      <section id="free" class="wrap section">
+        <div class="section-head block-green">
+          <p class="kicker">Free</p>
+          <h2>公益中转站</h2>
+        </div>
+        <div class="grid">
+          {freeSites.map((site) => (
+            <article class="card">
+              <div class="card-top">
+                <span class="badge green">{site.badge}</span>
+              </div>
+              <h3>{site.name}</h3>
+              <p>{site.desc}</p>
+              <div class="tags" aria-label={`${site.name} 支持模型`}>
+                {site.models.map((model) => <span>{model}</span>)}
+              </div>
+              <a class="visit" href={site.url} target="_blank" rel="noopener noreferrer">
+                访问站点
+                <span aria-hidden="true">→</span>
+              </a>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section id="paid" class="band">
+        <div class="wrap section">
+          <div class="section-head block-blue">
+            <p class="kicker">Paid</p>
+            <h2>收费中转站</h2>
+          </div>
+          <div class="grid">
+            {paidSites.map((site) => (
+              <article class="card">
+                <div class="card-top">
+                  <span class="badge blue">{site.badge}</span>
+                </div>
+                <h3>{site.name}</h3>
+                <p>{site.desc}</p>
+                <div class="tags" aria-label={`${site.name} 支持模型`}>
+                  {site.models.map((model) => <span>{model}</span>)}
+                </div>
+                <a class="visit" href={site.url} target="_blank" rel="noopener noreferrer">
+                  访问站点
+                  <span aria-hidden="true">→</span>
+                </a>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+    </main>
+  </body>
+</html>
+
+<style>
+  :root {
+    --ink: #111827;
+    --muted: #657084;
+    --line: #e2e8f0;
+    --soft-line: #eef2f7;
+    --canvas: #ffffff;
+    --soft: #f7f9fc;
+    --green-soft: #e9f7ef;
+    --blue-soft: #eef4ff;
+    --lime: #dff2b5;
+    --lilac: #d9ccff;
+    --max: 1120px;
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    margin: 0;
+    background: var(--canvas);
+    color: var(--ink);
+    font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont,
+      "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei",
+      sans-serif;
+    font-size: 16px;
+    line-height: 1.68;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .wrap {
+    width: min(100% - 36px, var(--max));
+    margin-inline: auto;
+  }
+
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 20;
+    border-bottom: 1px solid var(--soft-line);
+    background: rgba(255, 255, 255, 0.92);
+    backdrop-filter: blur(14px);
+  }
+
+  .nav {
+    min-height: 64px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+  }
+
+  .brand,
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .brand {
+    font-weight: 760;
+  }
+
+  .brand-mark {
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 30px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: var(--lime);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+  }
+
+  nav a {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+
+  nav a:hover {
+    color: var(--ink);
+  }
+
+  .hero {
+    border-bottom: 1px solid var(--soft-line);
+    padding-block: clamp(64px, 10vw, 120px) 56px;
+  }
+
+  .hero-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) 360px;
+    gap: 40px;
+    align-items: end;
+  }
+
+  .kicker {
+    margin: 0 0 14px;
+    color: var(--muted);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 0.78rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+  }
+
+  h1,
+  h2,
+  h3,
+  p {
+    margin-top: 0;
+  }
+
+  h1 {
+    max-width: 9em;
+    margin-bottom: 18px;
+    font-size: clamp(2.6rem, 7vw, 5.4rem);
+    line-height: 1.03;
+    letter-spacing: 0;
+  }
+
+  h2 {
+    margin-bottom: 0;
+    font-size: clamp(1.8rem, 3vw, 2.5rem);
+    line-height: 1.15;
+    letter-spacing: 0;
+  }
+
+  h3 {
+    margin-bottom: 10px;
+    font-size: 1.22rem;
+    line-height: 1.32;
+  }
+
+  .lead,
+  .card p {
+    color: var(--muted);
+  }
+
+  .lead {
+    max-width: 760px;
+    margin-bottom: 0;
+    font-size: 1.12rem;
+  }
+
+  .hero-panel {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+
+  .hero-panel a {
+    min-height: 132px;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    padding: 20px;
+  }
+
+  .hero-panel a:first-child {
+    background: var(--lime);
+  }
+
+  .hero-panel a:last-child {
+    background: var(--lilac);
+  }
+
+  .hero-panel strong {
+    font-size: 2.4rem;
+    line-height: 1;
+  }
+
+  .hero-panel span {
+    color: var(--muted);
+    font-weight: 650;
+  }
+
+  .section {
+    padding-block: 76px;
+  }
+
+  .section-head {
+    width: min(100%, 520px);
+    border-radius: 8px;
+    margin-bottom: 24px;
+    padding: 24px;
+  }
+
+  .block-green {
+    background: var(--lime);
+  }
+
+  .block-blue {
+    background: var(--lilac);
+  }
+
+  .band {
+    border-block: 1px solid var(--soft-line);
+    background: var(--soft);
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .card {
+    min-height: 326px;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    background: white;
+    padding: 20px;
+  }
+
+  .card-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 10px;
+    margin-bottom: 18px;
+  }
+
+  .badge {
+    min-height: 28px;
+    display: inline-flex;
+    align-items: center;
+    border-radius: 6px;
+    padding: 4px 9px;
+    font-size: 0.82rem;
+    font-weight: 760;
+  }
+
+  .badge.green {
+    background: var(--green-soft);
+    color: #0f5f3e;
+  }
+
+  .badge.blue {
+    background: var(--blue-soft);
+    color: #244a91;
+  }
+
+  .tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin: 8px 0 18px;
+  }
+
+  .tags span {
+    border: 1px solid var(--soft-line);
+    border-radius: 6px;
+    background: #f8fafc;
+    padding: 4px 8px;
+    color: #415066;
+    font-size: 0.82rem;
+  }
+
+  .visit {
+    min-height: 42px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    margin-top: auto;
+    padding: 8px 12px;
+    font-weight: 760;
+  }
+
+  .visit:hover {
+    border-color: var(--ink);
+  }
+
+  @media (max-width: 1080px) {
+    .grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+  }
+
+  @media (max-width: 760px) {
+    .nav,
+    .hero-inner {
+      align-items: flex-start;
+      grid-template-columns: 1fr;
+    }
+
+    .nav {
+      flex-direction: column;
+      padding-block: 14px;
+      gap: 10px;
+    }
+
+    .grid,
+    .hero-panel {
+      grid-template-columns: 1fr;
+    }
+
+    .card {
+      min-height: auto;
+    }
+  }
+</style>

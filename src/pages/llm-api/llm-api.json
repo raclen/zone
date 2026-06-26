@@ -1,0 +1,340 @@
+{
+  "freeSites": [
+    {
+      "name": "tokendock",
+      "url": "#",
+      "badge": "公益 · 可签到 · 在线",
+      "desc": "公益大模型 API 中转站，支持签到获取额度，适合日常体验和轻量测试。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "登仙 API",
+      "url": "#",
+      "badge": "公益 · 签到",
+      "desc": "公益 API 中转站，支持签到获取额度，适合模型调用入门和低频使用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Any Router",
+      "url": "#",
+      "badge": "公益",
+      "desc": "公益模型路由站点，适合对比不同模型接口和 OpenAI 兼容调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Agent Router",
+      "url": "#",
+      "badge": "公益 · 签到",
+      "desc": "Agent API 路由站点，退出后重新登录可签到，适合 Claude Code 和 Agent 工具测试。",
+      "models": [
+        "Claude",
+        "OpenAI",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "无限画布",
+      "url": "#",
+      "badge": "公益",
+      "desc": "公益 API 入口，适合 AI 工具、创作类应用和轻量模型调用体验。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Universe Federation",
+      "url": "#",
+      "badge": "公益",
+      "desc": "Universe Federation 公益入口，适合大模型 API 体验和多模型调用测试。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "猫羽雫API",
+      "url": "#",
+      "badge": "公益",
+      "desc": "公益 API 中转站，适合个人开发者进行模型调用和接口测试。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "77 Code",
+      "url": "#",
+      "badge": "公益",
+      "desc": "面向代码和开发工具场景的公益 API 入口，适合编程助手与 Agent 测试。",
+      "models": [
+        "Claude",
+        "OpenAI",
+        "DeepSeek",
+        "Gemini"
+      ]
+    },
+    {
+      "name": "qianxing",
+      "url": "#",
+      "badge": "公益",
+      "desc": "公益大模型 API 中转站，适合低频调用、学习和工具配置。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "哈基米 API",
+      "url": "#",
+      "badge": "公益",
+      "desc": "公益 API 入口，适合体验 OpenAI 兼容接口和主流大模型调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    }
+  ],
+  "paidSites": [
+    {
+      "name": "Walk AI Coding",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，主打 0.05 倍率 GPT，适合低成本模型调用。",
+      "models": [
+        "GPT",
+        "OpenAI",
+        "Claude",
+        "Gemini"
+      ]
+    },
+    {
+      "name": "车",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合日常模型调用和工具配置。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Stable AI",
+      "url": "#",
+      "badge": "收费",
+      "desc": "稳定耐用的收费 API 中转站，支持充值，适合长期使用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "可",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合基础模型调用与轻量开发。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Unity2.Ai",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，提供仪表盘入口，适合统一管理模型调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "HC 中转站",
+      "url": "#",
+      "badge": "收费",
+      "desc": "稳定耐用的收费 API 中转站，支持充值，适合长期调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "君の星辰",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合多模型体验和常规开发调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Torch AI",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合 AI 编程、模型测试和工具接入。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Feifeimiao",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，提供仪表盘入口，适合统一查看额度与调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Code",
+      "url": "#",
+      "badge": "收费",
+      "desc": "低倍率、满血模型的收费 API 中转站，适合代码类和高频调用场景。",
+      "models": [
+        "Claude",
+        "OpenAI",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Coder API",
+      "url": "#",
+      "badge": "收费",
+      "desc": "付费 API 中转站，适合编程助手、代码生成和开发工具接入。",
+      "models": [
+        "Claude",
+        "OpenAI",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Pro API",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合需要稳定模型调用的项目。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Claude 360",
+      "url": "#",
+      "badge": "收费",
+      "desc": "Claude 方向的收费 API 中转站，适合 Claude Code 与长文本任务。",
+      "models": [
+        "Claude",
+        "OpenAI",
+        "Gemini"
+      ]
+    },
+    {
+      "name": "EvoMap",
+      "url": "#",
+      "badge": "收费",
+      "desc": "AI Self-Evolution Infrastructure，适合 AI Agent 和进阶模型调用场景。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "坤坤API",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，提供仪表盘入口，适合管理额度和 API 调用。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "中",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 中转站，适合大模型接口测试与工具接入。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    },
+    {
+      "name": "Codex 不限量",
+      "url": "#",
+      "badge": "收费",
+      "desc": "Codex 不限量相关收费入口，适合 AI 编程与代码生成场景。",
+      "models": [
+        "Codex",
+        "Claude",
+        "OpenAI"
+      ]
+    },
+    {
+      "name": "合租巴士",
+      "url": "#",
+      "badge": "收费",
+      "desc": "收费 API 或合租类入口，适合低成本体验大模型服务。",
+      "models": [
+        "OpenAI",
+        "Claude",
+        "Gemini",
+        "DeepSeek"
+      ]
+    }
+  ]
+}
