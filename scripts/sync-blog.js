@@ -145,17 +145,29 @@ ${contentBody}
 async function readSyncMeta() {
   try {
     const content = await fs.readFile(CONFIG.metaFile, 'utf-8');
-    return JSON.parse(content);
+    const parsed = JSON.parse(content);
+    return {
+      issues: parsed.issues || {},
+    };
   } catch (error) {
     return {
-      lastSyncTime: null,
       issues: {},
     };
   }
 }
 
 async function writeSyncMeta(meta) {
-  await fs.writeFile(CONFIG.metaFile, JSON.stringify(meta, null, 2), 'utf-8');
+  await fs.writeFile(
+    CONFIG.metaFile,
+    JSON.stringify(
+      {
+        issues: meta.issues || {},
+      },
+      null,
+      2
+    ),
+    'utf-8'
+  );
 }
 
 async function fetchIssues() {
@@ -271,13 +283,15 @@ async function syncBlog() {
     }
   }
 
-  meta.lastSyncTime = new Date().toISOString();
-  await writeSyncMeta(meta);
+  if (processedCount > 0 || changes.deleted.length > 0) {
+    await writeSyncMeta(meta);
+  } else {
+    console.log('ℹ️  没有检测到文章变更，跳过更新同步元数据');
+  }
 
   console.log('\n✨ 同步完成!');
   console.log(`  - 处理了 ${processedCount} 个文章`);
   console.log(`  - 删除了 ${changes.deleted.length} 个文章`);
-  console.log(`  - 最后同步时间: ${meta.lastSyncTime}`);
 }
 
 syncBlog().catch(error => {
