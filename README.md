@@ -101,7 +101,7 @@ GitHub Actions 工作流文件是 [.github/workflows/sync-blog.yml](/home/ubuntu
 当前行为：
 
 - 只同步文章，不再同步评论 JSON
-- 只读取带 `blog` 标签的 open Issues，避免友链申请或普通 Issue 混入文章列表
+- 只读取带 `blog` 标签的 open Issues，避免普通 Issue 混入文章列表
 - 自动提交 `src/content/blog/*.md` 和 `src/content/blog/.sync-meta.json`
 - 支持手动触发 `workflow_dispatch`
 

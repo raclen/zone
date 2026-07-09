@@ -10,8 +10,7 @@
 
 ### 2. 新增页面
 - ✅ 文章归档页面 (`/blog/archive`)
-- ✅ 友情链接页面 (`/blog/friends`)
-- ✅ 快捷导航链接（首页→归档、友链）
+- ✅ 快捷导航链接（首页→归档）
 
 ### 3. 评论系统（核心功能）
 - ✅ 本地评论组件（从 JSON 文件读取）
@@ -22,7 +21,6 @@
 ### 4. 配置文件
 - ✅ `.env.example` - 环境变量示例
 - ✅ `.github/workflows/sync-blog.yml` - 自动同步工作流
-- ✅ `.github/ISSUE_TEMPLATE/friend-link.md` - 友链申请模板
 
 ### 5. 文档
 - ✅ `BLOG_IMPROVEMENTS.md` - 完整改进列表
@@ -45,7 +43,6 @@ H3: 1.2rem, 间距 24px/10px
 ### 新增路由
 - `/blog` - 博客首页（优化后）
 - `/blog/archive` - 文章归档
-- `/blog/friends` - 友情链接
 - `/blog/[slug]` - 文章详情（含评论）
 
 ## 🔄 评论系统工作流
@@ -66,7 +63,6 @@ graph LR
 
 ### 页面
 - `src/pages/blog/archive.astro` - 归档页面
-- `src/pages/blog/friends.astro` - 友链页面
 
 ### 数据
 - `src/data/comments/` - 评论数据目录
@@ -76,7 +72,6 @@ graph LR
 
 ### 工作流
 - `.github/workflows/sync-blog.yml` - 自动同步
-- `.github/ISSUE_TEMPLATE/friend-link.md` - 友链模板
 
 ### 配置和文档
 - `.env.example`
@@ -146,19 +141,6 @@ npm run sync-blog
 - **查看评论**: 访问文章或 GitHub Issues
 - **手动同步**: 在 Actions 页面手动触发
 
-### 添加友链
-编辑 `src/pages/blog/friends.astro`：
-```javascript
-const friendLinks = [
-  {
-    name: '友站名称',
-    url: 'https://example.com',
-    avatar: 'https://example.com/avatar.png',
-    description: '网站描述',
-  },
-];
-```
-
 ### 调整同步频率
 编辑 `.github/workflows/sync-blog.yml`：
 ```yaml
@@ -181,7 +163,6 @@ schedule:
 - 🔍 **搜索功能**: Pagefind 全文搜索
 - 💬 **评论系统**: 基于 GitHub Issues
 - 📚 **文章归档**: 按年份分组展示
-- 🔗 **友情链接**: 支持 Issue 申请
 - 🎨 **精致设计**: 简洁现代的 UI
 - ⚡ **极速加载**: 静态生成 + 本地评论
 

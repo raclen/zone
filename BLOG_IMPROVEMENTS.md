@@ -40,7 +40,7 @@
 - 添加明显的占位符样式
 - 聚焦时显示主题色边框和阴影
 - 调整容器间距: `48px → 40px`
-- 添加快捷导航链接（归档、友链）使搜索框更明显
+- 添加归档快捷入口，使搜索框下方导航更明显
 
 ### 4. ✅ 同步 Issue 评论到文章底部
 **新增文件**: 
@@ -83,31 +83,11 @@
 
 **访问路径**: `/blog/archive`
 
-### 6. ✅ 增加友情链接模块
-**新增文件**: `src/pages/blog/friends.astro`
-
-**功能**:
-- 友情链接卡片展示（头像、名称、描述）
-- 友链申请说明和按钮
-- 网格布局，支持响应式
-- 悬停效果
-- 链接到 GitHub Issue 提交友链申请
-
-**访问路径**: `/blog/friends`
-
-### 7. ✅ GitHub Issue 模板
-**新增文件**: `.github/ISSUE_TEMPLATE/friend-link.md`
-
-**功能**:
-- 标准化友链申请流程
-- 预填写所需字段
-- 自动添加"友链申请"标签
-
-### 8. ✅ 博客首页快捷导航
+### 6. ✅ 博客首页快捷导航
 **文件**: `src/pages/blog/index.astro`
 
 **新增**:
-- 在搜索框下方添加"归档"和"友链"快捷入口
+- 在内容区下方添加"归档"快捷入口
 - 采用胶囊按钮设计
 - 居中对齐，悬停效果
 
@@ -203,8 +183,7 @@ npm run sync-blog
    - 需要定期运行 `npm run sync-blog` 同步评论
    - 推荐使用 GitHub Actions 自动同步（已配置）
    - 评论数据存储在 `src/data/comments/` 目录
-3. **友情链接**: 需要手动在 `src/pages/blog/friends.astro` 中编辑 `friendLinks` 数组添加友链数据
-4. **GitHub Token**: 
+3. **GitHub Token**: 
    - 本地同步需要设置 `GITHUB_TOKEN` 环境变量
    - GitHub Actions 会自动使用内置 Token
    - Token 获取: https://github.com/settings/tokens
@@ -215,7 +194,6 @@ npm run sync-blog
 - 博客首页: `/blog`
 - 文章详情: `/blog/[slug]`
 - 文章归档: `/blog/archive`
-- 友情链接: `/blog/friends`
 
 ## 主要改进效果
 
