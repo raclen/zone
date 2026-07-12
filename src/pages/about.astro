@@ -44,7 +44,7 @@ import config from "@/config";
 
         <div class="about-signature">
           <p>Anhe</p>
-          <p>muxu.jiu@gmail.com</p>
+          <p><span class="email-text" data-user="muxu.jiu" data-domain="gmail.com">muxu.jiu [at] gmail.com</span></p>
           <p>{new Date().getFullYear()}</p>
         </div>
       </article>
@@ -52,6 +52,21 @@ import config from "@/config";
   </main>
 
   <Footer />
+  <script is:inline>
+    document.querySelectorAll(".email-text[data-user][data-domain]").forEach((el) => {
+      const user = el.getAttribute("data-user");
+      const domain = el.getAttribute("data-domain");
+      if (!user || !domain) return;
+
+      const email = `${user}@${domain}`;
+      const link = document.createElement("a");
+      link.href = `mailto:${email}`;
+      link.textContent = email;
+      link.rel = "nofollow";
+
+      el.replaceChildren(link);
+    });
+  </script>
 </AstroPaperLayout>
 
 <style>
@@ -168,4 +183,6 @@ import config from "@/config";
     }
   }
 </style>
+
+
 
