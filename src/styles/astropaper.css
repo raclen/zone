@@ -30,9 +30,10 @@
 }
 
 @utility active-nav {
-  @apply underline decoration-wavy decoration-2 underline-offset-8;
+  @apply underline decoration-1 underline-offset-4;
 }
 
 :target {
   scroll-margin-block: 1rem;
 }
+

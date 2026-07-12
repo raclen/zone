@@ -5,7 +5,7 @@ export default {
     home: "首页",
     posts: "博客",
     tags: "标签",
-    about: "关于",
+    about: "关于我",
     archives: "归档",
     search: "搜索",
   },
@@ -69,3 +69,4 @@ export default {
     goHome: "返回首页",
   },
 } satisfies UIStrings;
+

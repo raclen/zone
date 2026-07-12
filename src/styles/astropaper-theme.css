@@ -11,14 +11,13 @@
 }
 
 :root {
-  --font-google-sans-code: "SF Mono", "JetBrains Mono", "Fira Code",
-    ui-monospace, Consolas, "Courier New", "Noto Sans SC", monospace;
+  --font-google-sans-code: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
 }
 
 /* Light theme values */
 :root,
 [data-theme="light"] {
-  --background: #fdfdfd;
+  --background: #fdfbf7;
   --foreground: #282728;
   --accent: #006cac;
   --accent-foreground: #ffffff;
@@ -37,3 +36,5 @@
   --muted-foreground: #afb9ca;
   --border: #ab4b08;
 }
+
+

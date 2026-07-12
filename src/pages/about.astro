@@ -1,0 +1,171 @@
+---
+import AstroPaperLayout from "@/layouts/AstroPaperLayout.astro";
+import Header from "@/components/Header.astro";
+import Footer from "@/components/Footer.astro";
+import config from "@/config";
+---
+
+<AstroPaperLayout
+  title={`关于我 | ${config.site.title}`}
+  description="关于 Anhe：记录学习、工作、技术和这个站点。"
+>
+  <Fragment slot="head">
+    <link rel="preconnect" href="https://chinese-fonts-cdn.deno.dev" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://chinese-fonts-cdn.deno.dev/packages/sypxzs/dist/%E6%80%9D%E6%BA%90%E5%B1%8F%E6%98%BE%E8%87%BB%E5%AE%8B/result.css"
+    />
+  </Fragment>
+
+  <Header />
+
+  <main id="main-content" class="about-page">
+    <div class="about-shell">
+      <article class="about-article">
+        <header class="about-title">
+          <h1>关于我</h1>
+        </header>
+
+        <div class="about-content">
+          <h2>过去</h2>
+          <p>
+            计算机专业，在上海携程工作十年，从事前端开发，22年开始实线带人，25年底协商离职
+          </p>
+          <h2>现在</h2>
+          <p>
+            回三线城市，在家带娃，抽空写点实用，有趣的东西
+          </p>
+          <h2>未来</h2>
+          <p>
+            娃大一点可能会考虑工作
+          </p>
+         
+        </div>
+
+        <div class="about-signature">
+          <p>Anhe</p>
+          <p>muxu.jiu@gmail.com</p>
+          <p>{new Date().getFullYear()}</p>
+        </div>
+      </article>
+    </div>
+  </main>
+
+  <Footer />
+</AstroPaperLayout>
+
+<style>
+  :global(body) {
+    background: #fdfbf7;
+    color: #4a4a4a;
+    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
+  }
+
+  :global([data-theme="dark"] body) {
+    background: #1a1c23;
+    color: #e5e5e5;
+  }
+
+
+
+
+
+  .about-page {
+    flex-grow: 1;
+    width: 100%;
+    max-width: 56rem;
+    margin: 0 auto;
+    padding: 7rem 1.5rem 0;
+  }
+
+  .about-shell {
+    padding-block: 5rem;
+  }
+
+  .about-article {
+    max-width: 42rem;
+    margin: 0 auto;
+  }
+
+  .about-title {
+    margin-bottom: 3rem;
+    text-align: center;
+  }
+
+  h1,
+  h2 {
+    color: #4a4a4a;
+    font-family: "Source Han Serif CN for Display", "Songti SC", STSong,
+      "Noto Serif CJK SC", serif;
+  }
+
+  :global([data-theme="dark"]) h1,
+  :global([data-theme="dark"]) h2 {
+    color: #e5e5e5;
+  }
+
+  h1 {
+    margin: 1rem 0 0;
+    font-size: 2.25rem;
+    font-weight: 400;
+    line-height: 1.25;
+  }
+
+  h2 {
+    margin: 2.1em 0 0.85em;
+    font-size: 1.875rem;
+    font-weight: 700;
+    line-height: 1.35;
+  }
+
+  h2:first-child {
+    margin-top: 0;
+  }
+
+  p {
+    margin: 1.25em 0;
+    color: #4a4a4a;
+    font-size: 1.125rem;
+    line-height: 1.78;
+  }
+
+  :global([data-theme="dark"]) p {
+    color: #e5e5e5;
+  }
+
+  .about-signature {
+    margin-top: 3rem;
+    text-align: right;
+  }
+
+  .about-signature p {
+    margin: 0;
+    font-size: 0.875rem;
+    line-height: 1.65;
+    opacity: 0.6;
+  }
+
+  @media (max-width: 768px) {
+
+    .about-page {
+      padding: 4.5rem 1.5rem 0;
+    }
+
+    .about-shell {
+      padding-block: 4rem;
+    }
+
+    h1 {
+      font-size: 1.875rem;
+    }
+
+    h2 {
+      font-size: 1.55rem;
+    }
+
+    p {
+      font-size: 1rem;
+    }
+  }
+</style>
+
