@@ -29,6 +29,10 @@
   @apply max-w-app mx-auto w-full px-4;
 }
 
+@utility chrome-layout {
+  @apply mx-auto w-full max-w-4xl px-4;
+}
+
 @utility active-nav {
   @apply underline decoration-1 underline-offset-4;
 }
