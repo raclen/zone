@@ -32,12 +32,12 @@
       ]
     },
     {
-      "name": "猫羽雫API",
-      "url": "https://maoyulin.xyz/register?aff=135S",
+      "name": "CaMeL AI",
+      "url": "https://api.kr777.top/register?aff=FHOh",
       "badge": "公益",
-      "desc": "国产大模型 API 中转站，可签到",
+      "desc": "模型很多，可签到",
       "models": [
-        "qwen",
+        "OpenAI",
         "DeepSeek"
       ]
     },
@@ -63,8 +63,8 @@
       ]
     },
     {
-      "name": "哈基米 API",
-      "url": "https://lanxiu.cc/profile",
+      "name": "docode",
+      "url": "https://docode.cc/register?aff=ctij",
       "badge": "公益",
       "desc": "公益 API 入口，适合体验 OpenAI 兼容接口和主流大模型调用。",
       "models": [
