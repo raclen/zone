@@ -86,7 +86,8 @@ import config from "@/config";
   .about-page {
     flex-grow: 1;
     width: 100%;
-    max-width: 56rem;
+    /* 与页头 / 页脚 / 文章正文共用同一阅读区宽度 */
+    max-width: calc(var(--app-content-width) + 2 * var(--app-gutter));
     margin: 0 auto;
     padding: 7rem 1.5rem 0;
   }
