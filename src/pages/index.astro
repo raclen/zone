@@ -1,7 +1,32 @@
 ---
-import AstroPaperLayout from "@/layouts/AstroPaperLayout.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
+import { getCollection } from "astro:content";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { getUniqueTags } from "@/utils/getUniqueTags";
+import config from "@/config";
+
+const posts = await getCollection("posts");
+const sortedPosts = getSortedPosts(posts);
+
+// 统计标签
+const uniqueTags = getUniqueTags(posts);
+const tagsWithCount = uniqueTags.map(tag => ({
+  tag: tag.tag,
+  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
+}));
+
+// 统计年份
+const yearsMap = new Map<string, number>();
+sortedPosts.forEach(post => {
+  const d = post.data.pubDatetime || post.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    yearsMap.set(year, (yearsMap.get(year) || 0) + 1);
+  }
+});
+const yearsList = Array.from(yearsMap.entries())
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
 
 const projects = [
   {
@@ -10,6 +35,7 @@ const projects = [
     description: "支持洛雪插件、自定义主题与歌词显示的跨平台音乐播放器。",
     href: "/anheplayer",
     linkText: "查看项目",
+    featured: true,
   },
   {
     title: "OuterTune",
@@ -51,229 +77,117 @@ const projects = [
     linkText: "查看源码",
     external: true,
   },
-  /*
-  {
-    title: "大模型 API 导航",
-    type: "AI 工具",
-    description: "按公益与收费分类整理常用大模型 API 服务与接口入口。",
-    href: "/llm-api",
-    linkText: "打开导航",
-  },
-  */
 ];
 ---
 
-<AstroPaperLayout
-  title="作品 · Anhe"
-  description="Anhe 的个人作品与开发项目。"
+<FuwariBlogLayout
+  title={`作品 · ${config.site.title}`}
+  description="Anhe 的个人作品与开源项目列表。"
+  postsCount={sortedPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
 >
-  <Header />
-  <main id="main-content" class="works-main">
-      <section class="intro" aria-labelledby="page-title">
-        <p class="kicker">Works</p>
-        <h1 id="page-title">作品</h1>
-        <p class="intro-copy">
-          一些正在使用和持续维护的产品，也包括解决实际问题的小工具。
-        </p>
-      </section>
+  <div class="space-y-4">
+    <!-- 顶部介绍卡片 (对齐 Fuwari 卡片风格) -->
+    <div class="fuwari-card p-5 sm:p-6 border border-border/80">
+      <div class="flex items-center justify-between pb-3 border-b border-border/60 mb-4">
+        <div class="flex items-center gap-2 font-bold text-base sm:text-lg text-foreground">
+          <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+          <span>作品集 (Works)</span>
+        </div>
+        <span class="text-xs text-muted-foreground font-mono">
+          收录 {projects.length} 个精选项目
+        </span>
+      </div>
+      <p class="text-sm sm:text-base text-foreground/80 leading-relaxed">
+        一些正在使用和持续维护的产品，也包括用于解决日常实际问题的小工具与开源实验。
+      </p>
+    </div>
 
-      <section class="project-grid" aria-label="作品列表">
-        {projects.map((project) => (
-          <article class="project-card">
-            <div class="project-type">
-              <span aria-hidden="true"></span>
-              {project.type}
+    <!-- 作品列表网格 (2列响应式 Bento 卡片) -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+      {projects.map((project) => (
+        <article class="fuwari-card p-5 sm:p-6 border border-border/80 flex flex-col justify-between group hover:border-accent/40 transition-all duration-300">
+          <div>
+            <!-- 标签与状态 -->
+            <div class="flex items-center justify-between gap-2 mb-3">
+              <span class="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-accent/15 text-accent border border-accent/20">
+                {project.type}
+              </span>
+              {project.featured && (
+                <span class="text-[11px] font-medium px-2 py-0.5 rounded-full bg-amber-500/10 text-amber-500 dark:text-amber-400">
+                  Featured
+                </span>
+              )}
             </div>
-            <h2>{project.title}</h2>
-            <p>{project.description}</p>
+
+            <!-- 标题 -->
+            <h2 class="text-base sm:text-lg font-bold text-foreground group-hover:text-accent transition-colors mb-2">
+              <a
+                href={project.href}
+                target={project.external ? "_blank" : undefined}
+                rel={project.external ? "noopener noreferrer" : undefined}
+                class="hover:underline"
+              >
+                {project.title}
+              </a>
+            </h2>
+
+            <!-- 描述 -->
+            <p class="text-xs sm:text-sm text-foreground/75 leading-relaxed line-clamp-3">
+              {project.description}
+            </p>
+          </div>
+
+          <!-- 底部链接与微动效按钮 -->
+          <div class="pt-4 mt-4 border-t border-border/40 flex items-center justify-between">
             <a
               href={project.href}
               target={project.external ? "_blank" : undefined}
               rel={project.external ? "noopener noreferrer" : undefined}
+              class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-accent hover:opacity-80 transition-opacity"
             >
-              {project.linkText}<span aria-hidden="true">{project.external ? " ↗" : " →"}</span>
+              <span>{project.linkText}</span>
+              <svg class="w-3.5 h-3.5 transition-transform group-hover:translate-x-0.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+                {project.external ? (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                ) : (
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M14 5l7 7m0 0l-7 7m7-7H3" />
+                )}
+              </svg>
             </a>
-          </article>
-        ))}
+          </div>
+        </article>
+      ))}
 
-        <aside class="more-card">
-          <p class="more-label">More</p>
-          <h2>更多尝试</h2>
-          <p>新的想法和小工具会陆续整理到这里。</p>
-          <a href="https://github.com/raclen" target="_blank" rel="noopener noreferrer">
-            GitHub ↗
+      <!-- 更多项目卡片 -->
+      <aside class="fuwari-card p-5 sm:p-6 border border-border/80 border-dashed flex flex-col justify-between bg-muted/20">
+        <div>
+          <div class="flex items-center gap-2 mb-3">
+            <span class="text-[11px] font-mono font-semibold px-2.5 py-0.5 rounded-full bg-muted text-muted-foreground">
+              More
+            </span>
+          </div>
+          <h2 class="text-base sm:text-lg font-bold text-foreground mb-2">更多探索</h2>
+          <p class="text-xs sm:text-sm text-muted-foreground leading-relaxed">
+            新的项目构想和小工具都在持续整理中，欢迎前往 GitHub 交流探索。
+          </p>
+        </div>
+        <div class="pt-4 mt-4 border-t border-border/40">
+          <a
+            href="https://github.com/raclen"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="inline-flex items-center gap-1.5 text-xs sm:text-sm font-semibold text-muted-foreground hover:text-accent transition-colors"
+          >
+            <span>GitHub 个人主页</span>
+            <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+            </svg>
           </a>
-        </aside>
-      </section>
-  </main>
-  <Footer />
-</AstroPaperLayout>
-
-<style>
-  :global(:root) {
-    --home-surface: rgba(255, 255, 255, 0.62);
-    --home-text: var(--foreground);
-    --home-muted: var(--muted-foreground);
-    --home-border: var(--border);
-    --home-accent: #b66a4f;
-    --home-sage: #84927b;
-  }
-
-  .works-main {
-    width: min(100% - 48px, var(--app-content-width));
-    margin-inline: auto;
-    padding-block: 88px 52px;
-  }
-
-  .intro {
-    max-width: 660px;
-    margin-inline: auto;
-    text-align: center;
-  }
-
-  .kicker,
-  .more-label {
-    color: var(--home-accent);
-    font-family: var(--font-mono);
-    font-size: 0.72rem;
-    text-transform: uppercase;
-    letter-spacing: 0;
-  }
-
-  h1,
-  h2 {
-    font-family: Georgia, "Songti SC", "SimSun", serif;
-    font-weight: 400;
-  }
-
-  h1 {
-    margin-top: 14px;
-    font-size: 3rem;
-    line-height: 1.15;
-  }
-
-  .intro-copy {
-    max-width: 550px;
-    margin: 22px auto 0;
-    color: var(--home-muted);
-    font-size: 1rem;
-    line-height: 1.9;
-  }
-
-  .project-grid {
-    margin-top: 64px;
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 24px;
-  }
-
-  .project-card,
-  .more-card {
-    min-height: 264px;
-    padding: 30px;
-    border: 1px solid var(--home-border);
-    border-radius: 8px;
-  }
-
-  .project-card {
-    display: flex;
-    flex-direction: column;
-    background: var(--home-surface);
-    box-shadow: 0 18px 50px -44px rgba(37, 32, 26, 0.58);
-    transition: border-color 180ms ease, box-shadow 180ms ease, transform 180ms ease;
-  }
-
-  .project-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(182, 106, 79, 0.32);
-    box-shadow: 0 22px 52px -40px rgba(37, 32, 26, 0.65);
-  }
-
-  .project-type {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    color: var(--home-muted);
-    font-size: 0.8rem;
-  }
-
-  .project-type span {
-    width: 7px;
-    height: 7px;
-    border-radius: 50%;
-    background: var(--home-sage);
-  }
-
-  .project-card h2,
-  .more-card h2 {
-    margin-top: 18px;
-    font-size: 1.7rem;
-    line-height: 1.25;
-  }
-
-  .project-card > p,
-  .more-card > p:not(.more-label) {
-    margin-top: 14px;
-    color: var(--home-muted);
-    font-size: 0.925rem;
-    line-height: 1.75;
-  }
-
-  .project-card > a,
-  .more-card > a {
-    width: fit-content;
-    margin-top: auto;
-    padding-top: 22px;
-    color: var(--home-text);
-    font-size: 0.875rem;
-    transition: color 160ms ease;
-  }
-
-  .project-card > a:hover,
-  .more-card > a:hover {
-    color: var(--home-accent);
-  }
-
-  .more-card {
-    display: flex;
-    flex-direction: column;
-    border-style: dashed;
-    background: rgba(255, 255, 255, 0.28);
-  }
-
-  @media (max-width: 680px) {
-    .works-main {
-      width: min(100% - 36px, var(--app-content-width));
-    }
-
-    .works-main {
-      padding-block: 64px 40px;
-    }
-
-    h1 {
-      font-size: 2.4rem;
-    }
-
-    .project-grid {
-      grid-template-columns: 1fr;
-      margin-top: 46px;
-      gap: 18px;
-    }
-
-    .project-card,
-    .more-card {
-      min-height: 238px;
-      padding: 26px;
-    }
-  }
-
-  :global([data-theme="dark"]) {
-      --home-surface: rgba(43, 41, 37, 0.72);
-      --home-accent: #d58b6d;
-      --home-sage: #98a68f;
-  }
-
-  :global([data-theme="dark"]) .more-card {
-    background: rgba(255, 255, 255, 0.018);
-  }
-</style>
+        </div>
+      </aside>
+    </div>
+  </div>
+</FuwariBlogLayout>

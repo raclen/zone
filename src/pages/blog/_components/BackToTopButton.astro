@@ -9,29 +9,25 @@ const t = useTranslations(Astro.currentLocale);
 <div
   id="btt-btn-container"
   class:list={[
-    "fixed inset-e-4 bottom-8 z-50",
-    "md:sticky md:inset-e-auto md:float-end md:me-1",
-    "translate-y-14 opacity-0 transition duration-500",
+    "fixed right-6 bottom-8 z-50",
+    "translate-y-14 opacity-0 transition duration-300 pointer-events-none",
   ]}
 >
   <button
     data-button="back-to-top"
+    aria-label="回到顶部"
     class:list={[
-      "group bg-background relative px-2 py-1",
-      "size-14 rounded-full shadow-xl",
-      "md:h-8 md:w-fit md:rounded-md md:shadow-none md:focus-visible:rounded-none",
-      "md:bg-background/35 md:bg-clip-padding md:backdrop-blur-lg",
+      "pointer-events-auto group flex items-center justify-center",
+      "w-10 h-10 rounded-xl shadow-lg border border-border/80",
+      "bg-background/90 backdrop-blur-md text-foreground/80 hover:text-accent hover:border-accent/60",
+      "transition-all duration-200 transform hover:-translate-y-1 active:scale-95",
     ]}
   >
     <span
       id="progress-indicator"
-      class="absolute inset-0 -z-10 block size-14 scale-110 rounded-full bg-transparent md:hidden md:h-8 md:rounded-md"
+      class="absolute inset-0 -z-10 rounded-xl opacity-20 pointer-events-none"
     ></span>
-    <IconArrowLeft class="inline-block rotate-90 md:hidden" />
-    <span class="group-hover:text-accent sr-only text-sm md:not-sr-only">
-      <IconArrowNarrowUp class="inline-block size-4" />
-      {t.post.backToTop}
-    </span>
+    <IconArrowNarrowUp class="size-5 transition-transform group-hover:-translate-y-0.5" />
   </button>
 </div>
 

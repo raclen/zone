@@ -1,0 +1,114 @@
+---
+import type { CollectionEntry } from "astro:content";
+import { getPostUrl } from "@/utils/getPostPaths";
+import { toTransitionName } from "@/utils/toTransitionName";
+import { getReadingTime } from "@/utils/readingTime";
+import Datetime from "@/components/Datetime.astro";
+import Tag from "@/components/Tag.astro";
+
+type Props = {
+  post: CollectionEntry<"posts">;
+};
+
+const { post } = Astro.props;
+const { id, data, filePath, body } = post;
+const { title, description, tags = [], ogImage } = data;
+
+// 计算字数与阅读时长
+const reading = getReadingTime(body || "");
+
+// 提取可能的文章配图或封面
+let coverImage: string | undefined;
+if (typeof ogImage === "string") {
+  coverImage = ogImage;
+} else if (ogImage?.src) {
+  coverImage = ogImage.src;
+}
+
+const postUrl = getPostUrl(id, filePath, Astro.currentLocale);
+---
+
+<article class="fuwari-card fuwari-card-hover group relative mb-4 flex flex-col md:flex-row overflow-hidden border border-border/70">
+  <!-- 悬浮主色装饰侧条 -->
+  <div class="fuwari-accent-bar"></div>
+
+  <!-- 文章信息主体 -->
+  <div class="flex-1 p-4 sm:p-5 flex flex-col justify-between">
+    <div>
+      <!-- 头部元数据行：时间 + 字数 + 阅读时长 -->
+      <div class="flex flex-wrap items-center gap-2 text-xs text-muted-foreground mb-1.5">
+        <Datetime {...data} />
+        <span class="opacity-40">·</span>
+        <span class="flex items-center gap-1">
+          <svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          {reading.words} 字
+        </span>
+        <span class="opacity-40">·</span>
+        <span class="flex items-center gap-1">
+          <svg class="w-3.5 h-3.5 opacity-70" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          {reading.minutes} 分钟
+        </span>
+      </div>
+
+      <!-- 标题：字号收紧为精致的 lg sm:text-xl -->
+      <h3 class="text-base sm:text-lg font-bold tracking-tight mb-2 leading-snug">
+        <a
+          href={postUrl}
+          class="text-foreground group-hover:text-accent transition-colors duration-200 inline-block line-clamp-2"
+        >
+          <span transition:name={toTransitionName(title)}>
+            {title}
+          </span>
+        </a>
+      </h3>
+
+      <!-- 简介摘要：字号与行高收敛 -->
+      {description && (
+        <p class="text-xs sm:text-sm text-muted-foreground line-clamp-2 leading-relaxed mb-3">
+          {description}
+        </p>
+      )}
+    </div>
+
+    <!-- 底部标签行与进入阅读按钮 -->
+    <div class="flex items-center justify-between pt-2 border-t border-border/40 mt-auto">
+      <div class="flex flex-wrap gap-1 items-center">
+        {tags.slice(0, 3).map((tag: string) => (
+          <a
+            href={`/tags/${encodeURIComponent(tag)}`}
+            class="fuwari-pill text-[11px] py-0.5 px-2 hover:bg-accent hover:text-white transition-colors"
+          >
+            #{tag}
+          </a>
+        ))}
+      </div>
+
+      <a
+        href={postUrl}
+        aria-label={`阅读全文: ${title}`}
+        class="inline-flex items-center gap-1 text-xs font-semibold text-accent hover:underline group-hover:translate-x-1 transition-transform"
+      >
+        阅读全文
+        <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- 可选的右侧缩略图（若文章配置了 ogImage） -->
+  {coverImage && (
+    <div class="md:w-56 h-44 md:h-auto shrink-0 relative overflow-hidden bg-muted">
+      <img
+        src={coverImage}
+        alt={title}
+        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+        loading="lazy"
+      />
+    </div>
+  )}
+</article>

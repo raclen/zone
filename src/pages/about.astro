@@ -1,57 +1,106 @@
 ---
-import AstroPaperLayout from "@/layouts/AstroPaperLayout.astro";
-import Header from "@/components/Header.astro";
-import Footer from "@/components/Footer.astro";
+import { getCollection } from "astro:content";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { getUniqueTags } from "@/utils/getUniqueTags";
 import config from "@/config";
+
+const posts = await getCollection("posts");
+const sortedPosts = getSortedPosts(posts);
+
+// 统计标签
+const uniqueTags = getUniqueTags(posts);
+const tagsWithCount = uniqueTags.map(tag => ({
+  tag: tag.tag,
+  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
+}));
+
+// 统计年份
+const yearsMap = new Map<string, number>();
+sortedPosts.forEach(post => {
+  const d = post.data.pubDatetime || post.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    yearsMap.set(year, (yearsMap.get(year) || 0) + 1);
+  }
+});
+const yearsList = Array.from(yearsMap.entries())
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
 ---
 
-<AstroPaperLayout
+<FuwariBlogLayout
   title={`关于我 | ${config.site.title}`}
-  description="关于 Anhe：记录学习、工作、技术和这个站点。"
+  description="关于 Anhe：个人经历、工作与技术生活记录。"
+  postsCount={sortedPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
 >
-  <Fragment slot="head">
-    <link rel="preconnect" href="https://chinese-fonts-cdn.deno.dev" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://chinese-fonts-cdn.deno.dev/packages/sypxzs/dist/%E6%80%9D%E6%BA%90%E5%B1%8F%E6%98%BE%E8%87%BB%E5%AE%8B/result.css"
-    />
-  </Fragment>
+  <div class="space-y-4">
+    <!-- 关于我 - 主卡片 -->
+    <article class="fuwari-card p-6 sm:p-8 border border-border/80">
+      <!-- 头部标题 -->
+      <div class="flex items-center justify-between pb-4 mb-6 border-b border-border/60">
+        <div class="flex items-center gap-2 font-bold text-base sm:text-lg text-foreground">
+          <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+          <span>关于我</span>
+        </div>
+        <span class="text-xs text-muted-foreground font-mono">
+          Anhe / Developer
+        </span>
+      </div>
 
-  <Header />
-
-  <main id="main-content" class="about-page">
-    <div class="about-shell">
-      <article class="about-article">
-        <header class="about-title">
-          <h1>关于我</h1>
-        </header>
-
-        <div class="about-content">
-          <h2>过去</h2>
-          <p>
-            计算机专业，在上海携程工作十年，从事前端开发
+      <!-- 正文内容：时间线式段落卡片 -->
+      <div class="space-y-6 text-sm sm:text-base leading-relaxed text-foreground/85">
+        <!-- 过去 -->
+        <div class="p-4 sm:p-5 rounded-xl bg-muted/40 border border-border/50">
+          <div class="flex items-center gap-2 font-bold text-accent mb-2">
+            <span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span class="text-sm font-mono uppercase tracking-wider">过去</span>
+          </div>
+          <p class="text-foreground/80 leading-relaxed">
+            计算机专业，在上海携程工作十年，长期从事前端架构与业务开发。
           </p>
-          <h2>现在</h2>
-          <p>
-            回三线城市，在家带娃，抽空写点实用，有趣的东西
-          </p>
-          <h2>未来</h2>
-          <p>
-            想好了，再补充
-          </p>
-         
         </div>
 
-        <div class="about-signature">
-          <p>Anhe</p>
-          <p><span class="email-text" data-user="muxu.jiu" data-domain="gmail.com">muxu.jiu [at] gmail.com</span></p>
-          <p>{new Date().getFullYear()}</p>
+        <!-- 现在 -->
+        <div class="p-4 sm:p-5 rounded-xl bg-muted/40 border border-border/50">
+          <div class="flex items-center gap-2 font-bold text-accent mb-2">
+            <span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span class="text-sm font-mono uppercase tracking-wider">现在</span>
+          </div>
+          <p class="text-foreground/80 leading-relaxed">
+            回到三线城市，在家带娃，抽空写点实用、有趣的产品和小工具。
+          </p>
         </div>
-      </article>
-    </div>
-  </main>
 
-  <Footer />
+        <!-- 未来 -->
+        <div class="p-4 sm:p-5 rounded-xl bg-muted/40 border border-border/50">
+          <div class="flex items-center gap-2 font-bold text-accent mb-2">
+            <span class="w-2 h-2 rounded-full bg-accent"></span>
+            <span class="text-sm font-mono uppercase tracking-wider">未来</span>
+          </div>
+          <p class="text-muted-foreground leading-relaxed">
+            想好了，再补充...
+          </p>
+        </div>
+      </div>
+
+      <!-- 签名与联系方式 -->
+      <div class="mt-8 pt-6 border-t border-border/60 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs sm:text-sm text-muted-foreground font-mono">
+        <div class="flex items-center gap-3">
+          <span class="font-bold text-foreground">Anhe</span>
+          <span>•</span>
+          <span class="email-text" data-user="muxu.jiu" data-domain="gmail.com">muxu.jiu [at] gmail.com</span>
+        </div>
+        <div>
+          <span>© {new Date().getFullYear()} All rights reserved.</span>
+        </div>
+      </div>
+    </article>
+  </div>
+
   <script is:inline>
     document.querySelectorAll(".email-text[data-user][data-domain]").forEach((el) => {
       const user = el.getAttribute("data-user");
@@ -63,124 +112,9 @@ import config from "@/config";
       link.href = `mailto:${email}`;
       link.textContent = email;
       link.rel = "nofollow";
+      link.className = "text-accent hover:underline";
 
       el.replaceChildren(link);
     });
   </script>
-</AstroPaperLayout>
-
-<style>
-  :global(body) {
-    background: var(--background);
-    color: #4a4a4a;
-    font-family: "PingFang SC", "Microsoft YaHei", "Noto Sans CJK SC", sans-serif;
-  }
-
-  :global([data-theme="dark"] body) {
-    background: #212737;
-    color: #e5e5e5;
-  }
-
-
-
-  .about-page {
-    flex-grow: 1;
-    width: 100%;
-    /* 与页头 / 页脚 / 文章正文共用同一阅读区宽度 */
-    max-width: calc(var(--app-content-width) + 2 * var(--app-gutter));
-    margin: 0 auto;
-    padding: 7rem 1.5rem 0;
-  }
-
-  .about-shell {
-    padding-block: 5rem;
-  }
-
-  .about-article {
-    max-width: 42rem;
-    margin: 0 auto;
-  }
-
-  .about-title {
-    margin-bottom: 3rem;
-    text-align: center;
-  }
-
-  h1,
-  h2 {
-    color: #4a4a4a;
-    font-family: "Source Han Serif CN for Display", "Songti SC", STSong,
-      "Noto Serif CJK SC", serif;
-  }
-
-  :global([data-theme="dark"]) h1,
-  :global([data-theme="dark"]) h2 {
-    color: #e5e5e5;
-  }
-
-  h1 {
-    margin: 1rem 0 0;
-    font-size: 2.25rem;
-    font-weight: 400;
-    line-height: 1.25;
-  }
-
-  h2 {
-    margin: 2.1em 0 0.85em;
-    font-size: 1.875rem;
-    font-weight: 700;
-    line-height: 1.35;
-  }
-
-  h2:first-child {
-    margin-top: 0;
-  }
-
-  p {
-    margin: 1.25em 0;
-    color: #4a4a4a;
-    font-size: 1.125rem;
-    line-height: 1.78;
-  }
-
-  :global([data-theme="dark"]) p {
-    color: #e5e5e5;
-  }
-
-  .about-signature {
-    margin-top: 3rem;
-    text-align: right;
-  }
-
-  .about-signature p {
-    margin: 0;
-    font-size: 0.875rem;
-    line-height: 1.65;
-    opacity: 0.6;
-  }
-
-  @media (max-width: 768px) {
-
-    .about-page {
-      padding: 4.5rem 1.5rem 0;
-    }
-
-    .about-shell {
-      padding-block: 4rem;
-    }
-
-    h1 {
-      font-size: 1.875rem;
-    }
-
-    h2 {
-      font-size: 1.55rem;
-    }
-
-    p {
-      font-size: 1rem;
-    }
-  }
-</style>
-
-
+</FuwariBlogLayout>

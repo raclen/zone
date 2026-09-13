@@ -1,17 +1,12 @@
 ---
 import { getCollection } from "astro:content";
 import type { GetStaticPathsOptions } from "astro";
-import Layout from "@/layouts/AstroPaperLayout.astro";
-import Header from "@/components/Header.astro";
-import Main from "@/components/Main.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Card from "@/components/Card.astro";
-import Footer from "@/components/Footer.astro";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import FuwariBentoCard from "@/components/fuwari/FuwariBentoCard.astro";
 import Pagination from "@/components/Pagination.astro";
 import { getUniqueTags } from "@/utils/getUniqueTags";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { slugifyAll } from "@/utils/slugify";
-import { useTranslations } from "@/i18n";
 import config from "@/config";
 
 export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
@@ -26,32 +21,69 @@ export async function getStaticPaths({ paginate }: GetStaticPathsOptions) {
     return paginate(tagPosts, {
       params: { tag },
       props: { tagName },
-      pageSize: config.posts.perPage,
+      pageSize: 15,
     });
   });
 }
 
 const { page, tagName } = Astro.props;
 
-const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
+const allPosts = await getCollection("posts");
+const sortedAllPosts = getSortedPosts(allPosts);
+
+// 提取标签统计
+const uniqueTags = getUniqueTags(allPosts);
+const tagsWithCount = uniqueTags.map(t => ({
+  tag: t.tag,
+  count: allPosts.filter(p => p.data.tags?.includes(t.tag)).length,
+}));
+
+// 提取年份统计
+const yearsMap = new Map<string, number>();
+sortedAllPosts.forEach(p => {
+  const d = p.data.pubDatetime || p.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    yearsMap.set(year, (yearsMap.get(year) || 0) + 1);
+  }
+});
+const yearsList = Array.from(yearsMap.entries())
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
 ---
 
-<Layout title={`${t.pages.tagTitle}: ${tagName} | ${config.site.title}`}>
-  <Header />
+<FuwariBlogLayout
+  title={`标签: ${tagName} | ${config.site.title}`}
+  postsCount={sortedAllPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
+>
+  <!-- 顶部标签标题小卡片 -->
+  <div class="fuwari-card p-4 mb-4 flex items-center justify-between">
+    <div class="flex items-center gap-2 font-bold text-sm sm:text-base text-foreground">
+      <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+      <span>标签筛选：</span>
+      <span class="px-2.5 py-0.5 rounded-lg bg-accent/15 text-accent font-mono text-xs">
+        #{tagName}
+      </span>
+    </div>
+    <div class="text-xs text-muted-foreground font-mono">
+      共 {page.total} 篇文章
+    </div>
+  </div>
 
-  <Breadcrumb />
+  <!-- 文章 Bento 卡片列表 -->
+  <div class="space-y-4">
+    {page.data.map(post => (
+      <FuwariBentoCard post={post} />
+    ))}
+  </div>
 
-  <Main
-    pageTitle={`${t.pages.tagTitle}: ${tagName}`}
-    pageDesc={`${t.pages.tagDesc} "${tagName}".`}
-  >
-    <ul>
-      {page.data.map(data => <Card {...data} />)}
-    </ul>
-  </Main>
-
-  <Pagination {page} />
-
-  <Footer noMarginTop={page.lastPage > 1} />
-</Layout>
+  <!-- 分页 -->
+  {page.lastPage > 1 && (
+    <div class="mt-6 flex justify-center">
+      <Pagination {page} />
+    </div>
+  )}
+</FuwariBlogLayout>

@@ -1,6 +1,7 @@
 @import "tailwindcss";
 @import "./astropaper-theme.css";
 @import "./astropaper-typography.css";
+@import "./fuwari.css";
 @import "rehype-callouts/theme/obsidian";
 
 @custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));

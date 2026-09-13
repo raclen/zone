@@ -1,89 +1,122 @@
 ---
-import { getRelativeLocaleUrl } from "astro:i18n";
 import { getCollection } from "astro:content";
-import Layout from "@/layouts/AstroPaperLayout.astro";
-import Header from "@/components/Header.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Main from "@/components/Main.astro";
-import Footer from "@/components/Footer.astro";
-import Card from "@/components/Card.astro";
-import { postFilter } from "@/utils/postFilter";
-import { getPostsByGroupCondition } from "./_utils/getPostsByGroupCondition";
-import { useTranslations } from "@/i18n";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import { getPostUrl } from "@/utils/getPostPaths";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { getUniqueTags } from "@/utils/getUniqueTags";
 import config from "@/config";
 
-const locale = Astro.currentLocale ?? config.site.lang;
-
-// Redirect to 404 page if `showArchives` config is false
-const notFoundUrl = getRelativeLocaleUrl(locale, "404");
-if (!config.features.showArchives && notFoundUrl) {
-  return Astro.rewrite(notFoundUrl);
-}
-
-const t = useTranslations(locale);
-
 const posts = await getCollection("posts");
-const filteredPosts = posts.filter(postFilter);
-const monthFormatter = new Intl.DateTimeFormat(locale, { month: "long" });
+const sortedPosts = getSortedPosts(posts);
+
+// 提取标签统计
+const uniqueTags = getUniqueTags(posts);
+const tagsWithCount = uniqueTags.map(tag => ({
+  tag: tag.tag,
+  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
+}));
+
+// 按年份分组文章
+const postsByYear = new Map<string, typeof sortedPosts>();
+sortedPosts.forEach(post => {
+  const d = post.data.pubDatetime || post.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    const group = postsByYear.get(year) || [];
+    group.push(post);
+    postsByYear.set(year, group);
+  }
+});
+
+const sortedYears = Array.from(postsByYear.keys()).sort(
+  (a, b) => Number(b) - Number(a)
+);
+
+const yearsList = sortedYears.map(year => ({
+  year,
+  count: postsByYear.get(year)?.length || 0,
+}));
 ---
 
-<Layout title={`${t.pages.archivesTitle} | ${config.site.title}`}>
-  <Header />
+<FuwariBlogLayout
+  title={`文章归档 | ${config.site.title}`}
+  postsCount={sortedPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
+>
+  <!-- 归档时间轴 Bento 卡片容器 (完全对标 Fuwari ArchivePanel) -->
+  <div class="fuwari-card p-5 sm:p-8 border border-border/80">
+    <!-- 头部小标题与统计 -->
+    <div class="flex items-center justify-between pb-4 mb-6 border-b border-border/60">
+      <div class="flex items-center gap-2 font-bold text-base sm:text-lg text-foreground">
+        <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+        <span>文章归档</span>
+      </div>
+      <span class="text-xs text-muted-foreground font-mono">
+        共计 {sortedPosts.length} 篇文章
+      </span>
+    </div>
 
-  <Breadcrumb />
+    <!-- 年份与时间轴文章流 -->
+    <div class="space-y-8">
+      {sortedYears.map(year => {
+        const yearPosts = postsByYear.get(year) || [];
+        return (
+          <div id={`year-${year}`} class="scroll-mt-16">
+            <!-- 年份行：年份 + 空心指示环 + 篇数 -->
+            <div class="flex items-center gap-3 sm:gap-4 py-2">
+              <div class="w-14 sm:w-16 text-right font-black text-xl sm:text-2xl text-foreground/90 font-mono shrink-0">
+                {year}
+              </div>
+              <div class="relative flex items-center justify-center w-5 shrink-0">
+                <div class="w-3 h-3 rounded-full border-2 border-accent bg-background z-10"></div>
+              </div>
+              <div class="text-xs sm:text-sm font-semibold text-muted-foreground font-mono">
+                {yearPosts.length} 篇
+              </div>
+            </div>
 
-  <Main pageTitle={t.pages.archivesTitle} pageDesc={t.pages.archivesDesc}>
-    {
-      Object.entries(
-        getPostsByGroupCondition(filteredPosts, post =>
-          post.data.pubDatetime.getFullYear()
-        )
-      )
-        .sort(([yearA], [yearB]) => Number(yearB) - Number(yearA))
-        .map(([year, yearGroup]) => (
-          <div>
-            <span class="text-2xl font-bold">{year}</span>
-            <sup class="text-muted-foreground text-sm">{yearGroup.length}</sup>
-            {Object.entries(
-              getPostsByGroupCondition(
-                yearGroup,
-                post => post.data.pubDatetime.getMonth() + 1
-              )
-            )
-              .sort(([monthA], [monthB]) => Number(monthB) - Number(monthA))
-              .map(([month, monthGroup]) => (
-                <div class="flex flex-col sm:flex-row">
-                  <div class="mt-6 min-w-36 text-lg sm:my-6">
-                    <span class="font-bold">
-                      {monthFormatter.format(
-                        new Date(2000, Number(month) - 1, 1)
-                      )}
+            <!-- 该年份下的月份-文章列表 -->
+            <div class="ml-14 sm:ml-16 pl-2.5 sm:pl-2 relative border-l border-border/50 space-y-1 my-1">
+              {yearPosts.map(post => {
+                const d = new Date(post.data.pubDatetime || Date.now());
+                const month = String(d.getMonth() + 1).padStart(2, "0");
+                const day = String(d.getDate()).padStart(2, "0");
+                const dateStr = `${month}-${day}`;
+                const postUrl = getPostUrl(post.id, post.filePath, Astro.currentLocale);
+
+                return (
+                  <a
+                    href={postUrl}
+                    class="group flex items-center gap-3 py-2 px-2.5 rounded-xl hover:bg-accent/10 transition-all"
+                  >
+                    <!-- 日期点标记 -->
+                    <span class="font-mono text-xs text-muted-foreground shrink-0 w-11">
+                      {dateStr}
                     </span>
-                    <sup class="text-muted-foreground text-xs">
-                      {monthGroup.length}
-                    </sup>
-                  </div>
-                  <ul>
-                    {monthGroup
-                      .sort(
-                        (a, b) =>
-                          Math.floor(
-                            new Date(b.data.pubDatetime).getTime() / 1000
-                          ) -
-                          Math.floor(
-                            new Date(a.data.pubDatetime).getTime() / 1000
-                          )
-                      )
-                      .map(data => (
-                        <Card {...data} />
-                      ))}
-                  </ul>
-                </div>
-              ))}
-          </div>
-        ))
-    }
-  </Main>
 
-  <Footer />
-</Layout>
+                    <!-- 时间轴连接小实心点 -->
+                    <span class="w-1.5 h-1.5 rounded-full bg-border group-hover:bg-accent group-hover:scale-125 transition-all shrink-0"></span>
+
+                    <!-- 文章标题 -->
+                    <span class="text-xs sm:text-sm font-medium text-foreground/85 group-hover:text-accent group-hover:translate-x-1 transition-all truncate flex-1">
+                      {post.data.title}
+                    </span>
+
+                    <!-- 右侧分类/首标签（桌面端展示） -->
+                    {post.data.tags && post.data.tags.length > 0 && (
+                      <span class="hidden md:inline-block text-[11px] text-muted-foreground/60 font-mono shrink-0">
+                        #{post.data.tags[0]}
+                      </span>
+                    )}
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        );
+      })}
+    </div>
+  </div>
+</FuwariBlogLayout>

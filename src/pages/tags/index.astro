@@ -1,32 +1,68 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "@/layouts/AstroPaperLayout.astro";
-import Header from "@/components/Header.astro";
-import Breadcrumb from "@/components/Breadcrumb.astro";
-import Main from "@/components/Main.astro";
-import Footer from "@/components/Footer.astro";
-import Tag from "@/components/Tag.astro";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
 import { getUniqueTags } from "@/utils/getUniqueTags";
-import { useTranslations } from "@/i18n";
 import config from "@/config";
 
-const posts = await getCollection("posts", ({ data }) => !data.draft);
-const tags = getUniqueTags(posts);
+const posts = await getCollection("posts");
+const sortedPosts = getSortedPosts(posts);
 
-const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
+// 统计所有标签及其篇数
+const uniqueTags = getUniqueTags(posts);
+const tagsWithCount = uniqueTags.map(tag => ({
+  tag: tag.tag,
+  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
+})).sort((a, b) => (b.count || 0) - (a.count || 0));
+
+// 统计年份
+const yearsMap = new Map<string, number>();
+sortedPosts.forEach(post => {
+  const d = post.data.pubDatetime || post.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    yearsMap.set(year, (yearsMap.get(year) || 0) + 1);
+  }
+});
+const yearsList = Array.from(yearsMap.entries())
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
 ---
 
-<Layout title={`${t.pages.tagsTitle} | ${config.site.title}`}>
-  <Header />
+<FuwariBlogLayout
+  title={`标签云 | ${config.site.title}`}
+  postsCount={sortedPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
+>
+  <!-- 标签聚合 Bento 卡片 (对标 Fuwari 标签面板) -->
+  <div class="fuwari-card p-5 sm:p-8 border border-border/80">
+    <div class="flex items-center justify-between pb-4 mb-6 border-b border-border/60">
+      <div class="flex items-center gap-2 font-bold text-base sm:text-lg text-foreground">
+        <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+        <span>标签云</span>
+      </div>
+      <span class="text-xs text-muted-foreground font-mono">
+        收录 {tagsWithCount.length} 个标签
+      </span>
+    </div>
 
-  <Breadcrumb />
-
-  <Main pageTitle={t.pages.tagsTitle} pageDesc={t.pages.tagsDesc}>
-    <ul class="flex flex-wrap gap-6">
-      {tags.map(({ tag, tagName }) => <Tag {tag} {tagName} />)}
-    </ul>
-  </Main>
-
-  <Footer />
-</Layout>
+    <!-- 标签胶囊阵列 -->
+    <div class="flex flex-wrap gap-2.5 sm:gap-3">
+      {tagsWithCount.map(({ tag, count }) => (
+        <a
+          href={`/tags/${encodeURIComponent(tag)}`}
+          class="group inline-flex items-center gap-2 px-3.5 py-1.5 rounded-xl bg-muted/60 hover:bg-accent hover:text-white border border-border/50 hover:border-accent/80 transition-all duration-200 transform hover:-translate-y-0.5"
+        >
+          <span class="text-xs sm:text-sm font-medium text-foreground/80 group-hover:text-white transition-colors">
+            #{tag}
+          </span>
+          <span class="px-1.5 py-0.5 rounded-md bg-background/80 group-hover:bg-white/20 text-[10px] font-mono text-muted-foreground group-hover:text-white font-bold transition-colors">
+            {count}
+          </span>
+        </a>
+      ))}
+    </div>
+  </div>
+</FuwariBlogLayout>
