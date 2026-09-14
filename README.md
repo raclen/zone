@@ -68,9 +68,22 @@ https://raclen.cyou/
 ├── /blog/[slug]         文章详情
 ├── /tags                标签页
 ├── /archives            归档页
+├── /friends             友链页
+├── /about               关于我
 ├── /search              搜索页
 ├── /rss.xml             RSS
 └── /anheplayer          AnhePlayer 页面
+```
+
+## 友链信息
+
+提供给其他博主添加友链时的信息：
+
+```yaml
+- title: 当下的七炎
+  intro: 记录技术、工具、投资与日常思考。
+  link: https://raclen.cyou
+  image: https://avatars.githubusercontent.com/u/7697758?v=4
 ```
 
 ## 内容与评论

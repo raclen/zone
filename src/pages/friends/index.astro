@@ -1,0 +1,94 @@
+---
+import { getCollection } from "astro:content";
+import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import { getSortedPosts } from "@/utils/getSortedPosts";
+import { getUniqueTags } from "@/utils/getUniqueTags";
+import { FRIEND_LINKS } from "@/data/friends";
+import config from "@/config";
+
+const posts = await getCollection("posts");
+const sortedPosts = getSortedPosts(posts);
+
+// 统计标签
+const uniqueTags = getUniqueTags(posts);
+const tagsWithCount = uniqueTags.map(tag => ({
+  tag: tag.tag,
+  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
+}));
+
+// 统计年份
+const yearsMap = new Map<string, number>();
+sortedPosts.forEach(post => {
+  const d = post.data.pubDatetime || post.data.modDatetime;
+  if (d) {
+    const year = new Date(d).getFullYear().toString();
+    yearsMap.set(year, (yearsMap.get(year) || 0) + 1);
+  }
+});
+const yearsList = Array.from(yearsMap.entries())
+  .map(([year, count]) => ({ year, count }))
+  .sort((a, b) => Number(b.year) - Number(a.year));
+---
+
+<FuwariBlogLayout
+  title={`友链 | ${config.site.title}`}
+  description="友情链接，记录同行者与有趣的朋友们。"
+  postsCount={sortedPosts.length}
+  years={yearsList}
+  tags={tagsWithCount}
+  showBanner={false}
+>
+  <div class="space-y-4">
+    <!-- 友链卡片容器 -->
+    <div class="fuwari-card p-6 sm:p-8 border border-border/80">
+      <!-- 头部标题 -->
+      <div class="flex items-center justify-between pb-4 mb-6 border-b border-border/60">
+        <div class="flex items-center gap-2 font-bold text-base sm:text-lg text-foreground">
+          <span class="w-1.5 h-4 rounded-full bg-accent"></span>
+          <span>友情链接</span>
+        </div>
+        <span class="text-xs text-muted-foreground font-mono">
+          共收录 {FRIEND_LINKS.length} 位朋友
+        </span>
+      </div>
+
+      <!-- 友链列表网格 (对标附件卡片样式：左侧圆头像，右侧标题+简介，底部底边线) -->
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
+        {
+          FRIEND_LINKS.map(friend => (
+            <a
+              href={friend.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group block pb-4 border-b border-border/60 hover:border-accent/60 transition-all"
+            >
+              <div class="flex items-center gap-3.5">
+                <img
+                  src={friend.image}
+                  alt={friend.title}
+                  loading="lazy"
+                  class="w-12 h-12 rounded-full object-cover shrink-0 border border-border/60 group-hover:border-accent group-hover:scale-105 transition-all shadow-xs"
+                  onerror="this.onerror=null; this.src='/favicon.svg';"
+                />
+                <div class="min-w-0 flex-1">
+                  <div class="font-bold text-sm sm:text-base text-foreground group-hover:text-accent transition-colors truncate">
+                    {friend.title}
+                  </div>
+                  <div class="text-xs text-muted-foreground line-clamp-1 mt-0.5 leading-relaxed">
+                    {friend.intro}
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <!-- 友链申请提示说明 -->
+      <div class="mt-8 pt-6 border-t border-border/60 text-xs sm:text-sm text-muted-foreground leading-relaxed">
+        <p class="font-medium text-foreground/90 mb-1">💡 申请友链说明：</p>
+        <p>欢迎志同道合、热爱技术与生活的朋友交换友链，可直接在 Issue 或关于我中的邮箱联系~</p>
+      </div>
+    </div>
+  </div>
+</FuwariBlogLayout>

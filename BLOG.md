@@ -179,6 +179,26 @@ integrations: [sitemap(), pagefind()]
 - **博客地址**：https://raclen.cyou/blog
 - **项目主页**：https://raclen.cyou
 
+## 🤝 友链信息 (Friends Info)
+
+提供给其他博主添加友链时使用：
+
+```yaml
+- title: 当下的七炎
+  intro: 记录技术、工具、投资与日常思考。
+  link: https://raclen.cyou
+  image: https://avatars.githubusercontent.com/u/7697758?v=4
+```
+
+```json
+{
+  "title": "当下的七炎",
+  "intro": "记录技术、工具、投资与日常思考。",
+  "link": "https://raclen.cyou",
+  "image": "https://avatars.githubusercontent.com/u/7697758?v=4"
+}
+```
+
 ## 🤝 贡献
 
 欢迎在 [GitHub Issues](https://github.com/raclen/zone/issues) 中提出建议或报告问题！

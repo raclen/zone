@@ -13,6 +13,7 @@ const isActive = (path: string) => {
   if (path === "/" && (currentPath === "/" || currentPath === "")) return true;
   if (path === "/blog" && (currentPath === "/blog" || currentPath === "/blog/")) return true;
   if (path === "/archives" && currentPath.startsWith("/archives")) return true;
+  if (path === "/friends" && currentPath.startsWith("/friends")) return true;
   if (path === "/about" && currentPath.startsWith("/about")) return true;
   return false;
 };
@@ -71,6 +72,17 @@ const isActive = (path: string) => {
           ]}
         >
           归档
+        </a>
+        <a
+          href={getRelativeLocaleUrl(locale, "friends")}
+          class:list={[
+            "px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition-all",
+            isActive("/friends")
+              ? "bg-accent text-accent-foreground shadow-sm"
+              : "text-foreground/75 hover:text-foreground hover:bg-muted/80"
+          ]}
+        >
+          友链
         </a>
         <a
           href={getRelativeLocaleUrl(locale, "about")}
@@ -136,6 +148,7 @@ const isActive = (path: string) => {
         <a href={getRelativeLocaleUrl(locale, "")} class="px-3 py-2 rounded-lg hover:bg-muted/80">作品</a>
         <a href={getRelativeLocaleUrl(locale, "blog")} class="px-3 py-2 rounded-lg hover:bg-muted/80">博客</a>
         <a href={getRelativeLocaleUrl(locale, "archives")} class="px-3 py-2 rounded-lg hover:bg-muted/80">归档</a>
+        <a href={getRelativeLocaleUrl(locale, "friends")} class="px-3 py-2 rounded-lg hover:bg-muted/80">友链</a>
         <a href={getRelativeLocaleUrl(locale, "about")} class="px-3 py-2 rounded-lg hover:bg-muted/80">关于</a>
       </div>
     </div>
