@@ -25,6 +25,7 @@ const baseBlogSchema = z.object({
   tags: z.array(z.string()).default([]),
   author: authorSchema,
   draft: z.boolean().default(false),
+  hideEditPost: z.boolean().optional(),
 });
 
 const posts = defineCollection({

@@ -13,7 +13,14 @@ type Props = {
 const { hideEditPost, post, class: className = "" } = Astro.props;
 
 const editPost = config.features.editPost;
-const href = editPost.enabled ? `${editPost.url}${post.filePath}` : "";
+
+const href = editPost.enabled
+  ? post.data.issueUrl ||
+    (post.data.issueNumber
+      ? `https://github.com/raclen/zone/issues/${post.data.issueNumber}`
+      : `${editPost.url}${post.filePath}`)
+  : "";
+
 const showEditPost = editPost.enabled && !hideEditPost && href.trim() !== "";
 
 const t = useTranslations(Astro.currentLocale);
