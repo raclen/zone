@@ -186,7 +186,7 @@ integrations: [sitemap(), pagefind()]
 ```yaml
 - title: 当下的七炎
   intro: 记录技术、工具、投资与日常思考。
-  link: https://raclen.cyou
+  link: https://raclen.qzz.io
   image: https://avatars.githubusercontent.com/u/7697758?v=4
 ```
 
@@ -194,7 +194,7 @@ integrations: [sitemap(), pagefind()]
 {
   "title": "当下的七炎",
   "intro": "记录技术、工具、投资与日常思考。",
-  "link": "https://raclen.cyou",
+  "link": "https://raclen.qzz.io",
   "image": "https://avatars.githubusercontent.com/u/7697758?v=4"
 }
 ```
