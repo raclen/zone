@@ -114,7 +114,7 @@ const isActive = (path: string) => {
 
         <!-- 暗黑模式切换按钮 -->
         <button
-          id="theme-toggle-btn"
+          id="theme-btn"
           type="button"
           class="w-9 h-9 rounded-xl flex items-center justify-center text-foreground/75 hover:text-accent hover:bg-accent/10 transition-colors"
           title="切换日夜模式"
@@ -131,6 +131,8 @@ const isActive = (path: string) => {
           class="md:hidden w-9 h-9 rounded-xl flex items-center justify-center text-foreground/75 hover:text-accent hover:bg-accent/10 transition-colors"
           title="展开导航菜单"
           aria-label="移动端菜单"
+          aria-expanded="false"
+          aria-controls="mobile-menu-panel"
         >
           <svg class="w-4 h-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
             <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16" />
@@ -142,14 +144,64 @@ const isActive = (path: string) => {
     <!-- 移动端展开悬浮面板 -->
     <div
       id="mobile-menu-panel"
-      class="hidden md:hidden fuwari-card mt-2 p-3 bg-background/95 backdrop-blur-md border border-border shadow-lg"
+      class="hidden md:hidden fuwari-card mt-2 p-3 bg-background/95 backdrop-blur-md border border-border shadow-lg transition-all"
     >
       <div class="flex flex-col gap-1 text-sm font-semibold">
-        <a href={getRelativeLocaleUrl(locale, "")} class="px-3 py-2 rounded-lg hover:bg-muted/80">作品</a>
-        <a href={getRelativeLocaleUrl(locale, "blog")} class="px-3 py-2 rounded-lg hover:bg-muted/80">博客</a>
-        <a href={getRelativeLocaleUrl(locale, "archives")} class="px-3 py-2 rounded-lg hover:bg-muted/80">归档</a>
-        <a href={getRelativeLocaleUrl(locale, "friends")} class="px-3 py-2 rounded-lg hover:bg-muted/80">友链</a>
-        <a href={getRelativeLocaleUrl(locale, "about")} class="px-3 py-2 rounded-lg hover:bg-muted/80">关于</a>
+        <a
+          href={getRelativeLocaleUrl(locale, "")}
+          class:list={[
+            "px-3 py-2 rounded-lg transition-all",
+            isActive("/")
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground/80 hover:text-foreground hover:bg-muted/80 font-medium"
+          ]}
+        >
+          作品
+        </a>
+        <a
+          href={getRelativeLocaleUrl(locale, "blog")}
+          class:list={[
+            "px-3 py-2 rounded-lg transition-all",
+            isActive("/blog")
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground/80 hover:text-foreground hover:bg-muted/80 font-medium"
+          ]}
+        >
+          博客
+        </a>
+        <a
+          href={getRelativeLocaleUrl(locale, "archives")}
+          class:list={[
+            "px-3 py-2 rounded-lg transition-all",
+            isActive("/archives")
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground/80 hover:text-foreground hover:bg-muted/80 font-medium"
+          ]}
+        >
+          归档
+        </a>
+        <a
+          href={getRelativeLocaleUrl(locale, "friends")}
+          class:list={[
+            "px-3 py-2 rounded-lg transition-all",
+            isActive("/friends")
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground/80 hover:text-foreground hover:bg-muted/80 font-medium"
+          ]}
+        >
+          友链
+        </a>
+        <a
+          href={getRelativeLocaleUrl(locale, "about")}
+          class:list={[
+            "px-3 py-2 rounded-lg transition-all",
+            isActive("/about")
+              ? "bg-accent text-accent-foreground font-semibold"
+              : "text-foreground/80 hover:text-foreground hover:bg-muted/80 font-medium"
+          ]}
+        >
+          关于
+        </a>
       </div>
     </div>
   </div>
@@ -160,24 +212,38 @@ const isActive = (path: string) => {
 
 <script>
   function setupHeader() {
-    // 移动端菜单切换
     const menuBtn = document.getElementById("mobile-menu-toggle");
     const menuPanel = document.getElementById("mobile-menu-panel");
-    menuBtn?.addEventListener("click", () => {
-      menuPanel?.classList.toggle("hidden");
-    });
+    if (!menuBtn || !menuPanel) return;
 
-    // 主题切换
-    const themeBtn = document.getElementById("theme-toggle-btn");
-    themeBtn?.addEventListener("click", () => {
-      const isDark = document.documentElement.classList.contains("dark");
-      const nextTheme = isDark ? "light" : "dark";
-      document.documentElement.classList.toggle("dark", !isDark);
-      document.documentElement.setAttribute("data-theme", nextTheme);
-      localStorage.setItem("theme", nextTheme);
+    // 使用 onclick 确保单次绑定，避免 addEventListener 重复注册导致 toggle 互相抵消
+    menuBtn.onclick = (e) => {
+      e.stopPropagation();
+      const isHidden = menuPanel.classList.toggle("hidden");
+      menuBtn.setAttribute("aria-expanded", String(!isHidden));
+    };
+
+    // 点击菜单项后自动收起菜单
+    menuPanel.querySelectorAll("a").forEach((link) => {
+      link.onclick = () => {
+        menuPanel.classList.add("hidden");
+        menuBtn.setAttribute("aria-expanded", "false");
+      };
     });
   }
 
+  // 点击页面外部区域自动收起移动端菜单
+  document.addEventListener("click", (e) => {
+    const menuBtn = document.getElementById("mobile-menu-toggle");
+    const menuPanel = document.getElementById("mobile-menu-panel");
+    if (menuPanel && !menuPanel.classList.contains("hidden")) {
+      const target = e.target as Node;
+      if (!menuBtn?.contains(target) && !menuPanel.contains(target)) {
+        menuPanel.classList.add("hidden");
+        menuBtn?.setAttribute("aria-expanded", "false");
+      }
+    }
+  });
+
   document.addEventListener("astro:page-load", setupHeader);
-  setupHeader();
 </script>

@@ -24,7 +24,11 @@ function reflect(): void {
   const root = document.firstElementChild;
   root?.setAttribute("data-theme", themeValue);
   root?.classList.toggle("dark", themeValue === DARK);
-  document.querySelector("#theme-btn")?.setAttribute("aria-label", themeValue);
+
+  const themeBtn =
+    document.querySelector("#theme-btn") ??
+    document.querySelector("#theme-toggle-btn");
+  themeBtn?.setAttribute("aria-label", themeValue);
 
   // Fill <meta name="theme-color"> with the computed background colour so
   // Android's browser chrome matches the page background.
@@ -36,16 +40,22 @@ function reflect(): void {
 
 function setup(): void {
   reflect();
-  document.querySelector("#theme-btn")?.addEventListener("click", () => {
-    themeValue = themeValue === LIGHT ? DARK : LIGHT;
-    persist();
-  });
+  const themeBtn = (document.querySelector("#theme-btn") ??
+    document.querySelector("#theme-toggle-btn")) as HTMLElement | null;
+
+  if (themeBtn) {
+    themeBtn.onclick = () => {
+      themeValue = themeValue === LIGHT ? DARK : LIGHT;
+      persist();
+    };
+  }
 }
 
 setup();
 
 // Re-run after View Transitions navigation.
 document.addEventListener("astro:after-swap", setup);
+document.addEventListener("astro:page-load", setup);
 
 // Carry the theme-color value across View Transitions to prevent the
 // Android navigation bar from flashing during page transitions.
