@@ -1,0 +1,4 @@
+# 自托管的第三方构建产物按二进制处理：禁止 Git 做行尾转换，保证
+# 「本地构建出来的文件」与「仓库里/线上部署的文件」逐字节一致
+# （README 里记录着 sha256，必须对得上）。
+public/vendor/cwd-widget/** -text linguist-vendored
