@@ -122,6 +122,15 @@ type CommentsConfig =
        * bundle that supports the option (see `public/vendor/cwd-widget/`).
        */
       collapseForm?: boolean;
+      /**
+       * Use a compact single-row style for the post like bar.
+       *
+       * Upstream renders a 32px heart stacked above the count plus 30px of
+       * vertical padding (~154px tall), which leaves a large blank area at the
+       * top of the comment section. Needs a widget bundle that supports the
+       * option (see `public/vendor/cwd-widget/`).
+       */
+      compactLikeBar?: boolean;
       lang?: string;
     };
 

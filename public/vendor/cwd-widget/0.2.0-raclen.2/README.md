@@ -1,25 +1,23 @@
-> ⚠️ **已被 `0.2.0-raclen.2` 取代**（多了 `compactLikeBar` 紧凑点赞条）。
-> 本目录只是回滚用的历史快照，线上已不再引用。
+# 自托管 CWD 评论组件（本站自编译版 0.2.0-raclen.2）
 
-# 自托管 CWD 评论组件（本站自编译版 0.2.0-raclen.1）
-
-上游 npm 上的 `cwd-widget@0.2.0` **不含**下面两项改动，因此本站把源码 fork 到
+上游 npm 上的 `cwd-widget@0.2.0` **不含**下面三项改动，因此本站把源码 fork 到
 [`raclen/cwd`](https://github.com/raclen/cwd)，在 `docs/widget` 里改完再重新构建，
-产物与 `0.2.0/` 一样自托管（不依赖 unpkg / jsDelivr，可用性与供应链都更可控）。
+产物自托管（不依赖 unpkg / jsDelivr，可用性与供应链都更可控）。
 
 | 项目 | 值 |
 | --- | --- |
-| 版本 | `0.2.0-raclen.1`（上游 0.2.0 + 2 处本地补丁） |
+| 版本 | `0.2.0-raclen.2`（上游 0.2.0 + 3 处本地补丁） |
 | 来源 | fork `raclen/cwd` → `docs/widget` → `pnpm build` → `dist/cwd.js` |
-| 构建基线 | fork `raclen/cwd` 的 `main` @ `8ebbafa`（含邮箱选填 + 折叠表单两处补丁；对应 API 提交 `70b39aa`） |
-| 体积 | 406,558 bytes（gzip 约 97 KiB） |
+| 构建基线 | fork `raclen/cwd` 的 `main` @ `d06e3d4`（邮箱选填 `70b39aa` + 折叠表单 `8ebbafa` + 紧凑点赞条 `d06e3d4`） |
+| 体积 | 406,999 bytes（gzip 约 97 KiB） |
 | 引入方式 | `astro-paper.config.ts` 的 `comments.widgetSrc`（组件脚本由 `CwdComments.astro` 注入） |
+| 取代 | 取代 `0.2.0-raclen.1`（多了第 3 项 `compactLikeBar`），`0.2.0-raclen.1/` 保留可回滚 |
 
 ## 校验
 
 ```bash
-sha256sum public/vendor/cwd-widget/0.2.0-raclen.1/cwd.js
-# 059a390f67cf47d989f80a0b9dc386147304dbdde9e91eee2eb53405722f73dd
+sha256sum public/vendor/cwd-widget/0.2.0-raclen.2/cwd.js
+# b0df82159a31e5f38b00c604673731045e4ae94ac6eb87ba23ea9b7caa6c612f
 ```
 
 ## 与上游 0.2.0 的差异
@@ -38,6 +36,14 @@ sha256sum public/vendor/cwd-widget/0.2.0-raclen.1/cwd.js
    - 相关代码：`src/core/CWDComments.js`（`collapseForm` / `_applyFormVisibility` / `_setFormExpanded`）、
      `src/components/CommentForm.js`（`onCollapse`）、`src/styles/main.css`、
      `src/locales/index.js`（`writeCommentBtn`、`collapse`）。
+3. **新增 `compactLikeBar` 配置（点赞条紧凑单行）**
+   - 上游的文章点赞条是「32px 大爱心竖排 + 上下各 30px 留白 + 外层 16px 内边距」≈ **154px** 高，
+     实际内容只有 62px，评论区顶部因此空一大片（表单默认收起后尤其显眼）。
+   - 开启后改为一行小胶囊（`♥ 0人喜欢`，爱心 20px、行高约 28px），顶部空白从 ~154px 降到 ~28px。
+   - 实现：`_render()` 里按配置给容器加 `cwd-compact-like` 类，
+     `src/styles/main.css` 末尾用 `.cwd-compact-like .cwd-like…` 覆盖（选择器权重高于原规则，不依赖顺序）；
+     `updateConfig({ compactLikeBar })` 可在运行时切换。
+   - 关闭时行为与上游完全一致。
 
 ## 重建步骤
 
@@ -51,19 +57,28 @@ sha256sum E:/code/zone/public/vendor/cwd-widget/<版本>/cwd.js   # 更新本文
 
 改完记得同时更新 `astro-paper.config.ts` 的 `comments.widgetSrc`。
 
+> ⚠️ **改内容一定要换版本目录**：同一路径的产物会被浏览器 / Cloudflare 边缘缓存，
+> 覆盖同名文件会让「HTML 里引用的产物」和「缓存里的产物」不一致。`0.2.0/`、
+> `0.2.0-raclen.1/`、`0.2.0-raclen.2/` 就是这个用途。
+
 ## 回滚
 
-把 `astro-paper.config.ts` 的 `comments.widgetSrc` 改回 `/vendor/cwd-widget/0.2.0/cwd.js`，
-并把 `comments.collapseForm` 设为 `false`（或删掉），即回到完全的上游行为。
-`0.2.0/` 目录保留，随时可切。
+按需选择：
+
+| 想回到 | 操作 |
+| --- | --- |
+| 保留折叠 + 邮箱选填，只恢复大点赞条 | 删掉 `comments.compactLikeBar`（或设 `false`） |
+| 回到刚才那版 | `comments.widgetSrc` 改回 `/vendor/cwd-widget/0.2.0-raclen.1/cwd.js`，并删掉 `compactLikeBar` |
+| 完全上游行为 | `comments.widgetSrc` 改回 `/vendor/cwd-widget/0.2.0/cwd.js`，删掉 `collapseForm` 与 `compactLikeBar` |
 
 ## 升级上游版本时
 
-上游发布新版本时，这两处补丁需要在新版本上重做（源码在自有 fork 里，可持续维护）：
+上游发布新版本时，这三处补丁需要在新版本上重做（源码在自有 fork 里，可持续维护）：
 
 | 补丁 | 涉及文件 |
 | --- | --- |
 | 邮箱选填 | `cwd-api/src/api/public/postComment.ts`、widget 的 `validator.js` / `CommentForm.js` / `ReplyEditor.js` / `locales/index.js` |
 | 折叠表单 | widget 的 `core/CWDComments.js` / `components/CommentForm.js` / `styles/main.css` / `locales/index.js` |
+| 紧凑点赞条 | widget 的 `core/CWDComments.js` / `styles/main.css` / `index.d.ts` |
 
 > Widget 与 API 的大版本应保持一致；API 版本可访问 `https://cwd-api.raclen.qzz.io/` 查看。

@@ -45,12 +45,14 @@ export default defineAstroPaperConfig({
     provider: "cwd",
     apiBaseUrl: "https://cwd-api.raclen.qzz.io",
     siteId: "raclen.qzz.io",
-    widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.1/cwd.js",
+    widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js",
     canonicalOrigin: "https://raclen.qzz.io",
     pageSize: 20,
     lang: "zh-CN",
     // 评论表单默认收起，只留一行「写评论」入口，点击后再展开（本站自编译版新增能力）
     collapseForm: true,
+    // 文章点赞条用紧凑单行样式：上游那版约 154px 高，会在评论区顶部空出一大片
+    compactLikeBar: true,
   },
 
   // 如需回退到 Giscus：还原 src/pages/blog/_components/GiscusComments.astro

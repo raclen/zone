@@ -17,13 +17,15 @@ const commentsConfig = userConfig.comments?.enabled
       // 多站点统计用的标识，换域名时无需改（仅作为逻辑标签）
       siteId: "raclen.qzz.io",
       // 组件产物已本地化（本站自编译版），不依赖第三方 CDN
-      widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.1/cwd.js",
+      widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js",
       // 让文章点赞 / PV 归一到主域名，避免多域名导致的数据分裂
       canonicalOrigin: userConfig.site.url,
       pageSize: 20,
       lang: "zh-CN",
       // 评论表单默认收起，点击「写评论」入口后展开
       collapseForm: false,
+      // 文章点赞条紧凑单行（去掉上游那版评论区顶部约 154px 的空白）
+      compactLikeBar: false,
       ...userConfig.comments,
     }
   : { enabled: false as const };
