@@ -205,14 +205,15 @@ const compactLikeBar = cwd?.compactLikeBar === true;
 }
 
 <style>
+  /* 评论区现在包裹在独立的 .fuwari-card Bento 卡片中，无需旧版单列布局时的卡片内大边距和分割虚线 */
   .comments-section {
-    margin-top: 64px;
-    padding-top: 48px;
-    border-top: 1px dashed var(--border);
+    margin-top: 0;
+    padding-top: 0;
+    border-top: none;
   }
 
   .comments-header {
-    margin-bottom: 32px;
+    margin-bottom: 24px;
   }
 
   .comments-header h2 {
@@ -245,12 +246,5 @@ const compactLikeBar = cwd?.compactLikeBar === true;
   .cwd-noscript {
     color: var(--muted-foreground);
     font-size: 0.95rem;
-  }
-
-  @media (max-width: 768px) {
-    .comments-section {
-      margin-top: 48px;
-      padding-top: 32px;
-    }
   }
 </style>
