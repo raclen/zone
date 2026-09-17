@@ -45,10 +45,12 @@ export default defineAstroPaperConfig({
     provider: "cwd",
     apiBaseUrl: "https://cwd-api.raclen.qzz.io",
     siteId: "raclen.qzz.io",
-    widgetSrc: "/vendor/cwd-widget/0.2.0/cwd.js",
+    widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.1/cwd.js",
     canonicalOrigin: "https://raclen.qzz.io",
     pageSize: 20,
     lang: "zh-CN",
+    // 评论表单默认收起，只留一行「写评论」入口，点击后再展开（本站自编译版新增能力）
+    collapseForm: true,
   },
 
   // 如需回退到 Giscus：还原 src/pages/blog/_components/GiscusComments.astro

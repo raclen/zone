@@ -1,5 +1,8 @@
 # 自托管 CWD 评论组件
 
+> **已被 [`0.2.0-raclen.1/`](../0.2.0-raclen.1/README.md) 取代**（新增邮箱选填 + 表单默认收起）。
+> 本目录保留仅用于回滚：把 `comments.widgetSrc` 改回 `/vendor/cwd-widget/0.2.0/cwd.js` 即可切回上游行为。
+
 这里存放 **本地化（vendored）** 的 [`cwd-widget`](https://www.npmjs.com/package/cwd-widget) 构建产物，
 由本站自己分发，不依赖 unpkg / jsDelivr 等第三方 CDN（可用性更好，也没有供应链被替换的风险）。
 

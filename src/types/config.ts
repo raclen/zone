@@ -114,6 +114,14 @@ type CommentsConfig =
       canonicalOrigin?: string;
       /** Comments per page. */
       pageSize?: number;
+      /**
+       * Collapse the comment form behind a “write a comment” entry.
+       *
+       * When enabled the form is hidden on load, the visitor clicks the entry
+       * to reveal it (the textarea is focused automatically). Needs a widget
+       * bundle that supports the option (see `public/vendor/cwd-widget/`).
+       */
+      collapseForm?: boolean;
       lang?: string;
     };
 
