@@ -19,7 +19,7 @@ import ShareLinks from "./_components/ShareLinks.astro";
 import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
-import GiscusComments from "./_components/GiscusComments.astro";
+import CwdComments from "./_components/CwdComments.astro";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -249,7 +249,7 @@ const hasHeadings = filteredHeadings.length > 0;
 
         <!-- 评论区 Bento 卡片 -->
         <div class="fuwari-card p-6 border border-border/80">
-          <GiscusComments />
+          <CwdComments />
         </div>
       </main>
     </div>

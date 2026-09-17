@@ -32,7 +32,7 @@ npm run preview
 ### 线上测试
 1. 推送代码到 GitHub
 2. 等待自动部署完成
-3. 访问 https://raclen.cyou/blog
+3. 访问 https://raclen.qzz.io/blog
 4. 测试搜索功能
 
 ## 📝 工作原理

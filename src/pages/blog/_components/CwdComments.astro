@@ -1,0 +1,246 @@
+---
+/**
+ * CWD 评论区组件（自建 Cloudflare Workers + D1 + KV）。
+ *
+ * 相比原先的 Giscus：
+ *  - 读者无需 GitHub 账号，填昵称即可评论；
+ *  - 评论以「路径」为键（CWD 的 postSlug 默认取 window.location.pathname），
+ *    因此本站所有自定义域名共享同一份评论，不会像 Giscus 的 url 映射那样按域名分裂；
+ *  - 顺带提供每篇文章的阅读量（PV）。
+ *
+ * 组件产物在 public/vendor/cwd-widget/ 下自托管，不依赖第三方 CDN。
+ */
+import config from "@/config";
+
+const comments = config.comments;
+const cwd = comments.enabled && comments.provider === "cwd" ? comments : null;
+
+const apiBaseUrl = cwd?.apiBaseUrl.replace(/\/+$/, "") ?? "";
+const widgetSrc = cwd?.widgetSrc ?? "/vendor/cwd-widget/0.2.0/cwd.js";
+const siteId = cwd?.siteId ?? "";
+// 归一文章点赞 / PV 所用的宿主（默认取站点 canonical 地址）
+const canonicalOrigin = (cwd?.canonicalOrigin ?? "").replace(/\/+$/, "");
+const pageSize = cwd?.pageSize ?? 20;
+const lang = cwd?.lang ?? "zh-CN";
+---
+
+{
+  cwd && (
+    <section class="comments-section">
+      <div class="comments-header">
+        <h2>评论</h2>
+        <p class="comments-subtitle">
+          无需注册，填写昵称即可评论
+          <span class="comments-dot" aria-hidden="true">·</span>
+          阅读 <span id="cwd-page-pv" class="cwd-pv">—</span> 次
+        </p>
+      </div>
+
+      <div
+        id="cwd-comments"
+        class="cwd-comments-host"
+        data-api-base-url={apiBaseUrl}
+        data-site-id={siteId}
+        data-canonical-origin={canonicalOrigin}
+        data-widget-src={widgetSrc}
+        data-page-size={String(pageSize)}
+        data-lang={lang}
+      >
+        <noscript>
+          <p class="cwd-noscript">评论区需要启用 JavaScript 才能加载。</p>
+        </noscript>
+      </div>
+
+      {/*
+        经典内联脚本：不经 Astro 打包，随 <body> 一起在每次导航后被重新执行。
+        真正的初始化逻辑对「首次加载」和「View Transitions 导航」两种情况都做了幂等处理。
+      */}
+      <script is:inline>
+        (() => {
+          "use strict";
+
+          const FALLBACK_WIDGET_SRC = "/vendor/cwd-widget/0.2.0/cwd.js";
+
+          /** 卸载当前页面的组件实例，并断开主题监听。 */
+          function teardown() {
+            if (window.__cwdThemeObserver) {
+              window.__cwdThemeObserver.disconnect();
+              window.__cwdThemeObserver = null;
+            }
+            const current = window.__cwdWidget;
+            window.__cwdWidget = null;
+            if (current) {
+              try {
+                current.unmount();
+              } catch (e) {
+                /* 忽略：卸载失败不应影响页面导航 */
+              }
+            }
+          }
+
+          /** 按需加载（并缓存）自托管的组件产物。 */
+          function loadWidget(src) {
+            if (window.CWDComments) {
+              return Promise.resolve(window.CWDComments);
+            }
+            if (!window.__cwdWidgetLoader) {
+              window.__cwdWidgetLoader = new Promise((resolve, reject) => {
+                const script = document.createElement("script");
+                script.src = src;
+                script.async = true;
+                script.onload = () => {
+                  if (window.CWDComments) {
+                    resolve(window.CWDComments);
+                  } else {
+                    reject(new Error("CWD 组件已加载，但没有暴露 CWDComments 全局变量"));
+                  }
+                };
+                script.onerror = () => {
+                  reject(new Error("CWD 组件加载失败：" + src));
+                };
+                document.head.appendChild(script);
+              });
+            }
+            return window.__cwdWidgetLoader;
+          }
+
+          async function init() {
+            const host = document.getElementById("cwd-comments");
+            // 当前页面没有评论区，或已经初始化过（幂等）
+            if (!host || host.__cwdInitialized) {
+              return;
+            }
+            host.__cwdInitialized = true;
+
+            const dataset = host.dataset;
+            const apiBaseUrl = (dataset.apiBaseUrl || "").replace(/\/+$/, "");
+            if (!apiBaseUrl) {
+              console.warn("[cwd] 未配置 apiBaseUrl，跳过评论组件初始化");
+              return;
+            }
+
+            let CWDComments;
+            try {
+              CWDComments = await loadWidget(dataset.widgetSrc || FALLBACK_WIDGET_SRC);
+            } catch (e) {
+              console.error("[cwd]", e);
+              return;
+            }
+
+            // 异步加载期间用户可能已经离开了这一页
+            if (!host.isConnected || window.__cwdWidget) {
+              return;
+            }
+
+            const canonicalOrigin = (dataset.canonicalOrigin || "").replace(/\/+$/, "");
+            const isDark = () =>
+              document.documentElement.classList.contains("dark");
+
+            const widget = new CWDComments({
+              el: host,
+              apiBaseUrl,
+              siteId: dataset.siteId || undefined,
+              theme: isDark() ? "dark" : "light",
+              lang: dataset.lang || "zh-CN",
+              pageSize: Number(dataset.pageSize || 20),
+            });
+
+            // CWD 按 postSlug（路径）聚合评论，但按 postUrl（含域名）聚合文章点赞与 PV。
+            // 本站有多个域名指向同一份构建，这里把 postUrl 归一到 canonical 地址。
+            // 必须在 mount() 之前覆写：组件内部的 API 客户端是在 mount() 里用 this.config 建的。
+            const applyCanonicalUrl = () => {
+              if (!canonicalOrigin) return;
+              widget.config.postUrl = canonicalOrigin + window.location.pathname;
+            };
+            applyCanonicalUrl();
+
+            widget.mount();
+            window.__cwdWidget = widget;
+
+            // 跟随站点明暗主题（组件在 Shadow DOM 内用 data-theme 切换样式）
+            let lastDark = isDark();
+            window.__cwdThemeObserver = new MutationObserver(() => {
+              const dark = isDark();
+              if (dark === lastDark) return;
+              lastDark = dark;
+              try {
+                widget.updateConfig({ theme: dark ? "dark" : "light" });
+                // updateConfig 会把 postUrl 重置回 window.location.origin + pathname
+                applyCanonicalUrl();
+              } catch (e) {
+                /* 忽略：主题同步失败不影响评论功能 */
+              }
+            });
+            window.__cwdThemeObserver.observe(document.documentElement, {
+              attributes: true,
+              attributeFilter: ["class"],
+            });
+          }
+
+          if (!window.__cwdLifecycleBound) {
+            window.__cwdLifecycleBound = true;
+            // 离开当前页面前先卸载，避免监听器残留
+            document.addEventListener("astro:before-swap", teardown);
+            // View Transitions 导航完成后重新初始化
+            document.addEventListener("astro:page-load", () => {
+              if (!window.__cwdWidget) init();
+            });
+          }
+
+          init();
+        })();
+      </script>
+    </section>
+  )
+}
+
+<style>
+  .comments-section {
+    margin-top: 64px;
+    padding-top: 48px;
+    border-top: 1px dashed var(--border);
+  }
+
+  .comments-header {
+    margin-bottom: 32px;
+  }
+
+  .comments-header h2 {
+    font-size: 1.75rem;
+    font-weight: 600;
+    margin-bottom: 8px;
+    color: var(--foreground);
+  }
+
+  .comments-subtitle {
+    color: var(--muted-foreground);
+    font-size: 0.95rem;
+  }
+
+  .comments-dot {
+    margin: 0 0.35em;
+    opacity: 0.6;
+  }
+
+  .cwd-pv {
+    font-variant-numeric: tabular-nums;
+    font-weight: 600;
+    color: var(--foreground);
+  }
+
+  .cwd-comments-host {
+    min-height: 200px;
+  }
+
+  .cwd-noscript {
+    color: var(--muted-foreground);
+    font-size: 0.95rem;
+  }
+
+  @media (max-width: 768px) {
+    .comments-section {
+      margin-top: 48px;
+      padding-top: 32px;
+    }
+  }
+</style>

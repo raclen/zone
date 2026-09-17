@@ -10,7 +10,7 @@
 
 ## 在线地址
 
-- 生产站点：`https://raclen.cyou`
+- 生产站点：`https://raclen.qzz.io`
 - GitHub 仓库：`https://github.com/raclen/zone`
 
 ## 技术栈
@@ -62,7 +62,7 @@ pnpm preview
 ## 站点结构
 
 ```text
-https://raclen.cyou/
+https://raclen.qzz.io/
 ├── /                    个人首页
 ├── /blog                博客列表
 ├── /blog/[slug]         文章详情

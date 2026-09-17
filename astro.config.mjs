@@ -21,7 +21,7 @@ const __dirname = path.dirname(fileURLToPath(import.meta.url));
 
 // 部署到 Cloudflare Pages 的纯静态站点。
 export default defineConfig({
-  site: "https://raclen.cyou",
+  site: "https://raclen.qzz.io",
   output: "static",
   devToolbar: {
     enabled: false,

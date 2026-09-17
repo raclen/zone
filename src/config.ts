@@ -11,14 +11,16 @@ const DEFAULT_OG_IMAGE = "default-og.jpg";
 
 const commentsConfig = userConfig.comments?.enabled
   ? {
-      provider: "giscus" as const,
-      category: "General",
-      mapping: "url" as const,
-      strict: "0" as const,
-      reactionsEnabled: true,
-      emitMetadata: false,
-      inputPosition: "top" as const,
-      theme: "light",
+      provider: "cwd" as const,
+      // 指向自建的 CWD Workers API（见 E:/code/cwd/temp/CWD-部署与维护笔记.md）
+      apiBaseUrl: "https://cwd-api.raclen.qzz.io",
+      // 多站点统计用的标识，换域名时无需改（仅作为逻辑标签）
+      siteId: "raclen.qzz.io",
+      // 组件产物已本地化，不依赖第三方 CDN
+      widgetSrc: "/vendor/cwd-widget/0.2.0/cwd.js",
+      // 让文章点赞 / PV 归一到主域名，避免多域名导致的数据分裂
+      canonicalOrigin: userConfig.site.url,
+      pageSize: 20,
       lang: "zh-CN",
       ...userConfig.comments,
     }

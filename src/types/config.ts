@@ -92,33 +92,28 @@ interface ShareLink {
   linkTitle?: string;
 }
 
-type GiscusMapping =
-  | "pathname"
-  | "url"
-  | "title"
-  | "og:title"
-  | "specific"
-  | "number";
-
 type CommentsConfig =
   | { enabled: false }
   | {
       enabled: true;
-      provider: "giscus";
-      /** GitHub repository in owner/name form, e.g. "raclen/zone" */
-      repo: string;
-      /** Repository GraphQL node id from giscus.app */
-      repoId: string;
-      /** GitHub Discussions category name */
-      category: string;
-      /** Discussion category GraphQL node id from giscus.app */
-      categoryId: string;
-      mapping?: GiscusMapping;
-      strict?: "0" | "1";
-      reactionsEnabled?: boolean;
-      emitMetadata?: boolean;
-      inputPosition?: "top" | "bottom";
-      theme?: string;
+      provider: "cwd";
+      /** CWD API base URL, e.g. "https://cwd-api.example.com" (trailing slashes are ignored). */
+      apiBaseUrl: string;
+      /** Multi-site identifier sent with every request and stored with each comment. */
+      siteId?: string;
+      /** Path (or absolute URL) of the self-hosted widget bundle. */
+      widgetSrc?: string;
+      /**
+       * Canonical origin of this blog, e.g. "https://example.com".
+       *
+       * CWD groups comments by `postSlug` (the pathname) but groups article
+       * likes and page views by `postUrl` (origin + pathname). When the same
+       * build is served from several custom domains those counters would be
+       * split per domain, so the widget rewrites `postUrl` to this origin.
+       */
+      canonicalOrigin?: string;
+      /** Comments per page. */
+      pageSize?: number;
       lang?: string;
     };
 

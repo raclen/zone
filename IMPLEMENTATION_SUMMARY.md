@@ -103,7 +103,7 @@ Astro 构建 (Content Collections 解析)
     ↓
 Pagefind 索引 (搜索功能)
     ↓
-静态站点 (https://raclen.cyou/blog)
+静态站点 (https://raclen.qzz.io/blog)
 ```
 
 ## 关键特性

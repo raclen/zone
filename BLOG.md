@@ -62,7 +62,7 @@ pnpm sync-blog
 ### 3. 查看博客
 
 - **本地预览**：`pnpm dev` 然后访问 http://localhost:4323/blog
-- **线上访问**：https://raclen.cyou/blog
+- **线上访问**：https://raclen.qzz.io/blog
 
 ## 🛠️ 本地开发
 
@@ -176,8 +176,8 @@ integrations: [sitemap(), pagefind()]
 ## 🔗 相关链接
 
 - **内容源**：[raclen/zone Issues](https://github.com/raclen/zone/issues)
-- **博客地址**：https://raclen.cyou/blog
-- **项目主页**：https://raclen.cyou
+- **博客地址**：https://raclen.qzz.io/blog
+- **项目主页**：https://raclen.qzz.io
 
 ## 🤝 友链信息 (Friends Info)
 
