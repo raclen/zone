@@ -62,7 +62,7 @@ pnpm sync-blog
 ### 3. 查看博客
 
 - **本地预览**：`pnpm dev` 然后访问 http://localhost:4323/blog
-- **线上访问**：https://raclen.qzz.io/blog
+- **线上访问**：https://raclen.ee.cd/blog
 
 ## 🛠️ 本地开发
 
@@ -176,8 +176,8 @@ integrations: [sitemap(), pagefind()]
 ## 🔗 相关链接
 
 - **内容源**：[raclen/zone Issues](https://github.com/raclen/zone/issues)
-- **博客地址**：https://raclen.qzz.io/blog
-- **项目主页**：https://raclen.qzz.io
+- **博客地址**：https://raclen.ee.cd/blog
+- **项目主页**：https://raclen.ee.cd
 
 ## 🤝 友链信息 (Friends Info)
 
@@ -186,7 +186,7 @@ integrations: [sitemap(), pagefind()]
 ```yaml
 - title: 当下的七炎
   intro: 记录技术、工具、投资与日常思考。
-  link: https://raclen.qzz.io
+  link: https://raclen.ee.cd
   image: https://avatars.githubusercontent.com/u/7697758?v=4
 ```
 
@@ -194,7 +194,7 @@ integrations: [sitemap(), pagefind()]
 {
   "title": "当下的七炎",
   "intro": "记录技术、工具、投资与日常思考。",
-  "link": "https://raclen.qzz.io",
+  "link": "https://raclen.ee.cd",
   "image": "https://avatars.githubusercontent.com/u/7697758?v=4"
 }
 ```

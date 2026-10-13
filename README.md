@@ -10,7 +10,7 @@
 
 ## 在线地址
 
-- 生产站点：`https://raclen.qzz.io`
+- 生产站点：`https://raclen.ee.cd`
 - GitHub 仓库：`https://github.com/raclen/zone`
 
 ## 技术栈
@@ -62,7 +62,7 @@ pnpm preview
 ## 站点结构
 
 ```text
-https://raclen.qzz.io/
+https://raclen.ee.cd/
 ├── /                    个人首页
 ├── /blog                博客列表
 ├── /blog/[slug]         文章详情
@@ -82,7 +82,7 @@ https://raclen.qzz.io/
 ```yaml
 - title: 当下的七炎
   intro: 记录技术、工具、投资与日常思考。
-  link: https://raclen.qzz.io
+  link: https://raclen.ee.cd
   image: https://avatars.githubusercontent.com/u/7697758?v=4
 ```
 

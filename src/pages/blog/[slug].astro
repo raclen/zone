@@ -10,7 +10,7 @@ import FuwariArchiveWidget from "@/components/fuwari/FuwariArchiveWidget.astro";
 import FuwariTagsWidget from "@/components/fuwari/FuwariTagsWidget.astro";
 import { getPostSlug } from "@/utils/getPostPaths";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import { getReadingTime } from "@/utils/readingTime";
 import { slugifyStr } from "@/utils/slugify";
 import { toTransitionName } from "@/utils/toTransitionName";
@@ -98,11 +98,7 @@ if (headings.length === 0 && post.body) {
 }
 
 // 提取标签统计
-const uniqueTags = getUniqueTags(allPosts);
-const tagsWithCount = uniqueTags.map(tag => ({
-  tag: tag.tag,
-  count: allPosts.filter(p => p.data.tags?.includes(tag.tag)).length,
-}));
+const tagsWithCount = getUniqueTagsWithCount(allPosts);
 
 // 提取年份统计
 const yearsMap = new Map<string, number>();
@@ -237,7 +233,7 @@ const hasHeadings = filteredHeadings.length > 0;
               <span class="text-xs text-muted-foreground font-semibold mr-1">标签:</span>
               {tags.map(tag => (
                 <a
-                  href={`/tags/${encodeURIComponent(tag)}`}
+                  href={`/tags/${encodeURIComponent(slugifyStr(tag))}`}
                   class="fuwari-pill text-xs py-0.5 px-2.5 hover:bg-accent hover:text-white transition-colors"
                 >
                   #{tag}

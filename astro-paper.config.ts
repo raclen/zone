@@ -2,7 +2,7 @@ import { defineAstroPaperConfig } from "./src/types/config";
 
 export default defineAstroPaperConfig({
   site: {
-    url: "https://raclen.qzz.io",
+    url: "https://raclen.ee.cd",
     title: "当下的七炎",
     description: "记录技术、工具、投资与日常思考。",
     author: "raclen",
@@ -39,14 +39,14 @@ export default defineAstroPaperConfig({
   // 评论区：自建 CWD（Cloudflare Workers + D1 + KV）
   // 后台：https://cwd-admin.raclen.qzz.io ／ API：https://cwd-api.raclen.qzz.io
   // 与 Giscus 的关键差异：CWD 以「路径」而非「完整 URL」聚合评论，
-  // 因此 raclen.qzz.io 等所有自定义域名共享同一份评论，不会按域名分裂。
+  // 因此 raclen.ee.cd 等所有自定义域名共享同一份评论，不会按域名分裂。
   comments: {
     enabled: true,
     provider: "cwd",
     apiBaseUrl: "https://cwd-api.raclen.qzz.io",
     siteId: "raclen.qzz.io",
     widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js",
-    canonicalOrigin: "https://raclen.qzz.io",
+    canonicalOrigin: "https://raclen.ee.cd",
     pageSize: 20,
     lang: "zh-CN",
     // 评论表单默认收起，只留一行「写评论」入口，点击后再展开（本站自编译版新增能力）

@@ -4,7 +4,7 @@ import type { GetStaticPathsOptions } from "astro";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
 import FuwariBentoCard from "@/components/fuwari/FuwariBentoCard.astro";
 import Pagination from "@/components/Pagination.astro";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getUniqueTags, getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { slugifyAll } from "@/utils/slugify";
 import config from "@/config";
@@ -32,11 +32,7 @@ const allPosts = await getCollection("posts");
 const sortedAllPosts = getSortedPosts(allPosts);
 
 // 提取标签统计
-const uniqueTags = getUniqueTags(allPosts);
-const tagsWithCount = uniqueTags.map(t => ({
-  tag: t.tag,
-  count: allPosts.filter(p => p.data.tags?.includes(t.tag)).length,
-}));
+const tagsWithCount = getUniqueTagsWithCount(allPosts);
 
 // 提取年份统计
 const yearsMap = new Map<string, number>();

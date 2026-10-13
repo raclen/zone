@@ -2,18 +2,16 @@
 import { getCollection } from "astro:content";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import config from "@/config";
 
 const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 
 // 统计所有标签及其篇数
-const uniqueTags = getUniqueTags(posts);
-const tagsWithCount = uniqueTags.map(tag => ({
-  tag: tag.tag,
-  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
-})).sort((a, b) => (b.count || 0) - (a.count || 0));
+const tagsWithCount = getUniqueTagsWithCount(posts).sort(
+  (a, b) => b.count - a.count
+);
 
 // 统计年份
 const yearsMap = new Map<string, number>();

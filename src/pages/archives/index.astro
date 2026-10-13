@@ -3,18 +3,14 @@ import { getCollection } from "astro:content";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
 import { getPostUrl } from "@/utils/getPostPaths";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import config from "@/config";
 
 const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 
 // 提取标签统计
-const uniqueTags = getUniqueTags(posts);
-const tagsWithCount = uniqueTags.map(tag => ({
-  tag: tag.tag,
-  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
-}));
+const tagsWithCount = getUniqueTagsWithCount(posts);
 
 // 按年份分组文章
 const postsByYear = new Map<string, typeof sortedPosts>();

@@ -2,7 +2,7 @@
 import { getCollection } from "astro:content";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { getUniqueTags } from "@/utils/getUniqueTags";
+import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import { FRIEND_LINKS } from "@/data/friends";
 import config from "@/config";
 
@@ -10,11 +10,7 @@ const posts = await getCollection("posts");
 const sortedPosts = getSortedPosts(posts);
 
 // 统计标签
-const uniqueTags = getUniqueTags(posts);
-const tagsWithCount = uniqueTags.map(tag => ({
-  tag: tag.tag,
-  count: posts.filter(p => p.data.tags?.includes(tag.tag)).length,
-}));
+const tagsWithCount = getUniqueTagsWithCount(posts);
 
 // 统计年份
 const yearsMap = new Map<string, number>();

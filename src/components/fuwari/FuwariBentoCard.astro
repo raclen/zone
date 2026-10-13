@@ -1,6 +1,7 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
+import { slugifyStr } from "@/utils/slugify";
 import { toTransitionName } from "@/utils/toTransitionName";
 import { getReadingTime } from "@/utils/readingTime";
 import Datetime from "@/components/Datetime.astro";
@@ -79,7 +80,7 @@ const postUrl = getPostUrl(id, filePath, Astro.currentLocale);
       <div class="flex flex-wrap gap-1 items-center">
         {tags.slice(0, 3).map((tag: string) => (
           <a
-            href={`/tags/${encodeURIComponent(tag)}`}
+            href={`/tags/${encodeURIComponent(slugifyStr(tag))}`}
             class="fuwari-pill text-[11px] py-0.5 px-2 hover:bg-accent hover:text-white transition-colors"
           >
             #{tag}
