@@ -40,18 +40,23 @@ import lyricsImg from "@/assets/screenshots/lyrics.webp";
     display: grid;
     grid-template-columns: repeat(2, 1fr);
     gap: 24px;
+    align-items: stretch;
   }
 
   .screenshot-item {
     overflow: hidden;
     padding: 0;
     background: var(--canvas);
+    /* 统一两张截图的画幅比例，避免左右卡片底边错位 */
+    aspect-ratio: 1016 / 686;
   }
 
   .screenshot-item img {
     width: 100%;
-    height: auto;
+    height: 100%;
     display: block;
+    object-fit: cover;
+    object-position: center;
   }
 
   @media (max-width: 680px) {

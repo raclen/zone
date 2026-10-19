@@ -12,7 +12,7 @@ const links = [
 <header class="nav" id="nav">
   <div class="container nav-inner">
     <a class="brand" href="#top" aria-label="AnhePlayer 首页">
-      <img src="/logo.svg" alt="" width="34" height="34" />
+      <img src="/logo.png" alt="" width="34" height="34" />
       <span>AnhePlayer</span>
     </a>
 
@@ -128,8 +128,9 @@ const links = [
     color: var(--ink);
   }
 
+  /* 图标自带圆角与透明角，外层不要再裁一次，否则弧线会被抹平 */
   .brand img {
-    border-radius: 8px;
+    display: block;
   }
 
   .nav-links {
