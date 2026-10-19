@@ -1,22 +1,10 @@
 ---
-import {
-  PLATFORMS,
-  OS_GROUPS,
-  LATEST_API,
-  RELEASES_LATEST_URL,
-  fallbackUrl,
-  type OsKey,
-  type IconKey,
-} from "@/data/platforms";
+import { PLATFORMS, OS_GROUP, RELEASES_LATEST_URL, type IconKey } from "@/data/platforms";
 
-// 平台图标（Windows / Apple / Linux）
+// 平台图标（当前仅 Windows）
 const osIcons: Record<IconKey, string> = {
   windows:
     '<path d="M0 3.4 10 2v9H0V3.4ZM11 1.8l13-1.8v11H11V1.8ZM0 12.6V20l10 1.4V13H0Zm11 8.6L24 23V12H11v9.2Z"/>',
-  apple:
-    '<path d="M18.3 8.6c-.1 2.9 2.5 4.3 2.6 4.3-.1.3-.4 1.4-1.3 2.7-.8 1.1-1.6 2.3-2.9 2.3s-1.5-.8-2.9-.8c-1.3 0-1.8.8-2.9.8-1.1.1-2.2-1.3-3-2.4-1.7-2.3-3-6.5-1.2-9.4.8-1.4 2.3-2.3 3.9-2.3 1.2 0 2.2.8 3 .8.7 0 2-.9 3.4-.8.6 0 2.1.2 3.1 1.7-.1.1-1.8 1.1-1.8 3.1ZM15.8 2.6c.7-.8 1.1-2 1-3.1-1 .1-2.2.7-2.9 1.5-.6.7-1.2 1.9-1 3 1.1.1 2.2-.6 2.9-1.4Z"/>',
-  linux:
-    '<ellipse cx="12" cy="7" rx="10" ry="5"/><path d="M12 12c3.4 0 6.4 1 8.5 2.5a3 3 0 0 1 1.5 2.6v2.9a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1v-2.9c0-1.1.5-2.1 1.5-2.6C5.6 13 8.6 12 12 12Z"/>',
 };
 ---
 
@@ -28,52 +16,55 @@ const osIcons: Record<IconKey, string> = {
         选择适合你的<span class="gradient-text">安装包</span>
       </h2>
       <p class="section-desc">
-        跨平台支持 Windows、macOS 与 Linux，安装版与便携版任你选择。
+        当前版本专为 Windows 10 / 11 打造，提供一键安装版与 MSI 安装包。
       </p>
     </div>
 
-    <div class="download-groups">
-      {
-        OS_GROUPS.map((grp) => (
-          <div class="os-group reveal" data-os={grp.os}>
-            <div class="os-group-header">
-              <div class="os-icon">
-                <svg viewBox="0 0 24 24" fill="currentColor" set:html={osIcons[grp.icon]} />
+    <div class="os-group reveal">
+      <div class="os-group-header">
+        <div class="os-icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" set:html={osIcons[OS_GROUP.icon]} />
+        </div>
+        <div class="os-group-title">
+          <h3>{OS_GROUP.label}</h3>
+          <span>x64 架构 · Tauri v2 原生应用</span>
+        </div>
+      </div>
+
+      <div class="os-assets">
+        {
+          PLATFORMS.map((p) => (
+            <a
+              class="asset-btn"
+              data-asset-id={p.id}
+              href={RELEASES_LATEST_URL}
+              target="_blank"
+              rel="noopener"
+            >
+              <div class="asset-info">
+                <span class="asset-label">
+                  {p.label}
+                  {p.recommended && <span class="asset-badge">推荐</span>}
+                </span>
+                <span class="asset-note">{p.note}</span>
               </div>
-              <h3>{grp.label}</h3>
-            </div>
-            <div class="os-assets">
-              {PLATFORMS.filter((p) => p.os === grp.os).map((p) => (
-                <a
-                  class="asset-btn"
-                  data-asset-id={p.id}
-                  href={RELEASES_LATEST_URL}
-                  target="_blank"
-                  rel="noopener"
+              <div class="asset-meta">
+                <span class="asset-size" data-size="">—</span>
+                <svg
+                  class="download-icon"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
                 >
-                  <div class="asset-info">
-                    <span class="asset-label">{p.label}</span>
-                    <span class="asset-note">{p.note}</span>
-                  </div>
-                  <div class="asset-meta">
-                    <span class="asset-size" data-size="">—</span>
-                    <svg
-                      class="download-icon"
-                      viewBox="0 0 24 24"
-                      fill="none"
-                      stroke="currentColor"
-                      stroke-width="2"
-                    >
-                      <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
-                      <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
-                    </svg>
-                  </div>
-                </a>
-              ))}
-            </div>
-          </div>
-        ))
-      }
+                  <path d="M12 3v11m0 0 4-4m-4 4-4-4" />
+                  <path d="M4 16v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2" />
+                </svg>
+              </div>
+            </a>
+          ))
+        }
+      </div>
     </div>
 
     <div class="download-footer reveal">
@@ -89,33 +80,15 @@ const osIcons: Record<IconKey, string> = {
   import {
     PLATFORMS,
     LATEST_API,
-    RELEASES_LATEST_URL,
     fallbackUrl,
     FALLBACK_VERSION,
-    type OsKey,
   } from "@/data/platforms";
-
-  // 检测用户操作系统
-  function detectOS(): OsKey {
-    const ua = navigator.userAgent.toLowerCase();
-    const plat = navigator.platform?.toLowerCase() || "";
-    if (ua.includes("win") || plat.includes("win")) return "windows";
-    if (ua.includes("mac") || plat.includes("mac")) return "macos";
-    return "linux";
-  }
 
   // 格式化文件大小
   function fmtSize(bytes: number): string {
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
-  }
-
-  // 高亮当前系统的分组
-  function highlightOS(os: OsKey) {
-    document.querySelectorAll<HTMLElement>(".os-group").forEach((el) => {
-      el.classList.toggle("is-current", el.dataset.os === os);
-    });
   }
 
   // 填充下载链接与文件大小
@@ -135,7 +108,7 @@ const osIcons: Record<IconKey, string> = {
       const assets = data.assets || [];
       let totalDownloads = 0;
 
-      // 匹配并填充每个平台
+      // 匹配并填充每个安装包
       for (const p of PLATFORMS) {
         const asset = assets.find((a: any) => a.name?.includes(p.match));
         const btn = document.querySelector<HTMLAnchorElement>(`[data-asset-id="${p.id}"]`);
@@ -156,9 +129,8 @@ const osIcons: Record<IconKey, string> = {
       if (heroDownloads)
         heroDownloads.textContent = `${totalDownloads.toLocaleString()} 次下载`;
 
-      // Hero 主按钮：指向当前系统的首选安装包
-      const os = detectOS();
-      const recommended = PLATFORMS.find((p) => p.os === os && p.recommended);
+      // Hero 主按钮：指向推荐安装包
+      const recommended = PLATFORMS.find((p) => p.recommended);
       if (recommended && heroBtn) {
         const asset = assets.find((a: any) => a.name?.includes(recommended.match));
         heroBtn.disabled = false;
@@ -173,7 +145,6 @@ const osIcons: Record<IconKey, string> = {
       }
 
       if (status) status.textContent = `已加载最新版本 ${version}`;
-      highlightOS(os);
     } catch (err) {
       console.warn("GitHub API 请求失败，使用兜底链接：", err);
       // 兜底：填充静态直链
@@ -185,8 +156,7 @@ const osIcons: Record<IconKey, string> = {
       if (heroDownloads) heroDownloads.textContent = "—";
       if (status) status.textContent = "API 不可用，已显示兜底下载链接";
 
-      const os = detectOS();
-      const recommended = PLATFORMS.find((p) => p.os === os && p.recommended);
+      const recommended = PLATFORMS.find((p) => p.recommended);
       if (recommended && heroBtn) {
         heroBtn.disabled = false;
         heroBtn.onclick = (e) => {
@@ -195,7 +165,6 @@ const osIcons: Record<IconKey, string> = {
         };
         if (heroBtnText) heroBtnText.textContent = `下载 ${recommended.label}`;
       }
-      highlightOS(os);
     }
   }
 
@@ -207,26 +176,16 @@ const osIcons: Record<IconKey, string> = {
     background: var(--surface-soft);
   }
 
-  .download-groups {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 24px;
-  }
-
   .os-group {
-    opacity: 0.7;
-    transition: opacity 0.3s ease;
-  }
-
-  .os-group.is-current {
-    opacity: 1;
+    max-width: 860px;
+    margin-inline: auto;
   }
 
   .os-group-header {
     display: flex;
     align-items: center;
-    gap: 12px;
-    margin-bottom: 20px;
+    gap: 14px;
+    margin-bottom: 24px;
   }
 
   .os-icon {
@@ -244,23 +203,29 @@ const osIcons: Record<IconKey, string> = {
     color: var(--canvas);
   }
 
-  .os-group h3 {
+  .os-group-title h3 {
     font-size: 1.3rem;
     font-weight: 600;
     color: var(--ink);
   }
 
+  .os-group-title span {
+    font-size: 0.85rem;
+    color: var(--ink);
+    opacity: 0.55;
+  }
+
   .os-assets {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
   }
 
   .asset-btn {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 18px 20px;
+    padding: 22px 24px;
     border-radius: var(--radius-md);
     background: var(--canvas);
     border: 1px solid var(--hairline);
@@ -281,9 +246,21 @@ const osIcons: Record<IconKey, string> = {
   }
 
   .asset-label {
-    font-size: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 1.05rem;
     font-weight: 600;
     color: var(--ink);
+  }
+
+  .asset-badge {
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: var(--ink);
+    background: var(--block-lime);
   }
 
   .asset-note {
@@ -337,10 +314,9 @@ const osIcons: Record<IconKey, string> = {
     opacity: 0.5;
   }
 
-  @media (max-width: 920px) {
-    .download-groups {
+  @media (max-width: 680px) {
+    .os-assets {
       grid-template-columns: 1fr;
-      gap: 32px;
     }
   }
 </style>
