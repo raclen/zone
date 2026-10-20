@@ -93,5 +93,5 @@
 ## 7. 死代码：`src/styles/minimalism.css`
 
 没有任何文件引用它。改主题样式时不要在这里找，也不要往里加东西。
-博客走 [src/styles/astropaper.css](src/styles/astropaper.css)，AnhePlayer 宣传页走
-[src/styles/global.css](src/styles/global.css)。
+博客走 [src/styles/astropaper.css](src/styles/astropaper.css)。AnhePlayer 宣传页已拆分到独立项目
+`E:\code\cf-anheplayer`，原 `global.css` 现在只被 `blog/archive.astro` 使用的 Layout 引用。

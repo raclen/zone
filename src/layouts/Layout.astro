@@ -4,13 +4,13 @@ import "../styles/global.css";
 export interface Props {
   title?: string;
   description?: string;
-  /** 站点图标路径；AnhePlayer 宣传页传入自己的播放器图标 */
+  /** 站点图标路径 */
   favicon?: string;
 }
 
 const {
-  title = "AnhePlayer · 支持洛雪插件的免费音乐播放器",
-  description = "AnhePlayer 是一款基于 Tauri v2 打造的轻量 Windows 桌面音乐播放器。支持洛雪插件、本地曲库、网易云私人推荐与主题定制，无广告、不上传个人数据。",
+  title = "当下的七炎",
+  description = "记录技术、工具、投资与日常思考。",
   favicon = "/favicon.svg",
 } = Astro.props;
 
@@ -39,7 +39,7 @@ const ogImage = Astro.site
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="zh_CN" />
-    <meta property="og:site_name" content="AnhePlayer" />
+    <meta property="og:site_name" content="当下的七炎" />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />

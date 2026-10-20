@@ -2,16 +2,18 @@
 
 `zone` 是我的个人站点仓库，基于 Astro 构建，部署在 Cloudflare Pages。
 
-当前站点包含四块主要内容：
+当前站点包含三块主要内容：
 
 - `/`：个人首页
 - `/blog`：博客文章、标签、归档、搜索、RSS
-- `/anheplayer`：AnhePlayer 介绍与下载页
 - `/llm-api`：大模型 API 中转站导航（公益 / 收费分类）
+
+AnhePlayer 介绍与下载页已拆分为独立项目（`cf-anheplayer`），独立域名部署。
 
 ## 在线地址
 
 - 生产站点：`https://raclen.ee.cd`
+- AnhePlayer 站点：`https://anhe-player.loc.cc`
 - GitHub 仓库：`https://github.com/raclen/zone`
 
 ## 技术栈
@@ -73,8 +75,7 @@ https://raclen.ee.cd/
 ├── /about               关于我
 ├── /search              搜索页
 ├── /rss.xml             RSS
-├── /llm-api             大模型 API 中转站导航
-└── /anheplayer          AnhePlayer 页面
+└── /llm-api             大模型 API 中转站导航
 ```
 
 ## 友链信息
