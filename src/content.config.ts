@@ -4,6 +4,7 @@ import { z } from "astro/zod";
 import config from "@/config";
 
 export const BLOG_PATH = "src/content/blog";
+export const DAILY_PATH = "src/content/daily";
 
 const authorSchema = z
   .union([
@@ -54,4 +55,15 @@ const blog = defineCollection({
   schema: baseBlogSchema,
 });
 
-export const collections = { posts, blog };
+// 每日分享：一个月一个文件，文件名即月份（2026-10.md），正文按日分节。
+// 用扁平 *.md 而非 **/：避免子目录让 id 变成 2026/10，破坏路由与月份校验。
+const daily = defineCollection({
+  loader: glob({ pattern: "*.md", base: `./${DAILY_PATH}` }),
+  schema: z.object({
+    title: z.string().optional(), // 缺省由 id 生成「2026 年 10 月」
+    description: z.string().optional(),
+    draft: z.boolean().default(false),
+  }),
+});
+
+export const collections = { posts, blog, daily };
