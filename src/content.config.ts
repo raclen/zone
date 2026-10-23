@@ -50,11 +50,6 @@ const posts = defineCollection({
   }),
 });
 
-const blog = defineCollection({
-  loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: `./${BLOG_PATH}` }),
-  schema: baseBlogSchema,
-});
-
 // 每日分享：一个月一个文件，文件名即月份（2026-10.md），正文按日分节。
 // 用扁平 *.md 而非 **/：避免子目录让 id 变成 2026/10，破坏路由与月份校验。
 const daily = defineCollection({
@@ -66,4 +61,4 @@ const daily = defineCollection({
   }),
 });
 
-export const collections = { posts, blog, daily };
+export const collections = { posts, daily };
