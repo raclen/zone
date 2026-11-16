@@ -20,6 +20,7 @@ import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
 import CwdComments from "./_components/CwdComments.astro";
+import OutdatedNotice from "./_components/OutdatedNotice.astro";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -226,6 +227,9 @@ const hasHeadings = filteredHeadings.length > 0;
           >
             <Content />
           </div>
+
+          <!-- 文章过期提示：发表大于100天展示黄色提醒 -->
+          <OutdatedNotice {pubDatetime} />
 
           <!-- 文章底部标签 -->
           {tags.length > 0 && (
