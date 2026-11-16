@@ -24,3 +24,5 @@ claude
 
 <img width="1219" height="832" alt="Image" src="https://github.com/user-attachments/assets/8044c4bc-f013-493a-887c-a7e57a3530d7" />
 
+多供应商推荐使用magpie或者cc switch
+
