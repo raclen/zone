@@ -1,11 +1,12 @@
 # Zone
 
-`zone` 是我的个人站点仓库，基于 Astro 构建，部署在 Cloudflare Pages。
+`zone` 是七炎的个人站点仓库，基于 Astro 构建，部署在 Cloudflare Pages。
 
-当前站点包含三块主要内容：
+当前站点包含四块主要内容：
 
-- `/`：个人首页
+- `/`：个人首页与作品入口
 - `/blog`：博客文章、标签、归档、搜索、RSS
+- `/daily`：每日分享，按月份归档工具、链接与简短笔记
 - `/llm-api`：大模型 API 中转站导航（公益 / 收费分类）
 
 AnhePlayer 介绍与下载页已拆分为独立项目（`cf-anheplayer`），独立域名部署。
@@ -15,6 +16,7 @@ AnhePlayer 介绍与下载页已拆分为独立项目（`cf-anheplayer`），独
 - 生产站点：`https://raclen.ee.cd`
 - AnhePlayer 站点：`https://anhe-player.loc.cc`
 - GitHub 仓库：`https://github.com/raclen/zone`
+- 通用博客模板：[raclen/issue-blog](https://github.com/raclen/issue-blog)（仅同步可复用模板功能，不携带本站文章、个人页面和私有评论配置）
 
 ## 技术栈
 
@@ -71,12 +73,18 @@ https://raclen.ee.cd/
 ├── /blog/[slug]         文章详情
 ├── /tags                标签页
 ├── /archives            归档页
-├── /friends             友链页
+├── /daily               每日分享月份列表
+├── /daily/[month]       月度分享（日目录、日期锚点、月份翻页）
+├── /friends             友链页（保留页面，导航入口已隐藏）
 ├── /about               关于我
 ├── /search              搜索页
 ├── /rss.xml             RSS
 └── /llm-api             大模型 API 中转站导航
 ```
+
+当前博客使用 Fuwari 风格的卡片与侧栏布局，包含标签统计、年份归档、阅读目录、阅读进度条、字数 / 阅读时长及代码复制。文章结尾在发表超过 **100 个完整日** 后显示黄色信息时效提醒，依据首次发布日期计算；浏览器打开页面时会重新计算天数，不必等待重新构建。
+
+旧版 `/blog/archive` 页面及其专属布局、未引用组件已移除，统一使用 `/archives`；导航中的分享入口名称为「每日分享」。
 
 ## 友链信息
 
@@ -93,7 +101,9 @@ https://raclen.ee.cd/
 
 ## 内容与评论
 
-博客文章位于 `src/content/blog/`。
+博客文章位于 `src/content/blog/`，由 `src/content.config.ts` 中的 `posts` 集合消费；不再保留重复的 `blog` 集合。
+
+每日分享位于 `src/content/daily/`，使用独立的 `daily` 集合，一个月份对应一个 `YYYY-MM.md` 文件。月页提供日期目录、`day-YYYY-MM-DD` 锚点和相邻月份导航；这里只写轻量条目，不走 GitHub Issues 自动同步。解析器见 [src/utils/parseDaily.ts](src/utils/parseDaily.ts)，页面见 [src/pages/daily/index.astro](src/pages/daily/index.astro) 与 [src/pages/daily/[month].astro](src/pages/daily/[month].astro)。
 
 评论系统使用自建的 **CWD**（Cloudflare Workers + D1 + KV），组件在 [CwdComments.astro](src/pages/blog/_components/CwdComments.astro)，配置在 [astro-paper.config.ts](astro-paper.config.ts)：
 
@@ -171,7 +181,7 @@ GitHub Actions 工作流文件是 [.github/workflows/sync-blog.yml](.github/work
 - [astro-paper.config.ts](astro-paper.config.ts)：站点信息、分页、功能开关、分享链接、评论（CWD）
 - [astro.config.mjs](astro.config.mjs)：Astro 构建配置（站点域名、sitemap、Pagefind、Shiki）
 - [src/config.ts](src/config.ts)：给代码消费的已解析配置，一般不改，改 `astro-paper.config.ts`
-- [src/content.config.ts](src/content.config.ts)：内容集合定义
+- [src/content.config.ts](src/content.config.ts)：`posts` 博客与 `daily` 每日分享集合定义
 - [scripts/sync-blog.js](scripts/sync-blog.js)：Issue 到文章的同步脚本
 - [.github/workflows/sync-blog.yml](.github/workflows/sync-blog.yml)：文章同步定时任务
 
@@ -186,7 +196,8 @@ zone/
 │   ├── assets/
 │   ├── components/
 │   ├── content/
-│   │   └── blog/            博客文章（自动同步）
+│   │   ├── blog/            博客文章（自动同步，posts 集合）
+│   │   └── daily/           每日分享（按月手工维护）
 │   ├── data/                友链、功能特性等静态数据
 │   ├── i18n/
 │   ├── layouts/
