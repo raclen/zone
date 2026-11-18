@@ -44,3 +44,11 @@ jobs:
           commit_user_name: 'github-actions[bot]'
           commit_user_email: 'github-actions[bot]@users.noreply.github.com'
           file_pattern: 'src/content/blog/*.md src/content/blog/.sync-meta.json'
+
+      # 等待 Cloudflare Pages 完成部署，否则 Bing 抓取时新文章还是 404
+      - name: 等待部署
+        run: sleep 180
+
+      # 主动把 URL 推给 Bing / Yandex，加速收录（ChatGPT 检索基于 Bing 索引）
+      - name: 推送到 IndexNow
+        run: node scripts/indexnow.mjs
