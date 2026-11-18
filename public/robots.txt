@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://raclen.ee.cd/sitemap-index.xml
+Sitemap: https://raclen.top/sitemap-index.xml

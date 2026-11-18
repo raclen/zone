@@ -1,7 +1,11 @@
 import type { ResolvedAstroPaperConfig } from "@/types/config";
 import { getAssetPath } from "./withBase";
 
-const publicFiles = import.meta.glob("/public/*", { eager: false });
+// 排除以 _ 开头的文件（Cloudflare Pages 的 _redirects / _headers 等），
+// 这类文件没有扩展名，Vite 会按 JS 解析导致构建失败。
+const publicFiles = import.meta.glob(["/public/*", "!/public/_*"], {
+  eager: false,
+});
 
 function existsInPublic(filename: string): boolean {
   return `/public/${filename}` in publicFiles;
