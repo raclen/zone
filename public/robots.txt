@@ -1,4 +1,34 @@
+# 全站允许所有爬虫（含 AI 爬虫）
 User-agent: *
 Allow: /
 
+# 显式声明允许的主流 AI 爬虫，避免未来默认策略收紧时被误伤
+User-agent: GPTBot
+Allow: /
+
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Bingbot
+Allow: /
+
 Sitemap: https://raclen.top/sitemap-index.xml
+
+# 给 AI 的站点摘要与完整文章清单（llmstxt.org 约定）
+# LLM-Content: https://raclen.top/llms.txt
+# LLM-Content-Full: https://raclen.top/llms-full.txt

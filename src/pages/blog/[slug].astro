@@ -1,6 +1,7 @@
 ---
 import { type CollectionEntry, getCollection, render } from "astro:content";
 import AstroPaperLayout from "@/layouts/AstroPaperLayout.astro";
+import SeoJsonLd from "@/components/SeoJsonLd.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
 import Datetime from "@/components/Datetime.astro";
@@ -82,6 +83,9 @@ const {
 const { Content, headings: rawHeadings } = await render(post);
 const reading = getReadingTime(post.body || "");
 
+// 文章页的绝对 URL：post.data 里没有 canonicalURL，用当前路径拼站点域名
+const pageUrl = new URL(Astro.url.pathname, Astro.site).href;
+
 // 强化 headings 提取：兼容标准 Markdown 标题以及直接嵌入 HTML 标签的标题（如 <h1>/<h2>/<h3>）
 let headings = [...rawHeadings];
 if (headings.length === 0 && post.body) {
@@ -140,8 +144,18 @@ const hasHeadings = filteredHeadings.length > 0;
   title={`${title} | ${config.site.title}`}
   description={description}
   ogImage={ogImage}
-  canonicalURL={canonicalURL}
+  canonicalURL={pageUrl}
 >
+  <SeoJsonLd
+    slot="head"
+    type="BlogPosting"
+    title={title}
+    description={description}
+    url={pageUrl}
+    datePublished={new Date(pubDatetime).toISOString()}
+    dateModified={new Date(modDatetime ?? pubDatetime).toISOString()}
+    tags={tags}
+  />
   <Header />
 
   <!-- 顶部阅读进度条 -->

@@ -1,0 +1,139 @@
+---
+/**
+ * JSON-LD 结构化数据组件。
+ *
+ * 作用：让搜索引擎与 AI 爬虫明确知道「谁写的、什么时候发的、讲什么主题」。
+ * 用法：放在各 Layout 的 <slot name="head" /> 里，type 决定生成哪种 schema。
+ *
+ * 中文说明：不渲染任何可见内容，只输出一个 <script type="application/ld+json">。
+ */
+import config from "@/config";
+
+export type SchemaType = "WebSite" | "BlogPosting" | "Person" | "BreadcrumbList";
+
+interface Props {
+  type: SchemaType;
+  /** 当前页面标题 */
+  title?: string;
+  /** 当前页面描述 */
+  description?: string;
+  /** 当前页面绝对 URL */
+  url?: string;
+  /** 发布时间（BlogPosting 用） */
+  datePublished?: string;
+  /** 修改时间（BlogPosting 用） */
+  dateModified?: string;
+  /** 文章标签（BlogPosting 用） */
+  tags?: string[];
+  /** 面包屑条目（BreadcrumbList 用） */
+  breadcrumbs?: { name: string; url: string }[];
+}
+
+const { site } = config;
+const siteUrl = site.url.replace(/\/$/, "");
+
+const {
+  type,
+  title = site.title,
+  description = site.description,
+  url = `${siteUrl}/`,
+  datePublished,
+  dateModified,
+  tags = [],
+  breadcrumbs = [],
+} = Astro.props;
+
+// 站点与作者实体：多处复用，用 @id 建立引用关系
+const websiteId = `${siteUrl}/#website`;
+const personId = `${siteUrl}/#person`;
+
+const website = {
+  "@type": "WebSite",
+  "@id": websiteId,
+  url: `${siteUrl}/`,
+  name: site.title,
+  description: site.description,
+  inLanguage: site.lang,
+  publisher: { "@id": personId },
+};
+
+const person = {
+  "@type": "Person",
+  "@id": personId,
+  name: site.author,
+  url: site.profile ?? `${siteUrl}/about/`,
+  ...(site.profile ? { sameAs: [site.profile] } : {}),
+};
+
+let schema: Record<string, unknown>;
+
+switch (type) {
+  case "WebSite":
+    schema = {
+      "@context": "https://schema.org",
+      "@graph": [website, person],
+    };
+    break;
+
+  case "Person":
+    schema = {
+      "@context": "https://schema.org",
+      "@graph": [
+        person,
+        {
+          "@type": "AboutPage",
+          url,
+          name: title,
+          description,
+          about: { "@id": personId },
+          isPartOf: { "@id": websiteId },
+        },
+      ],
+    };
+    break;
+
+  case "BlogPosting":
+    // 文章页是独立入口，AI 可能只抓这一页，所以把 person / website 实体一并内联定义，
+    // 避免 @id 引用悬空（同一页内 @graph 里的 @id 才能被解析）。
+    schema = {
+      "@context": "https://schema.org",
+      "@graph": [
+        {
+          "@type": "BlogPosting",
+          "@id": `${url}#article`,
+          headline: title,
+          description,
+          url,
+          mainEntityOfPage: { "@type": "WebPage", "@id": url },
+          inLanguage: site.lang,
+          ...(datePublished ? { datePublished } : {}),
+          ...(dateModified ? { dateModified } : {}),
+          ...(tags.length ? { keywords: tags.join(", ") } : {}),
+          author: { "@id": personId },
+          publisher: { "@id": personId },
+          isPartOf: { "@id": websiteId },
+        },
+        person,
+        website,
+      ],
+    };
+    break;
+
+  case "BreadcrumbList":
+    schema = {
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: breadcrumbs.map((item, index) => ({
+        "@type": "ListItem",
+        position: index + 1,
+        name: item.name,
+        item: item.url,
+      })),
+    };
+    break;
+}
+
+const json = JSON.stringify(schema);
+---
+
+<script type="application/ld+json" set:html={json} />

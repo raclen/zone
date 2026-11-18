@@ -11,6 +11,8 @@ export default defineAstroPaperConfig({
     lang: "zh-CN",
     timezone: "Asia/Shanghai",
     dir: "ltr",
+    // Google Search Console 所有权验证（2026-11-19 添加，勿删，否则 GSC 会失去验证状态）
+    googleVerification: "0YTWTnDcYW2ef0dkn1kSFJz6oQ2UhyGywjTBf4hKNjY",
   },
   posts: {
     perPage: 8,

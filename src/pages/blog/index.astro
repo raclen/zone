@@ -1,6 +1,7 @@
 ---
 import { getCollection } from "astro:content";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
+import SeoJsonLd from "@/components/SeoJsonLd.astro";
 import FuwariBentoCard from "@/components/fuwari/FuwariBentoCard.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
@@ -33,6 +34,14 @@ const yearsList = Array.from(yearsMap.entries())
   tags={tagsWithCount}
   showBanner={false}
 >
+  <SeoJsonLd
+    slot="head"
+    type="BreadcrumbList"
+    breadcrumbs={[
+      { name: "首页", url: `${config.site.url.replace(/\/$/, "")}/` },
+      { name: "博客", url: `${config.site.url.replace(/\/$/, "")}/blog/` },
+    ]}
+  />
   <!-- 文章 Bento 卡片列表 -->
   <div class="space-y-4">
     {sortedPosts.map(post => (

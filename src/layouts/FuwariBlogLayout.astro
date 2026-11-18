@@ -34,6 +34,9 @@ const {
 ---
 
 <AstroPaperLayout title={title} description={description}>
+  <!-- 透传 head 插槽，供子页面注入 JSON-LD 等 -->
+  <Fragment slot="head"><slot name="head" /></Fragment>
+
   <!-- 顶部全局导航栏 -->
   <Header />
 
