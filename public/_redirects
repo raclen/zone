@@ -1,18 +1,5 @@
 # Cloudflare Pages 重定向规则
-# 作用：把历史域名与备用域名统一 301 到主站 raclen.top，避免多域名重复内容稀释 SEO 权重。
-# 注意：_redirects 只对「已绑定到本项目」的自定义域名生效；域名若未在 Pages 中绑定，需先在控制台添加。
-# 语法：<来源> <目标> <状态码>；来源可写完整 URL 以限定域名，:splat 保留后续路径。
-
-# 旧主站
-https://raclen.ee.cd/* https://raclen.top/:splat 301!
-
-# 自有域名：曾作为主站并有收录，已迁移
-https://raclen.cyou/* https://raclen.top/:splat 301!
-https://raclen.loc.cc/* https://raclen.top/:splat 301!
-
-# 其他免费子域备用入口
-https://raclen.qzz.io/* https://raclen.top/:splat 301!
-https://raclen.rr.kg/* https://raclen.top/:splat 301!
-https://raclen.eu.cc/* https://raclen.top/:splat 301!
-https://raclen.ccwu.cc/* https://raclen.top/:splat 301!
-https://raclen.cc.cd/* https://raclen.top/:splat 301!
+# 重要：Cloudflare Pages 的 _redirects 不支持「域名级」重定向（官方文档标注 ❌），
+#       形如 https://old.domain/* → https://new.domain/* 的规则不会生效。
+#       跨域名跳转请用账户级「批量重定向（Bulk Redirects）」或各域名下的「重定向规则」。
+#       本文件只保留站点内部的路径级重定向。
