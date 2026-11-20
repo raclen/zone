@@ -1,0 +1,90 @@
+/* 通过 CWD 的 customCssUrl 加载到 Shadow DOM，不修改自托管组件产物。 */
+@media (max-width: 640px) {
+  .cwd-comment-item {
+    display: grid;
+    grid-template-columns: 24px minmax(0, 1fr);
+    gap: 4px 8px;
+    padding: 12px 0;
+  }
+
+  .cwd-comment-avatar,
+  .cwd-comment-reply .cwd-comment-avatar {
+    grid-column: 1;
+    grid-row: 1;
+    width: 24px;
+    height: 24px;
+  }
+
+  /* 保留回复的 DOM 和交互，只让各级回复使用父评论的完整列宽。 */
+  .cwd-comment-body,
+  .cwd-comment-header {
+    display: contents;
+  }
+
+  .cwd-comment-author {
+    grid-column: 2;
+    grid-row: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cwd-author-name {
+    font-size: 14px;
+  }
+
+  .cwd-reply-to-author {
+    font-style: normal;
+  }
+
+  .cwd-comment-content {
+    grid-column: 1 / -1;
+    grid-row: 2;
+    min-width: 0;
+    margin-top: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .cwd-comment-actions {
+    grid-column: 1 / -1;
+    grid-row: 3;
+    flex-wrap: wrap;
+    gap: 4px 12px;
+  }
+
+  .cwd-action-btn,
+  .cwd-comment-like-button {
+    min-height: 28px;
+    white-space: nowrap;
+  }
+
+  .cwd-comment-like-button {
+    min-width: 28px;
+    justify-content: center;
+  }
+
+  .cwd-comment-time {
+    margin-left: auto;
+    white-space: nowrap;
+  }
+
+  .cwd-reply-editor-container,
+  .cwd-replies {
+    grid-column: 1 / -1;
+    min-width: 0;
+  }
+
+  .cwd-reply-editor-container:empty {
+    display: none;
+  }
+
+  .cwd-replies {
+    margin-top: 4px;
+    padding-left: 0;
+    border-left: none;
+    border-top: 1px solid var(--cwd-border-light, #eaeef2);
+  }
+
+  .cwd-replies > .cwd-comment-item:last-child {
+    padding-bottom: 0;
+  }
+}

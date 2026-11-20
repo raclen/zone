@@ -11,6 +11,7 @@
  * 组件产物在 public/vendor/cwd-widget/ 下自托管，不依赖第三方 CDN。
  */
 import config from "@/config";
+import commentStylesUrl from "@/styles/cwd-comments.css?url";
 
 const comments = config.comments;
 const cwd = comments.enabled && comments.provider === "cwd" ? comments : null;
@@ -47,6 +48,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
         data-site-id={siteId}
         data-canonical-origin={canonicalOrigin}
         data-widget-src={widgetSrc}
+        data-custom-css-url={commentStylesUrl}
         data-page-size={String(pageSize)}
         data-lang={lang}
         data-collapse-form={String(collapseForm)}
@@ -149,6 +151,8 @@ const compactLikeBar = cwd?.compactLikeBar === true;
               theme: isDark() ? "dark" : "light",
               lang: dataset.lang || "zh-CN",
               pageSize: Number(dataset.pageSize || 20),
+              // 组件原生支持在 Shadow DOM 内加载样式，构建后的 URL 带哈希以避免旧缓存。
+              customCssUrl: dataset.customCssUrl,
               // 默认收起表单，点「写评论」入口再展开
               collapseForm: dataset.collapseForm === "true",
               // 点赞条紧凑单行，去掉评论区顶部的大块空白
