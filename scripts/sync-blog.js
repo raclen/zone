@@ -233,6 +233,49 @@ function detectChanges(issues, meta) {
   return { newOrUpdated, deleted };
 }
 
+function getMarkdownIssueNumber(content) {
+  const frontmatter = content.match(/^---\r?\n([\s\S]*?)\r?\n---(?:\r?\n|$)/)?.[1];
+  const issueNumber = frontmatter?.match(/^issueNumber:[ \t]*(\d+)[ \t]*\r?$/m)?.[1];
+  return issueNumber ? Number(issueNumber) : null;
+}
+
+/**
+ * 按 Issue 身份清理改标题留下的旧文件，包括元数据已更新的历史残留。
+ * 只有新文件存在且双方 frontmatter 都匹配时才删除，避免误删手写文章。
+ */
+async function removeStaleFiles(meta) {
+  let removedCount = 0;
+  const filenames = await fs.readdir(CONFIG.blogDir);
+
+  for (const filename of filenames) {
+    const match = filename.match(/^\d{4}-\d{2}-\d{2}-(\d+)-.*\.md$/);
+    if (!match) continue;
+
+    const issueNumber = Number(match[1]);
+    const currentFilename = meta.issues[issueNumber]?.filename;
+    if (!currentFilename || currentFilename === filename) continue;
+
+    const filepath = path.join(CONFIG.blogDir, filename);
+    const content = await fs.readFile(filepath, 'utf-8');
+    if (getMarkdownIssueNumber(content) !== issueNumber) continue;
+
+    let currentContent;
+    try {
+      currentContent = await fs.readFile(path.join(CONFIG.blogDir, currentFilename), 'utf-8');
+    } catch (error) {
+      if (error.code === 'ENOENT') continue;
+      throw error;
+    }
+    if (getMarkdownIssueNumber(currentContent) !== issueNumber) continue;
+
+    await fs.unlink(filepath);
+    console.log(`🗑️  已清理旧文件: ${filename}`);
+    removedCount++;
+  }
+
+  return removedCount;
+}
+
 async function syncBlog() {
   console.log('🚀 开始同步博客...\n');
 
@@ -283,6 +326,8 @@ async function syncBlog() {
     }
   }
 
+  const removedStaleCount = await removeStaleFiles(meta);
+
   if (processedCount > 0 || changes.deleted.length > 0) {
     await writeSyncMeta(meta);
   } else {
@@ -292,6 +337,7 @@ async function syncBlog() {
   console.log('\n✨ 同步完成!');
   console.log(`  - 处理了 ${processedCount} 个文章`);
   console.log(`  - 删除了 ${changes.deleted.length} 个文章`);
+  console.log(`  - 清理了 ${removedStaleCount} 个旧文件`);
 }
 
 syncBlog().catch(error => {
