@@ -5,6 +5,7 @@ import sitemap from "@astrojs/sitemap";
 import pagefind from "astro-pagefind";
 import tailwindcss from "@tailwindcss/vite";
 import { unified } from "@astrojs/markdown-remark";
+import remarkBreaks from "remark-breaks";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import rehypeCallouts from "rehype-callouts";
@@ -46,6 +47,7 @@ export default defineConfig({
   markdown: {
     processor: unified({
       remarkPlugins: [
+        remarkBreaks,
         remarkToc,
         [remarkCollapse, { test: "Table of contents" }],
       ],
