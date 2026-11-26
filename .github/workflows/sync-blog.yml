@@ -43,7 +43,7 @@ jobs:
           commit_message: 'chore: 自动同步博客文章'
           commit_user_name: 'github-actions[bot]'
           commit_user_email: 'github-actions[bot]@users.noreply.github.com'
-          file_pattern: 'src/content/blog/*.md src/content/blog/.sync-meta.json'
+          file_pattern: 'src/content/blog/*.md src/content/blog/.sync-meta.json public/_redirects'
 
       # 等待 Cloudflare Pages 完成部署，否则 Bing 抓取时新文章还是 404
       - name: 等待部署
