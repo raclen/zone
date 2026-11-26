@@ -2,799 +2,1396 @@
   "issues": {
     "2": {
       "updatedAt": "2026-09-21T10:18:58Z",
-      "filename": "2013-11-05-002-我应该知道的八大定律.md"
+      "filename": "2.md",
+      "aliases": [
+        "2013-11-05-002-我应该知道的八大定律.md"
+      ]
     },
     "3": {
       "updatedAt": "2026-06-24T04:01:44Z",
-      "filename": "2014-03-11-003-验证码60秒禁用.md"
+      "filename": "3.md",
+      "aliases": [
+        "2014-03-11-003-验证码60秒禁用.md"
+      ]
     },
     "4": {
       "updatedAt": "2026-06-24T04:01:47Z",
-      "filename": "2014-04-08-004-css边框发光.md"
+      "filename": "4.md",
+      "aliases": [
+        "2014-04-08-004-css边框发光.md"
+      ]
     },
     "5": {
       "updatedAt": "2026-06-24T04:01:48Z",
-      "filename": "2014-04-10-005-判断字符输入个数中文为2其他为1.md"
+      "filename": "5.md",
+      "aliases": [
+        "2014-04-10-005-判断字符输入个数中文为2其他为1.md"
+      ]
     },
     "6": {
       "updatedAt": "2026-06-24T04:01:50Z",
-      "filename": "2014-04-10-006-contains实现简单搜索.md"
+      "filename": "6.md",
+      "aliases": [
+        "2014-04-10-006-contains实现简单搜索.md"
+      ]
     },
     "7": {
       "updatedAt": "2026-06-24T04:01:51Z",
-      "filename": "2014-04-15-007-简单拖拽保存.md"
+      "filename": "7.md",
+      "aliases": [
+        "2014-04-15-007-简单拖拽保存.md"
+      ]
     },
     "8": {
       "updatedAt": "2026-06-24T04:01:52Z",
-      "filename": "2014-04-16-008-图片轮换其实就这几行代码.md"
+      "filename": "8.md",
+      "aliases": [
+        "2014-04-16-008-图片轮换其实就这几行代码.md"
+      ]
     },
     "9": {
       "updatedAt": "2026-06-24T04:01:54Z",
-      "filename": "2014-05-13-009-ajax分页.md"
+      "filename": "9.md",
+      "aliases": [
+        "2014-05-13-009-ajax分页.md"
+      ]
     },
     "10": {
       "updatedAt": "2026-06-24T04:01:55Z",
-      "filename": "2014-05-14-010-文字闪烁.md"
+      "filename": "10.md",
+      "aliases": [
+        "2014-05-14-010-文字闪烁.md"
+      ]
     },
     "11": {
       "updatedAt": "2026-06-24T04:01:57Z",
-      "filename": "2014-05-14-011-超出字符自动隐藏.md"
+      "filename": "11.md",
+      "aliases": [
+        "2014-05-14-011-超出字符自动隐藏.md"
+      ]
     },
     "12": {
       "updatedAt": "2026-06-24T04:01:58Z",
-      "filename": "2014-05-19-012-简单购物车结算.md"
+      "filename": "12.md",
+      "aliases": [
+        "2014-05-19-012-简单购物车结算.md"
+      ]
     },
     "13": {
       "updatedAt": "2026-06-24T04:02:00Z",
-      "filename": "2014-05-28-013-js面向对象.md"
+      "filename": "13.md",
+      "aliases": [
+        "2014-05-28-013-js面向对象.md"
+      ]
     },
     "14": {
       "updatedAt": "2026-06-24T04:02:01Z",
-      "filename": "2014-05-29-014-动态table不支持onclick.md"
+      "filename": "14.md",
+      "aliases": [
+        "2014-05-29-014-动态table不支持onclick.md"
+      ]
     },
     "15": {
       "updatedAt": "2026-06-24T04:02:03Z",
-      "filename": "2014-06-06-015-jquery-获取-iframe-父页面与子页面的元素和方法.md"
+      "filename": "15.md",
+      "aliases": [
+        "2014-06-06-015-jquery-获取-iframe-父页面与子页面的元素和方法.md"
+      ]
     },
     "16": {
       "updatedAt": "2026-06-24T04:02:05Z",
-      "filename": "2014-06-09-016-点击第二个删除第一个追加到后面.md"
+      "filename": "16.md",
+      "aliases": [
+        "2014-06-09-016-点击第二个删除第一个追加到后面.md"
+      ]
     },
     "17": {
       "updatedAt": "2026-06-24T04:02:06Z",
-      "filename": "2014-06-11-017-字符串反转.md"
+      "filename": "17.md",
+      "aliases": [
+        "2014-06-11-017-字符串反转.md"
+      ]
     },
     "18": {
       "updatedAt": "2026-06-24T04:02:09Z",
-      "filename": "2014-06-11-018-总结一下jquery跨域.md"
+      "filename": "18.md",
+      "aliases": [
+        "2014-06-11-018-总结一下jquery跨域.md"
+      ]
     },
     "19": {
       "updatedAt": "2026-06-24T04:02:10Z",
-      "filename": "2014-06-12-019-页面偏移transform.md"
+      "filename": "19.md",
+      "aliases": [
+        "2014-06-12-019-页面偏移transform.md"
+      ]
     },
     "20": {
       "updatedAt": "2026-06-24T04:02:12Z",
-      "filename": "2014-06-12-020-第一个jquery插件.md"
+      "filename": "20.md",
+      "aliases": [
+        "2014-06-12-020-第一个jquery插件.md"
+      ]
     },
     "21": {
       "updatedAt": "2026-06-24T04:02:15Z",
-      "filename": "2014-06-27-021-新浪sae数据库连接.md"
+      "filename": "21.md",
+      "aliases": [
+        "2014-06-27-021-新浪sae数据库连接.md"
+      ]
     },
     "22": {
       "updatedAt": "2026-06-24T04:02:17Z",
-      "filename": "2014-06-27-022-常用sql语句.md"
+      "filename": "22.md",
+      "aliases": [
+        "2014-06-27-022-常用sql语句.md"
+      ]
     },
     "23": {
       "updatedAt": "2026-06-24T04:02:18Z",
-      "filename": "2014-07-15-023-总结了下json的遍历.md"
+      "filename": "23.md",
+      "aliases": [
+        "2014-07-15-023-总结了下json的遍历.md"
+      ]
     },
     "24": {
       "updatedAt": "2026-06-24T04:02:20Z",
-      "filename": "2014-07-18-024-正则表达式积累.md"
+      "filename": "24.md",
+      "aliases": [
+        "2014-07-18-024-正则表达式积累.md"
+      ]
     },
     "25": {
       "updatedAt": "2026-06-24T04:02:22Z",
-      "filename": "2014-07-29-025-闭包.md"
+      "filename": "25.md",
+      "aliases": [
+        "2014-07-29-025-闭包.md"
+      ]
     },
     "26": {
       "updatedAt": "2026-06-24T04:02:23Z",
-      "filename": "2014-07-30-026-匿名函数和this的理解.md"
+      "filename": "26.md",
+      "aliases": [
+        "2014-07-30-026-匿名函数和this的理解.md"
+      ]
     },
     "27": {
       "updatedAt": "2026-06-24T04:02:26Z",
-      "filename": "2014-12-05-027-gitignore.md"
+      "filename": "27.md",
+      "aliases": [
+        "2014-12-05-027-gitignore.md"
+      ]
     },
     "28": {
       "updatedAt": "2026-06-24T04:02:27Z",
-      "filename": "2014-12-05-028-jsonp跨域.md"
+      "filename": "28.md",
+      "aliases": [
+        "2014-12-05-028-jsonp跨域.md"
+      ]
     },
     "29": {
       "updatedAt": "2026-06-24T04:02:28Z",
-      "filename": "2014-12-05-029-git常用命令.md"
+      "filename": "29.md",
+      "aliases": [
+        "2014-12-05-029-git常用命令.md"
+      ]
     },
     "30": {
       "updatedAt": "2026-06-24T04:02:30Z",
-      "filename": "2014-12-05-030-获得地址栏的参数组成一个对象.md"
+      "filename": "30.md",
+      "aliases": [
+        "2014-12-05-030-获得地址栏的参数组成一个对象.md"
+      ]
     },
     "31": {
       "updatedAt": "2026-06-24T04:02:32Z",
-      "filename": "2014-12-05-031-数组元素复制.md"
+      "filename": "31.md",
+      "aliases": [
+        "2014-12-05-031-数组元素复制.md"
+      ]
     },
     "32": {
       "updatedAt": "2026-06-24T04:02:33Z",
-      "filename": "2014-12-05-032-hasownproperty的作用.md"
+      "filename": "32.md",
+      "aliases": [
+        "2014-12-05-032-hasownproperty的作用.md"
+      ]
     },
     "33": {
       "updatedAt": "2026-06-24T04:02:35Z",
-      "filename": "2014-12-05-033-对象深复制.md"
+      "filename": "33.md",
+      "aliases": [
+        "2014-12-05-033-对象深复制.md"
+      ]
     },
     "34": {
       "updatedAt": "2026-06-24T04:02:36Z",
-      "filename": "2014-12-05-034-queue的用法.md"
+      "filename": "34.md",
+      "aliases": [
+        "2014-12-05-034-queue的用法.md"
+      ]
     },
     "35": {
       "updatedAt": "2026-06-24T04:02:38Z",
-      "filename": "2014-12-05-035-再谈匹配qq2275025这回事.md"
+      "filename": "35.md",
+      "aliases": [
+        "2014-12-05-035-再谈匹配qq2275025这回事.md"
+      ]
     },
     "36": {
       "updatedAt": "2026-06-24T04:02:39Z",
-      "filename": "2014-12-05-036-jquery的index用法.md"
+      "filename": "36.md",
+      "aliases": [
+        "2014-12-05-036-jquery的index用法.md"
+      ]
     },
     "37": {
       "updatedAt": "2026-06-24T04:02:41Z",
-      "filename": "2014-12-08-037-javascript模板-icanhazjs.md"
+      "filename": "37.md",
+      "aliases": [
+        "2014-12-08-037-javascript模板-icanhazjs.md"
+      ]
     },
     "38": {
       "updatedAt": "2026-06-24T04:02:42Z",
-      "filename": "2014-12-31-038-rem中的坑.md"
+      "filename": "38.md",
+      "aliases": [
+        "2014-12-31-038-rem中的坑.md"
+      ]
     },
     "39": {
       "updatedAt": "2026-10-21T14:15:10Z",
-      "filename": "2015-01-09-039-对象编程和模块编程.md"
+      "filename": "39.md",
+      "aliases": [
+        "2015-01-09-039-对象编程和模块编程.md"
+      ]
     },
     "40": {
       "updatedAt": "2026-06-24T04:02:45Z",
-      "filename": "2015-01-23-040-初识flex.md"
+      "filename": "40.md",
+      "aliases": [
+        "2015-01-23-040-初识flex.md"
+      ]
     },
     "41": {
       "updatedAt": "2026-06-24T04:02:47Z",
-      "filename": "2015-02-04-041-使用rjs合并压缩requirejs和css.md"
+      "filename": "41.md",
+      "aliases": [
+        "2015-02-04-041-使用rjs合并压缩requirejs和css.md"
+      ]
     },
     "42": {
       "updatedAt": "2026-06-24T04:02:48Z",
-      "filename": "2015-02-04-042-gulp-前端自动化工具.md"
+      "filename": "42.md",
+      "aliases": [
+        "2015-02-04-042-gulp-前端自动化工具.md"
+      ]
     },
     "43": {
       "updatedAt": "2026-06-24T04:02:50Z",
-      "filename": "2015-03-04-043-移动端的自适应也可以这样.md"
+      "filename": "43.md",
+      "aliases": [
+        "2015-03-04-043-移动端的自适应也可以这样.md"
+      ]
     },
     "44": {
       "updatedAt": "2026-06-24T04:02:52Z",
-      "filename": "2015-04-27-044-前端面试知识点.md"
+      "filename": "44.md",
+      "aliases": [
+        "2015-04-27-044-前端面试知识点.md"
+      ]
     },
     "45": {
       "updatedAt": "2026-06-24T04:02:54Z",
-      "filename": "2015-04-27-045-前端知识点.md"
+      "filename": "45.md",
+      "aliases": [
+        "2015-04-27-045-前端知识点.md"
+      ]
     },
     "46": {
       "updatedAt": "2026-06-24T04:02:56Z",
-      "filename": "2015-06-01-046-动态创建一个form表单提交.md"
+      "filename": "46.md",
+      "aliases": [
+        "2015-06-01-046-动态创建一个form表单提交.md"
+      ]
     },
     "47": {
       "updatedAt": "2026-06-24T04:02:57Z",
-      "filename": "2015-06-02-047-两端对齐box-pack.md"
+      "filename": "47.md",
+      "aliases": [
+        "2015-06-02-047-两端对齐box-pack.md"
+      ]
     },
     "48": {
       "updatedAt": "2026-06-24T04:02:59Z",
-      "filename": "2015-07-12-048-replace函数真强大.md"
+      "filename": "48.md",
+      "aliases": [
+        "2015-07-12-048-replace函数真强大.md"
+      ]
     },
     "49": {
       "updatedAt": "2026-06-24T04:03:01Z",
-      "filename": "2015-07-12-049-随手写了一个gulp插件我真是天才.md"
+      "filename": "49.md",
+      "aliases": [
+        "2015-07-12-049-随手写了一个gulp插件我真是天才.md"
+      ]
     },
     "50": {
       "updatedAt": "2026-06-24T04:03:02Z",
-      "filename": "2015-08-01-050-页面中打电话没有效果的时候.md"
+      "filename": "50.md",
+      "aliases": [
+        "2015-08-01-050-页面中打电话没有效果的时候.md"
+      ]
     },
     "51": {
       "updatedAt": "2026-06-24T04:03:04Z",
-      "filename": "2015-08-11-051-移动端resetcss.md"
+      "filename": "51.md",
+      "aliases": [
+        "2015-08-11-051-移动端resetcss.md"
+      ]
     },
     "52": {
       "updatedAt": "2026-06-24T04:03:05Z",
-      "filename": "2015-08-18-052-写了个图片上下滑的东西.md"
+      "filename": "52.md",
+      "aliases": [
+        "2015-08-18-052-写了个图片上下滑的东西.md"
+      ]
     },
     "53": {
       "updatedAt": "2026-06-24T04:03:07Z",
-      "filename": "2015-08-28-053-使用触摸事件判断滑动方向.md"
+      "filename": "53.md",
+      "aliases": [
+        "2015-08-28-053-使用触摸事件判断滑动方向.md"
+      ]
     },
     "54": {
       "updatedAt": "2026-06-24T04:03:08Z",
-      "filename": "2015-09-07-054-写了一个简单的日历.md"
+      "filename": "54.md",
+      "aliases": [
+        "2015-09-07-054-写了一个简单的日历.md"
+      ]
     },
     "55": {
       "updatedAt": "2026-06-24T04:03:09Z",
-      "filename": "2015-09-16-055-验证提示组件.md"
+      "filename": "55.md",
+      "aliases": [
+        "2015-09-16-055-验证提示组件.md"
+      ]
     },
     "56": {
       "updatedAt": "2026-06-24T04:03:11Z",
-      "filename": "2015-09-17-056-加载进度条.md"
+      "filename": "56.md",
+      "aliases": [
+        "2015-09-17-056-加载进度条.md"
+      ]
     },
     "57": {
       "updatedAt": "2026-06-24T04:03:13Z",
-      "filename": "2015-09-22-057-float-left的对象如何居中.md"
+      "filename": "57.md",
+      "aliases": [
+        "2015-09-22-057-float-left的对象如何居中.md"
+      ]
     },
     "58": {
       "updatedAt": "2026-06-24T04:03:15Z",
-      "filename": "2015-09-23-058-图片滑动每次移动一个.md"
+      "filename": "58.md",
+      "aliases": [
+        "2015-09-23-058-图片滑动每次移动一个.md"
+      ]
     },
     "59": {
       "updatedAt": "2026-06-24T04:03:18Z",
-      "filename": "2015-09-25-059-清晨好文章.md"
+      "filename": "59.md",
+      "aliases": [
+        "2015-09-25-059-清晨好文章.md"
+      ]
     },
     "60": {
       "updatedAt": "2026-06-24T04:03:20Z",
-      "filename": "2015-10-08-060-数组去重.md"
+      "filename": "60.md",
+      "aliases": [
+        "2015-10-08-060-数组去重.md"
+      ]
     },
     "61": {
       "updatedAt": "2026-06-24T04:03:21Z",
-      "filename": "2015-10-19-061-express-post请求resbody-取不到数据.md"
+      "filename": "61.md",
+      "aliases": [
+        "2015-10-19-061-express-post请求resbody-取不到数据.md"
+      ]
     },
     "62": {
       "updatedAt": "2026-06-24T04:03:24Z",
-      "filename": "2015-10-19-062-nodemongoose实现分页.md"
+      "filename": "62.md",
+      "aliases": [
+        "2015-10-19-062-nodemongoose实现分页.md"
+      ]
     },
     "63": {
       "updatedAt": "2026-06-24T04:03:25Z",
-      "filename": "2015-10-23-063-几个不错css-loading动画.md"
+      "filename": "63.md",
+      "aliases": [
+        "2015-10-23-063-几个不错css-loading动画.md"
+      ]
     },
     "64": {
       "updatedAt": "2026-06-24T04:03:27Z",
-      "filename": "2015-11-18-064-node上传图片.md"
+      "filename": "64.md",
+      "aliases": [
+        "2015-11-18-064-node上传图片.md"
+      ]
     },
     "65": {
       "updatedAt": "2026-06-24T04:03:28Z",
-      "filename": "2016-02-04-065-hexo搬到farbox只需要一秒.md"
+      "filename": "65.md",
+      "aliases": [
+        "2016-02-04-065-hexo搬到farbox只需要一秒.md"
+      ]
     },
     "66": {
       "updatedAt": "2026-06-24T04:03:30Z",
-      "filename": "2016-02-04-066-mongodb安装使用.md"
+      "filename": "66.md",
+      "aliases": [
+        "2016-02-04-066-mongodb安装使用.md"
+      ]
     },
     "67": {
       "updatedAt": "2026-06-24T04:03:31Z",
-      "filename": "2016-02-04-067-btoa与atob.md"
+      "filename": "67.md",
+      "aliases": [
+        "2016-02-04-067-btoa与atob.md"
+      ]
     },
     "68": {
       "updatedAt": "2026-06-24T04:03:33Z",
-      "filename": "2016-02-04-068-sleep一下.md"
+      "filename": "68.md",
+      "aliases": [
+        "2016-02-04-068-sleep一下.md"
+      ]
     },
     "69": {
       "updatedAt": "2026-06-24T04:03:35Z",
-      "filename": "2016-02-04-069-node中request模块配置项.md"
+      "filename": "69.md",
+      "aliases": [
+        "2016-02-04-069-node中request模块配置项.md"
+      ]
     },
     "70": {
       "updatedAt": "2026-06-24T04:03:36Z",
-      "filename": "2016-02-04-070-多说评论机器人.md"
+      "filename": "70.md",
+      "aliases": [
+        "2016-02-04-070-多说评论机器人.md"
+      ]
     },
     "71": {
       "updatedAt": "2026-06-24T04:03:37Z",
-      "filename": "2016-02-04-071-机器注册账号.md"
+      "filename": "71.md",
+      "aliases": [
+        "2016-02-04-071-机器注册账号.md"
+      ]
     },
     "72": {
       "updatedAt": "2026-06-24T04:03:39Z",
-      "filename": "2016-02-04-072-async流程控制.md"
+      "filename": "72.md",
+      "aliases": [
+        "2016-02-04-072-async流程控制.md"
+      ]
     },
     "73": {
       "updatedAt": "2026-06-24T04:03:40Z",
-      "filename": "2016-02-04-073-javascript生成二维码.md"
+      "filename": "73.md",
+      "aliases": [
+        "2016-02-04-073-javascript生成二维码.md"
+      ]
     },
     "74": {
       "updatedAt": "2026-06-24T04:03:42Z",
-      "filename": "2016-02-14-074-对症下药.md"
+      "filename": "74.md",
+      "aliases": [
+        "2016-02-14-074-对症下药.md"
+      ]
     },
     "75": {
       "updatedAt": "2026-06-24T04:03:44Z",
-      "filename": "2016-02-16-075-实用在线地址.md"
+      "filename": "75.md",
+      "aliases": [
+        "2016-02-16-075-实用在线地址.md"
+      ]
     },
     "76": {
       "updatedAt": "2026-06-24T04:03:45Z",
-      "filename": "2016-03-08-076-家庭药箱的非处方药物清单.md"
+      "filename": "76.md",
+      "aliases": [
+        "2016-03-08-076-家庭药箱的非处方药物清单.md"
+      ]
     },
     "77": {
       "updatedAt": "2026-06-24T04:03:47Z",
-      "filename": "2016-03-21-077-animate-steps.md"
+      "filename": "77.md",
+      "aliases": [
+        "2016-03-21-077-animate-steps.md"
+      ]
     },
     "78": {
       "updatedAt": "2026-06-24T04:03:48Z",
-      "filename": "2016-04-06-078-js运算精度问题.md"
+      "filename": "78.md",
+      "aliases": [
+        "2016-04-06-078-js运算精度问题.md"
+      ]
     },
     "79": {
       "updatedAt": "2026-06-24T04:03:50Z",
-      "filename": "2016-04-08-079-当requirejs和angular到一起.md"
+      "filename": "79.md",
+      "aliases": [
+        "2016-04-08-079-当requirejs和angular到一起.md"
+      ]
     },
     "80": {
       "updatedAt": "2026-06-24T04:03:52Z",
-      "filename": "2016-04-12-080-说说zepto.md"
+      "filename": "80.md",
+      "aliases": [
+        "2016-04-12-080-说说zepto.md"
+      ]
     },
     "81": {
       "updatedAt": "2026-06-24T04:03:54Z",
-      "filename": "2016-04-15-081-handlebars也挺有意思的.md"
+      "filename": "81.md",
+      "aliases": [
+        "2016-04-15-081-handlebars也挺有意思的.md"
+      ]
     },
     "82": {
       "updatedAt": "2026-06-24T04:03:55Z",
-      "filename": "2016-04-15-082-ie上实现placeholder.md"
+      "filename": "82.md",
+      "aliases": [
+        "2016-04-15-082-ie上实现placeholder.md"
+      ]
     },
     "83": {
       "updatedAt": "2026-06-24T04:03:58Z",
-      "filename": "2016-04-25-083-一个博邦商城投资者的日记.md"
+      "filename": "83.md",
+      "aliases": [
+        "2016-04-25-083-一个博邦商城投资者的日记.md"
+      ]
     },
     "84": {
       "updatedAt": "2026-06-24T04:03:59Z",
-      "filename": "2016-04-29-084-chrome插件double-search.md"
+      "filename": "84.md",
+      "aliases": [
+        "2016-04-29-084-chrome插件double-search.md"
+      ]
     },
     "85": {
       "updatedAt": "2026-06-24T04:04:01Z",
-      "filename": "2016-05-05-085-关键字搜索优化.md"
+      "filename": "85.md",
+      "aliases": [
+        "2016-05-05-085-关键字搜索优化.md"
+      ]
     },
     "86": {
       "updatedAt": "2026-06-24T04:04:03Z",
-      "filename": "2016-05-05-086-前端中用到的文件上传.md"
+      "filename": "86.md",
+      "aliases": [
+        "2016-05-05-086-前端中用到的文件上传.md"
+      ]
     },
     "87": {
       "updatedAt": "2026-06-24T04:04:04Z",
-      "filename": "2016-05-11-087-trim是怎么实现的.md"
+      "filename": "87.md",
+      "aliases": [
+        "2016-05-11-087-trim是怎么实现的.md"
+      ]
     },
     "88": {
       "updatedAt": "2026-06-24T04:04:05Z",
-      "filename": "2016-05-11-088-再来看看extend.md"
+      "filename": "88.md",
+      "aliases": [
+        "2016-05-11-088-再来看看extend.md"
+      ]
     },
     "89": {
       "updatedAt": "2026-06-24T04:04:08Z",
-      "filename": "2016-05-17-089-dom操作怎样添加移除移动复制创建和查找节点.md"
+      "filename": "89.md",
+      "aliases": [
+        "2016-05-17-089-dom操作怎样添加移除移动复制创建和查找节点.md"
+      ]
     },
     "90": {
       "updatedAt": "2026-06-24T04:04:09Z",
-      "filename": "2016-05-18-090-无缝滚动.md"
+      "filename": "90.md",
+      "aliases": [
+        "2016-05-18-090-无缝滚动.md"
+      ]
     },
     "91": {
       "updatedAt": "2026-06-24T04:04:11Z",
-      "filename": "2016-05-26-091-我认为使用原生javascript不适合开发.md"
+      "filename": "91.md",
+      "aliases": [
+        "2016-05-26-091-我认为使用原生javascript不适合开发.md"
+      ]
     },
     "92": {
       "updatedAt": "2026-06-24T04:04:12Z",
-      "filename": "2016-06-07-092-正则表达式-零宽断言.md"
+      "filename": "92.md",
+      "aliases": [
+        "2016-06-07-092-正则表达式-零宽断言.md"
+      ]
     },
     "93": {
       "updatedAt": "2026-06-24T04:04:14Z",
-      "filename": "2016-06-14-093-javascript常问代码片段.md"
+      "filename": "93.md",
+      "aliases": [
+        "2016-06-14-093-javascript常问代码片段.md"
+      ]
     },
     "94": {
       "updatedAt": "2026-06-24T04:04:15Z",
-      "filename": "2016-06-20-094-angular定时器何时销毁.md"
+      "filename": "94.md",
+      "aliases": [
+        "2016-06-20-094-angular定时器何时销毁.md"
+      ]
     },
     "95": {
       "updatedAt": "2026-06-24T04:04:17Z",
-      "filename": "2016-06-20-095-angular指令.md"
+      "filename": "95.md",
+      "aliases": [
+        "2016-06-20-095-angular指令.md"
+      ]
     },
     "96": {
       "updatedAt": "2026-06-24T04:04:19Z",
-      "filename": "2016-06-21-096-photoshop不改变像素改变大小.md"
+      "filename": "96.md",
+      "aliases": [
+        "2016-06-21-096-photoshop不改变像素改变大小.md"
+      ]
     },
     "97": {
       "updatedAt": "2026-06-24T04:04:20Z",
-      "filename": "2016-06-24-097-字符串特殊字符转义.md"
+      "filename": "97.md",
+      "aliases": [
+        "2016-06-24-097-字符串特殊字符转义.md"
+      ]
     },
     "98": {
       "updatedAt": "2026-11-25T02:16:32Z",
-      "filename": "2016-06-30-098-字体光和颜色.md"
+      "filename": "98.md",
+      "aliases": [
+        "2016-06-30-098-字体光和颜色.md"
+      ]
     },
     "99": {
       "updatedAt": "2026-06-24T04:04:23Z",
-      "filename": "2016-07-07-099-javascript数组随机排序.md"
+      "filename": "99.md",
+      "aliases": [
+        "2016-07-07-099-javascript数组随机排序.md"
+      ]
     },
     "100": {
       "updatedAt": "2026-06-24T04:04:25Z",
-      "filename": "2016-07-20-100-提示框.md"
+      "filename": "100.md",
+      "aliases": [
+        "2016-07-20-100-提示框.md"
+      ]
     },
     "101": {
       "updatedAt": "2026-06-24T04:04:26Z",
-      "filename": "2016-07-27-101-整理一下这些日历.md"
+      "filename": "101.md",
+      "aliases": [
+        "2016-07-27-101-整理一下这些日历.md"
+      ]
     },
     "102": {
       "updatedAt": "2026-06-24T04:04:28Z",
-      "filename": "2016-07-28-102-字符串还可以这样玩.md"
+      "filename": "102.md",
+      "aliases": [
+        "2016-07-28-102-字符串还可以这样玩.md"
+      ]
     },
     "103": {
       "updatedAt": "2026-06-24T04:04:29Z",
-      "filename": "2016-08-12-103-google-maps网页api开发.md"
+      "filename": "103.md",
+      "aliases": [
+        "2016-08-12-103-google-maps网页api开发.md"
+      ]
     },
     "104": {
       "updatedAt": "2026-06-24T04:04:31Z",
-      "filename": "2016-09-02-104-webpack-神奇的前端工具.md"
+      "filename": "104.md",
+      "aliases": [
+        "2016-09-02-104-webpack-神奇的前端工具.md"
+      ]
     },
     "105": {
       "updatedAt": "2026-06-24T04:04:33Z",
-      "filename": "2016-11-24-105-简单说一下react.md"
+      "filename": "105.md",
+      "aliases": [
+        "2016-11-24-105-简单说一下react.md"
+      ]
     },
     "106": {
       "updatedAt": "2026-06-24T04:04:35Z",
-      "filename": "2017-01-03-106-记一下vuejs.md"
+      "filename": "106.md",
+      "aliases": [
+        "2017-01-03-106-记一下vuejs.md"
+      ]
     },
     "107": {
       "updatedAt": "2026-06-24T04:04:36Z",
-      "filename": "2017-03-21-107-zepto源码阅读.md"
+      "filename": "107.md",
+      "aliases": [
+        "2017-03-21-107-zepto源码阅读.md"
+      ]
     },
     "108": {
       "updatedAt": "2026-06-24T04:04:38Z",
-      "filename": "2017-04-01-108-关于感冒.md"
+      "filename": "108.md",
+      "aliases": [
+        "2017-04-01-108-关于感冒.md"
+      ]
     },
     "109": {
       "updatedAt": "2026-06-24T04:04:39Z",
-      "filename": "2017-04-13-109-iframe两个小例子.md"
+      "filename": "109.md",
+      "aliases": [
+        "2017-04-13-109-iframe两个小例子.md"
+      ]
     },
     "110": {
       "updatedAt": "2026-06-24T04:04:41Z",
-      "filename": "2017-09-30-110-懂点bat命令.md"
+      "filename": "110.md",
+      "aliases": [
+        "2017-09-30-110-懂点bat命令.md"
+      ]
     },
     "111": {
       "updatedAt": "2026-06-24T04:04:43Z",
-      "filename": "2018-12-06-111-antd-实现keep-alive.md"
+      "filename": "111.md",
+      "aliases": [
+        "2018-12-06-111-antd-实现keep-alive.md"
+      ]
     },
     "112": {
       "updatedAt": "2026-06-24T04:04:45Z",
-      "filename": "2019-01-04-112-如何编译后自动提交代码.md"
+      "filename": "112.md",
+      "aliases": [
+        "2019-01-04-112-如何编译后自动提交代码.md"
+      ]
     },
     "113": {
       "updatedAt": "2026-06-24T04:04:46Z",
-      "filename": "2019-01-09-113-fetch超时处理.md"
+      "filename": "113.md",
+      "aliases": [
+        "2019-01-09-113-fetch超时处理.md"
+      ]
     },
     "114": {
       "updatedAt": "2026-06-24T04:04:48Z",
-      "filename": "2019-09-08-114-认识proto和prototype.md"
+      "filename": "114.md",
+      "aliases": [
+        "2019-09-08-114-认识proto和prototype.md"
+      ]
     },
     "115": {
       "updatedAt": "2026-06-24T04:04:50Z",
-      "filename": "2019-09-08-115-new操作符做了什么.md"
+      "filename": "115.md",
+      "aliases": [
+        "2019-09-08-115-new操作符做了什么.md"
+      ]
     },
     "116": {
       "updatedAt": "2026-06-24T04:04:51Z",
-      "filename": "2019-09-09-116-react16新特性.md"
+      "filename": "116.md",
+      "aliases": [
+        "2019-09-09-116-react16新特性.md"
+      ]
     },
     "117": {
       "updatedAt": "2026-06-24T04:04:52Z",
-      "filename": "2019-09-09-117-react-redux工作流程.md"
+      "filename": "117.md",
+      "aliases": [
+        "2019-09-09-117-react-redux工作流程.md"
+      ]
     },
     "118": {
       "updatedAt": "2026-06-24T04:04:54Z",
-      "filename": "2019-09-11-118-objectcreate做了什么.md"
+      "filename": "118.md",
+      "aliases": [
+        "2019-09-11-118-objectcreate做了什么.md"
+      ]
     },
     "119": {
       "updatedAt": "2026-06-24T04:04:55Z",
-      "filename": "2019-09-13-119-认识generator.md"
+      "filename": "119.md",
+      "aliases": [
+        "2019-09-13-119-认识generator.md"
+      ]
     },
     "120": {
       "updatedAt": "2026-06-24T04:04:57Z",
-      "filename": "2019-09-19-120-script标签中defer和async.md"
+      "filename": "120.md",
+      "aliases": [
+        "2019-09-19-120-script标签中defer和async.md"
+      ]
     },
     "121": {
       "updatedAt": "2026-06-24T04:04:58Z",
-      "filename": "2019-09-20-121-objectdefineproperty和proxy.md"
+      "filename": "121.md",
+      "aliases": [
+        "2019-09-20-121-objectdefineproperty和proxy.md"
+      ]
     },
     "122": {
       "updatedAt": "2026-06-24T04:05:00Z",
-      "filename": "2019-09-21-122-错题集.md"
+      "filename": "122.md",
+      "aliases": [
+        "2019-09-21-122-错题集.md"
+      ]
     },
     "123": {
       "updatedAt": "2026-06-24T04:05:01Z",
-      "filename": "2019-09-23-123-防抖和节流的简单实现.md"
+      "filename": "123.md",
+      "aliases": [
+        "2019-09-23-123-防抖和节流的简单实现.md"
+      ]
     },
     "124": {
       "updatedAt": "2026-06-24T04:05:03Z",
-      "filename": "2019-09-25-124-call和apply以及bind的简单实现.md"
+      "filename": "124.md",
+      "aliases": [
+        "2019-09-25-124-call和apply以及bind的简单实现.md"
+      ]
     },
     "125": {
       "updatedAt": "2026-06-24T04:05:04Z",
-      "filename": "2019-09-27-125-promise的实现.md"
+      "filename": "125.md",
+      "aliases": [
+        "2019-09-27-125-promise的实现.md"
+      ]
     },
     "126": {
       "updatedAt": "2026-06-24T04:05:06Z",
-      "filename": "2020-03-21-126-express知识整理.md"
+      "filename": "126.md",
+      "aliases": [
+        "2020-03-21-126-express知识整理.md"
+      ]
     },
     "127": {
       "updatedAt": "2026-06-24T04:05:07Z",
-      "filename": "2020-03-24-127-一些代码片段.md"
+      "filename": "127.md",
+      "aliases": [
+        "2020-03-24-127-一些代码片段.md"
+      ]
     },
     "128": {
       "updatedAt": "2026-06-24T04:05:09Z",
-      "filename": "2020-04-07-128-随笔.md"
+      "filename": "128.md",
+      "aliases": [
+        "2020-04-07-128-随笔.md"
+      ]
     },
     "129": {
       "updatedAt": "2026-06-24T04:05:10Z",
-      "filename": "2020-06-30-129-nginx.md"
+      "filename": "129.md",
+      "aliases": [
+        "2020-06-30-129-nginx.md"
+      ]
     },
     "130": {
       "updatedAt": "2026-06-24T04:05:12Z",
-      "filename": "2021-03-29-130-经济学的十大原理.md"
+      "filename": "130.md",
+      "aliases": [
+        "2021-03-29-130-经济学的十大原理.md"
+      ]
     },
     "131": {
       "updatedAt": "2026-06-24T04:05:14Z",
-      "filename": "2024-06-17-131-使用nodejs抓取某个telegram频道的数据.md"
+      "filename": "131.md",
+      "aliases": [
+        "2024-06-17-131-使用nodejs抓取某个telegram频道的数据.md"
+      ]
     },
     "132": {
       "updatedAt": "2026-06-24T04:05:15Z",
-      "filename": "2024-06-17-132-ubuntu服务器配置node环境.md"
+      "filename": "132.md",
+      "aliases": [
+        "2024-06-17-132-ubuntu服务器配置node环境.md"
+      ]
     },
     "133": {
       "updatedAt": "2026-06-24T04:05:17Z",
-      "filename": "2024-06-18-133-国内调用电报机器人api失败怎么办.md"
+      "filename": "133.md",
+      "aliases": [
+        "2024-06-18-133-国内调用电报机器人api失败怎么办.md"
+      ]
     },
     "134": {
       "updatedAt": "2026-06-24T04:05:18Z",
-      "filename": "2024-06-18-134-telegrambot-有哪些方法.md"
+      "filename": "134.md",
+      "aliases": [
+        "2024-06-18-134-telegrambot-有哪些方法.md"
+      ]
     },
     "135": {
       "updatedAt": "2026-06-24T04:05:20Z",
-      "filename": "2024-06-22-135-amazon-ec2-云服务器安装和运行-v2ray.md"
+      "filename": "135.md",
+      "aliases": [
+        "2024-06-22-135-amazon-ec2-云服务器安装和运行-v2ray.md"
+      ]
     },
     "136": {
       "updatedAt": "2026-06-24T04:05:21Z",
-      "filename": "2024-07-18-136-git-rebase-和git-merge-区别.md"
+      "filename": "136.md",
+      "aliases": [
+        "2024-07-18-136-git-rebase-和git-merge-区别.md"
+      ]
     },
     "137": {
       "updatedAt": "2026-06-24T04:05:23Z",
-      "filename": "2024-07-25-137-什么叫做5w2h法.md"
+      "filename": "137.md",
+      "aliases": [
+        "2024-07-25-137-什么叫做5w2h法.md"
+      ]
     },
     "138": {
       "updatedAt": "2026-06-24T04:05:25Z",
-      "filename": "2024-09-25-138-typescript基本用法.md"
+      "filename": "138.md",
+      "aliases": [
+        "2024-09-25-138-typescript基本用法.md"
+      ]
     },
     "139": {
       "updatedAt": "2026-06-24T04:05:27Z",
-      "filename": "2024-09-25-139-typescript-与-react-结合常见的用法.md"
+      "filename": "139.md",
+      "aliases": [
+        "2024-09-25-139-typescript-与-react-结合常见的用法.md"
+      ]
     },
     "140": {
       "updatedAt": "2026-06-24T04:05:28Z",
-      "filename": "2024-09-27-140-前端server-sent-events通信.md"
+      "filename": "140.md",
+      "aliases": [
+        "2024-09-27-140-前端server-sent-events通信.md"
+      ]
     },
     "141": {
       "updatedAt": "2026-06-24T04:05:30Z",
-      "filename": "2024-10-12-141-git-回退最近一次的本地commit.md"
+      "filename": "141.md",
+      "aliases": [
+        "2024-10-12-141-git-回退最近一次的本地commit.md"
+      ]
     },
     "142": {
       "updatedAt": "2026-06-24T04:05:31Z",
-      "filename": "2024-10-25-142-如何利用-google-搜索技巧提高工作效率.md"
+      "filename": "142.md",
+      "aliases": [
+        "2024-10-25-142-如何利用-google-搜索技巧提高工作效率.md"
+      ]
     },
     "143": {
       "updatedAt": "2026-06-24T04:05:33Z",
-      "filename": "2024-11-14-143-flutter入门.md"
+      "filename": "143.md",
+      "aliases": [
+        "2024-11-14-143-flutter入门.md"
+      ]
     },
     "144": {
       "updatedAt": "2026-06-24T04:05:35Z",
-      "filename": "2024-11-20-144-git-stash的基本用法.md"
+      "filename": "144.md",
+      "aliases": [
+        "2024-11-20-144-git-stash的基本用法.md"
+      ]
     },
     "145": {
       "updatedAt": "2026-06-24T04:05:36Z",
-      "filename": "2024-12-24-145-如何在-react-中管理弹窗状态三种方法的示例.md"
+      "filename": "145.md",
+      "aliases": [
+        "2024-12-24-145-如何在-react-中管理弹窗状态三种方法的示例.md"
+      ]
     },
     "146": {
       "updatedAt": "2026-06-24T04:05:38Z",
-      "filename": "2024-12-25-146-react-中模块作用域变量的可访问性分析.md"
+      "filename": "146.md",
+      "aliases": [
+        "2024-12-25-146-react-中模块作用域变量的可访问性分析.md"
+      ]
     },
     "147": {
       "updatedAt": "2026-06-24T04:05:39Z",
-      "filename": "2024-12-25-147-javascript-中的空值合并运算符完全指南.md"
+      "filename": "147.md",
+      "aliases": [
+        "2024-12-25-147-javascript-中的空值合并运算符完全指南.md"
+      ]
     },
     "148": {
       "updatedAt": "2026-06-24T04:05:41Z",
-      "filename": "2024-12-28-148-使用-yahoo-finance-的-quote-方法进行金融数据查询.md"
+      "filename": "148.md",
+      "aliases": [
+        "2024-12-28-148-使用-yahoo-finance-的-quote-方法进行金融数据查询.md"
+      ]
     },
     "149": {
       "updatedAt": "2026-10-21T14:21:07Z",
-      "filename": "2024-12-28-149-yahoo-finance-的-search方法.md"
+      "filename": "149.md",
+      "aliases": [
+        "2024-12-28-149-yahoo-finance-的-search方法.md"
+      ]
     },
     "150": {
       "updatedAt": "2026-06-24T04:05:44Z",
-      "filename": "2024-12-28-150-yahoo-finance2的chart方法.md"
+      "filename": "150.md",
+      "aliases": [
+        "2024-12-28-150-yahoo-finance2的chart方法.md"
+      ]
     },
     "151": {
       "updatedAt": "2026-06-24T04:05:45Z",
-      "filename": "2024-12-31-151-在-nodejs-中使用-typescript-的最佳实践.md"
+      "filename": "151.md",
+      "aliases": [
+        "2024-12-31-151-在-nodejs-中使用-typescript-的最佳实践.md"
+      ]
     },
     "152": {
       "updatedAt": "2026-06-24T04:05:47Z",
-      "filename": "2025-01-07-152-在next中使用文件系统getstaticprops-markdown-文件加载博客内容.md"
+      "filename": "152.md",
+      "aliases": [
+        "2025-01-07-152-在next中使用文件系统getstaticprops-markdown-文件加载博客内容.md"
+      ]
     },
     "153": {
       "updatedAt": "2026-06-24T04:05:48Z",
-      "filename": "2025-01-08-153-2025年计划.md"
+      "filename": "153.md",
+      "aliases": [
+        "2025-01-08-153-2025年计划.md"
+      ]
     },
     "154": {
       "updatedAt": "2026-06-24T04:05:50Z",
-      "filename": "2025-01-18-154-免费托管nodejs应用.md"
+      "filename": "154.md",
+      "aliases": [
+        "2025-01-18-154-免费托管nodejs应用.md"
+      ]
     },
     "155": {
       "updatedAt": "2026-06-24T04:05:51Z",
-      "filename": "2025-01-19-155-zero-trust-内网穿透.md"
+      "filename": "155.md",
+      "aliases": [
+        "2025-01-19-155-zero-trust-内网穿透.md"
+      ]
     },
     "156": {
       "updatedAt": "2026-06-24T04:05:52Z",
-      "filename": "2025-01-23-156-趋势追踪策略与均值回归策略它们会同时满足吗.md"
+      "filename": "156.md",
+      "aliases": [
+        "2025-01-23-156-趋势追踪策略与均值回归策略它们会同时满足吗.md"
+      ]
     },
     "157": {
       "updatedAt": "2026-06-24T04:05:54Z",
-      "filename": "2025-01-23-157-在数字货币交易中使用1h的k线数据趋势追踪策略搭配哪些策略比较适合.md"
+      "filename": "157.md",
+      "aliases": [
+        "2025-01-23-157-在数字货币交易中使用1h的k线数据趋势追踪策略搭配哪些策略比较适合.md"
+      ]
     },
     "158": {
       "updatedAt": "2026-06-24T04:05:56Z",
-      "filename": "2025-02-03-158-2025年最新ai应用体验指南零门槛探索人工智能的奇妙世界.md"
+      "filename": "158.md",
+      "aliases": [
+        "2025-02-03-158-2025年最新ai应用体验指南零门槛探索人工智能的奇妙世界.md"
+      ]
     },
     "159": {
       "updatedAt": "2026-06-24T04:05:57Z",
-      "filename": "2025-02-08-159-如何在-express-中集成-apollo-server并在前端执行-graphql-查询.md"
+      "filename": "159.md",
+      "aliases": [
+        "2025-02-08-159-如何在-express-中集成-apollo-server并在前端执行-graphql-查询.md"
+      ]
     },
     "160": {
       "updatedAt": "2026-06-24T04:05:59Z",
-      "filename": "2025-02-11-160-windows-系统下的-javascripttypescript-开发者cursor-使用技巧.md"
+      "filename": "160.md",
+      "aliases": [
+        "2025-02-11-160-windows-系统下的-javascripttypescript-开发者cursor-使用技巧.md"
+      ]
     },
     "161": {
       "updatedAt": "2026-06-24T04:06:01Z",
-      "filename": "2025-02-13-161-构建攻守兼备的投资组合低波红利指数中证800指数与国债etf的完美融合.md"
+      "filename": "161.md",
+      "aliases": [
+        "2025-02-13-161-构建攻守兼备的投资组合低波红利指数中证800指数与国债etf的完美融合.md"
+      ]
     },
     "162": {
       "updatedAt": "2026-06-24T04:06:03Z",
-      "filename": "2025-02-13-162-a股做t策略实现10年化收益的深度分析与规划.md"
+      "filename": "162.md",
+      "aliases": [
+        "2025-02-13-162-a股做t策略实现10年化收益的深度分析与规划.md"
+      ]
     },
     "163": {
       "updatedAt": "2026-07-17T08:43:08Z",
-      "filename": "2025-02-18-163-reqable将https请求转发到本地.md"
+      "filename": "163.md",
+      "aliases": [
+        "2025-02-18-163-reqable将https请求转发到本地.md"
+      ]
     },
     "164": {
       "updatedAt": "2026-06-24T04:06:06Z",
-      "filename": "2025-02-21-164-在-windows-系统下使用-vs-code-进行-javascripttypescript-开发.md"
+      "filename": "164.md",
+      "aliases": [
+        "2025-02-21-164-在-windows-系统下使用-vs-code-进行-javascripttypescript-开发.md"
+      ]
     },
     "165": {
       "updatedAt": "2026-06-24T04:06:08Z",
-      "filename": "2025-02-28-165-基于ai工具链构建agent智能体应用.md"
+      "filename": "165.md",
+      "aliases": [
+        "2025-02-28-165-基于ai工具链构建agent智能体应用.md"
+      ]
     },
     "166": {
       "updatedAt": "2026-06-24T04:06:09Z",
-      "filename": "2025-09-09-166-ant-design组件如何绑定-data-testid.md"
+      "filename": "166.md",
+      "aliases": [
+        "2025-09-09-166-ant-design组件如何绑定-data-testid.md"
+      ]
     },
     "167": {
       "updatedAt": "2026-06-24T04:06:11Z",
-      "filename": "2025-10-20-167-一些有趣的软件.md"
+      "filename": "167.md",
+      "aliases": [
+        "2025-10-20-167-一些有趣的软件.md"
+      ]
     },
     "168": {
       "updatedAt": "2026-06-24T04:06:13Z",
-      "filename": "2025-11-04-168-现在美股和黄金价格都比较高应该怎么买.md"
+      "filename": "168.md",
+      "aliases": [
+        "2025-11-04-168-现在美股和黄金价格都比较高应该怎么买.md"
+      ]
     },
     "169": {
       "updatedAt": "2026-06-24T04:06:15Z",
-      "filename": "2026-03-07-169-vue学习.md"
+      "filename": "169.md",
+      "aliases": [
+        "2026-03-07-169-vue学习.md"
+      ]
     },
     "170": {
       "updatedAt": "2026-10-08T13:29:32Z",
-      "filename": "2026-04-25-170-节点搭建.md"
+      "filename": "170.md",
+      "aliases": [
+        "2026-04-25-170-节点搭建.md"
+      ]
     },
     "171": {
       "updatedAt": "2026-11-16T03:17:36Z",
-      "filename": "2026-05-04-171-claude-cli怎么设置key.md"
+      "filename": "171.md",
+      "aliases": [
+        "2026-05-04-171-claude-cli怎么设置key.md"
+      ]
     },
     "172": {
       "updatedAt": "2026-06-24T04:06:19Z",
-      "filename": "2026-05-14-172-agent-browser-cli.md"
+      "filename": "172.md",
+      "aliases": [
+        "2026-05-14-172-agent-browser-cli.md"
+      ]
     },
     "173": {
       "updatedAt": "2026-06-24T04:06:21Z",
-      "filename": "2026-05-20-173-韩国甲骨文-vps-隐藏-ip-实战从-hy2-到-vless-的-cloudflare-避坑与终极.md"
+      "filename": "173.md",
+      "aliases": [
+        "2026-05-20-173-韩国甲骨文-vps-隐藏-ip-实战从-hy2-到-vless-的-cloudflare-避坑与终极.md"
+      ]
     },
     "174": {
       "updatedAt": "2026-06-24T04:06:22Z",
-      "filename": "2026-05-21-174-cliproxyapi-部署到linux.md"
+      "filename": "174.md",
+      "aliases": [
+        "2026-05-21-174-cliproxyapi-部署到linux.md"
+      ]
     },
     "175": {
       "updatedAt": "2026-06-24T04:06:24Z",
-      "filename": "2026-05-22-175-chagpt账号注册.md"
+      "filename": "175.md",
+      "aliases": [
+        "2026-05-22-175-chagpt账号注册.md"
+      ]
     },
     "176": {
       "updatedAt": "2026-06-24T04:06:25Z",
-      "filename": "2026-05-26-176-playwright-接管本地-edge复用登录态操作真实网页.md"
+      "filename": "176.md",
+      "aliases": [
+        "2026-05-26-176-playwright-接管本地-edge复用登录态操作真实网页.md"
+      ]
     },
     "177": {
       "updatedAt": "2026-06-24T04:06:27Z",
-      "filename": "2026-05-26-177-playwright-接管本地-edge交给ai来做.md"
+      "filename": "177.md",
+      "aliases": [
+        "2026-05-26-177-playwright-接管本地-edge交给ai来做.md"
+      ]
     },
     "179": {
       "updatedAt": "2026-06-24T04:06:29Z",
-      "filename": "2026-05-28-179-我把一台-8g-老笔记本改造成-ubuntu-ai-开发机.md"
+      "filename": "179.md",
+      "aliases": [
+        "2026-05-28-179-我把一台-8g-老笔记本改造成-ubuntu-ai-开发机.md"
+      ]
     },
     "180": {
       "updatedAt": "2026-09-05T12:25:04Z",
-      "filename": "2026-06-27-180-oracle-vps安装1panal.md"
+      "filename": "180.md",
+      "aliases": [
+        "2026-06-27-180-oracle-vps安装1panal.md"
+      ]
     },
     "181": {
       "updatedAt": "2026-06-28T08:08:14Z",
-      "filename": "2026-06-28-181-如何搭建一个中转站.md"
+      "filename": "181.md",
+      "aliases": [
+        "2026-06-28-181-如何搭建一个中转站.md"
+      ]
     },
     "182": {
       "updatedAt": "2026-07-20T06:53:07Z",
-      "filename": "2026-07-20-182-如何让-codex-cli-拥有-chatgpt-一样的长期记忆能力.md"
+      "filename": "182.md",
+      "aliases": [
+        "2026-07-20-182-如何让-codex-cli-拥有-chatgpt-一样的长期记忆能力.md"
+      ]
     },
     "183": {
       "updatedAt": "2026-07-20T07:13:33Z",
-      "filename": "2026-07-20-183-让-claude-code-和-codex-cli-共享记忆我的-ai-编程工作流实践.md"
+      "filename": "183.md",
+      "aliases": [
+        "2026-07-20-183-让-claude-code-和-codex-cli-共享记忆我的-ai-编程工作流实践.md"
+      ]
     },
     "184": {
       "updatedAt": "2026-11-14T02:20:49Z",
-      "filename": "2026-07-21-184-别再用传统方式折腾-u-盘了聊聊-ventoy-pe-到底怎么配合才最爽.md"
+      "filename": "184.md",
+      "aliases": [
+        "2026-07-21-184-别再用传统方式折腾-u-盘了聊聊-ventoy-pe-到底怎么配合才最爽.md"
+      ]
     },
     "185": {
       "updatedAt": "2026-11-21T05:14:01Z",
-      "filename": "2026-08-10-185-vmp加壳的程序如何绕过登录.md"
+      "filename": "185.md",
+      "aliases": [
+        "2026-08-10-185-vmp加壳的程序如何绕过登录.md"
+      ]
     },
     "186": {
       "updatedAt": "2026-08-31T01:30:10Z",
-      "filename": "2026-08-19-186-claude-code-连接本机-chromechrome-devtools-mcp.md"
+      "filename": "186.md",
+      "aliases": [
+        "2026-08-19-186-claude-code-连接本机-chromechrome-devtools-mcp.md"
+      ]
     },
     "187": {
       "updatedAt": "2026-09-13T14:54:55Z",
-      "filename": "2026-08-31-187-免费云服务器部署平台推荐vercelnetlifyrendernorthflankkatabumpc.md"
+      "filename": "187.md",
+      "aliases": [
+        "2026-08-31-187-免费云服务器部署平台推荐vercelnetlifyrendernorthflankkatabumpc.md"
+      ]
     },
     "188": {
       "updatedAt": "2026-09-12T02:16:39Z",
-      "filename": "2026-09-12-188-从误封惨案到架构重生wireguard-与-clash-如何打造零断流的云端开发专线.md"
+      "filename": "188.md",
+      "aliases": [
+        "2026-09-12-188-从误封惨案到架构重生wireguard-与-clash-如何打造零断流的云端开发专线.md"
+      ]
     },
     "189": {
       "updatedAt": "2026-09-14T01:10:18Z",
-      "filename": "2026-09-14-189-从-serverless-到常驻容器基于-19-天-1425-次实测的-nextjs-生产部署全景评.md"
+      "filename": "189.md",
+      "aliases": [
+        "2026-09-14-189-从-serverless-到常驻容器基于-19-天-1425-次实测的-nextjs-生产部署全景评.md"
+      ]
     },
     "190": {
       "updatedAt": "2026-09-17T12:27:07Z",
-      "filename": "2026-09-17-190-基金申购费怎么省我目前在用的几个申购费-0-元渠道.md"
+      "filename": "190.md",
+      "aliases": [
+        "2026-09-17-190-基金申购费怎么省我目前在用的几个申购费-0-元渠道.md"
+      ]
     },
     "191": {
       "updatedAt": "2026-09-22T13:33:43Z",
-      "filename": "2026-09-22-191-告别-giscus基于-cloudflare-workers-d1-的博客评论系统自建与深度调优实践.md"
+      "filename": "191.md",
+      "aliases": [
+        "2026-09-22-191-告别-giscus基于-cloudflare-workers-d1-的博客评论系统自建与深度调优实践.md"
+      ]
     },
     "192": {
       "updatedAt": "2026-09-30T12:49:34Z",
-      "filename": "2026-09-30-192-分享一个有趣的提示词.md"
+      "filename": "192.md",
+      "aliases": [
+        "2026-09-30-192-分享一个有趣的提示词.md"
+      ]
     },
     "193": {
       "updatedAt": "2026-10-18T14:41:56Z",
-      "filename": "2026-10-18-193-洛雪音源收集.md"
+      "filename": "193.md",
+      "aliases": [
+        "2026-10-18-193-洛雪音源收集.md"
+      ]
     },
     "194": {
       "updatedAt": "2026-10-20T09:30:26Z",
-      "filename": "2026-10-20-194-安禾播放器让你从此听歌自由.md"
+      "filename": "194.md",
+      "aliases": [
+        "2026-10-20-194-安禾播放器让你从此听歌自由.md"
+      ]
     },
     "195": {
       "updatedAt": "2026-11-09T14:56:55Z",
-      "filename": "2026-11-09-195-agent2api-把多家-ai-桌面客户端的登录态变成一个本地-openai-兼容-api-网关.md"
+      "filename": "195.md",
+      "aliases": [
+        "2026-11-09-195-agent2api-把多家-ai-桌面客户端的登录态变成一个本地-openai-兼容-api-网关.md"
+      ]
     },
     "196": {
       "updatedAt": "2026-11-22T10:07:32Z",
-      "filename": "2026-11-16-196-ai-项目搜索-api-选型记录ydc-和-keenable-谁更适合.md"
+      "filename": "196.md",
+      "aliases": [
+        "2026-11-16-196-ai-项目搜索-api-选型记录ydc-和-keenable-谁更适合.md"
+      ]
     },
     "197": {
       "updatedAt": "2026-11-21T04:49:06Z",
-      "filename": "2026-11-20-197-从-6-位数字-xyz-到-top我的个人博客域名折腾经历.md"
+      "filename": "197.md",
+      "aliases": [
+        "2026-11-20-197-从-6-位数字-xyz-到-top我的个人博客域名折腾经历.md"
+      ]
     },
     "198": {
       "updatedAt": "2026-11-20T11:55:44Z",
-      "filename": "2026-11-20-198-通用-bypass-工程-ai-提示词模板.md"
+      "filename": "198.md",
+      "aliases": [
+        "2026-11-20-198-通用-bypass-工程-ai-提示词模板.md"
+      ]
     },
     "199": {
       "updatedAt": "2026-11-22T09:02:33Z",
-      "filename": "2026-11-22-199-从-vultr-到-nat折腾-vps-这几年的经历与心得.md"
+      "filename": "199.md",
+      "aliases": [
+        "2026-11-22-199-从-vultr-到-nat折腾-vps-这几年的经历与心得.md"
+      ]
     },
     "200": {
       "updatedAt": "2026-11-22T13:43:56Z",
-      "filename": "2026-11-22-200-没接码的-gptfree-账号还能做什么用-magpie-插件实现-ai-生图.md"
+      "filename": "200.md",
+      "aliases": [
+        "2026-11-22-200-没接码的-gptfree-账号还能做什么用-magpie-插件实现-ai-生图.md"
+      ]
     },
     "201": {
       "updatedAt": "2026-11-26T02:14:19Z",
-      "filename": "2026-11-26-201-从网易博客到-issue-blog我的博客折腾史.md"
+      "filename": "201.md",
+      "aliases": [
+        "2026-11-26-201-从网易博客到-issue-blog我的博客折腾史.md"
+      ]
     }
   }
 }

@@ -11,20 +11,16 @@ const CONFIG = {
   repo: 'zone',
   blogDir: path.join(__dirname, '../src/content/blog'),
   metaFile: path.join(__dirname, '../src/content/blog/.sync-meta.json'),
+  redirectsFile: path.join(__dirname, '../public/_redirects'),
   apiBase: 'https://api.github.com',
 };
 
 /**
- * 生成 URL 友好的 slug
+ * 生成稳定的文件名。
+ * Issue 编号在仓库内唯一，标题修改时也不会导致文章 URL 变化。
  */
-function generateSlug(title) {
-  return title
-    .toLowerCase()
-    .replace(/[^一-龥a-z0-9\s-]/g, '')
-    .trim()
-    .replace(/\s+/g, '-')
-    .replace(/-+/g, '-')
-    .slice(0, 50);
+function generateFilename(issue) {
+  return `${issue.number}.md`;
 }
 
 /**
@@ -63,17 +59,6 @@ function yamlString(value) {
   return String(value)
     .replace(/\\/g, '\\\\')
     .replace(/"/g, '\\"');
-}
-
-/**
- * 生成文件名
- */
-function generateFilename(issue) {
-  const date = new Date(getIssuePubDate(issue));
-  const dateStr = date.toISOString().split('T')[0];
-  const issueNum = String(issue.number).padStart(3, '0');
-  const slug = generateSlug(issue.title);
-  return `${dateStr}-${issueNum}-${slug}.md`;
 }
 
 /**
@@ -147,7 +132,15 @@ async function readSyncMeta() {
     const content = await fs.readFile(CONFIG.metaFile, 'utf-8');
     const parsed = JSON.parse(content);
     return {
-      issues: parsed.issues || {},
+      issues: Object.fromEntries(
+        Object.entries(parsed.issues || {}).map(([issueNumber, data]) => [
+          issueNumber,
+          {
+            ...data,
+            aliases: Array.isArray(data.aliases) ? data.aliases : [],
+          },
+        ])
+      ),
     };
   } catch (error) {
     return {
@@ -166,6 +159,55 @@ async function writeSyncMeta(meta) {
       null,
       2
     ),
+    'utf-8'
+  );
+}
+
+function getFilenameSlug(filename) {
+  return filename.replace(/\.(md|mdx)$/i, '');
+}
+
+function encodePathSegment(segment) {
+  return encodeURIComponent(segment);
+}
+
+/**
+ * 生成旧文章 URL 到新编号 URL 的永久重定向。
+ * 同时覆盖带和不带末尾斜杠的旧链接，避免历史分享链接失效。
+ */
+async function writeRedirects(meta) {
+  const rules = [];
+  const emitted = new Set();
+
+  for (const data of Object.values(meta.issues)) {
+    const filename = data.filename;
+    if (!filename) continue;
+
+    const destination = `/blog/${encodePathSegment(getFilenameSlug(filename))}/`;
+    for (const alias of data.aliases || []) {
+      const source = `/blog/${encodePathSegment(getFilenameSlug(alias))}`;
+      for (const sourcePath of [source, `${source}/`]) {
+        const rule = `${sourcePath} ${destination} 301`;
+        if (!emitted.has(rule)) {
+          emitted.add(rule);
+          rules.push(rule);
+        }
+      }
+    }
+  }
+
+  const header = `# Cloudflare Pages 重定向规则
+# 重要：Cloudflare Pages 的 _redirects 不支持「域名级」重定向（官方文档标注 ❌），
+#       形如 https://old.domain/* → https://new.domain/* 的规则不会生效。
+#       跨域名跳转请用账户级「批量重定向（Bulk Redirects）」或各域名下的「重定向规则」。
+#       本文件只保留站点内部的路径级重定向。
+
+# 博客旧标题 URL → 新 Issue 编号 URL
+`;
+
+  await fs.writeFile(
+    CONFIG.redirectsFile,
+    `${header}${rules.length > 0 ? `${rules.join('\n')}\n` : ''}`,
     'utf-8'
   );
 }
@@ -215,7 +257,11 @@ function detectChanges(issues, meta) {
 
   for (const issue of issues) {
     const cached = meta.issues[issue.number];
-    if (!cached || cached.updatedAt !== issue.updated_at) {
+    if (
+      !cached ||
+      cached.updatedAt !== issue.updated_at ||
+      cached.filename !== generateFilename(issue)
+    ) {
       newOrUpdated.push(issue);
     }
   }
@@ -226,6 +272,7 @@ function detectChanges(issues, meta) {
       deleted.push({
         issueNumber: Number(issueNumber),
         filename: data.filename,
+        aliases: data.aliases || [],
       });
     }
   }
@@ -240,37 +287,25 @@ function getMarkdownIssueNumber(content) {
 }
 
 /**
- * 按 Issue 身份清理改标题留下的旧文件，包括元数据已更新的历史残留。
- * 只有新文件存在且双方 frontmatter 都匹配时才删除，避免误删手写文章。
+ * 清理已记录为 alias 的旧文件。
+ * 只有文件 frontmatter 的 Issue 编号匹配时才删除，避免误删手写文章。
  */
 async function removeStaleFiles(meta) {
   let removedCount = 0;
-  const filenames = await fs.readdir(CONFIG.blogDir);
 
-  for (const filename of filenames) {
-    const match = filename.match(/^\d{4}-\d{2}-\d{2}-(\d+)-.*\.md$/);
-    if (!match) continue;
-
-    const issueNumber = Number(match[1]);
-    const currentFilename = meta.issues[issueNumber]?.filename;
-    if (!currentFilename || currentFilename === filename) continue;
-
-    const filepath = path.join(CONFIG.blogDir, filename);
-    const content = await fs.readFile(filepath, 'utf-8');
-    if (getMarkdownIssueNumber(content) !== issueNumber) continue;
-
-    let currentContent;
-    try {
-      currentContent = await fs.readFile(path.join(CONFIG.blogDir, currentFilename), 'utf-8');
-    } catch (error) {
-      if (error.code === 'ENOENT') continue;
-      throw error;
+  for (const [issueNumber, data] of Object.entries(meta.issues)) {
+    for (const filename of data.aliases || []) {
+      const filepath = path.join(CONFIG.blogDir, filename);
+      try {
+        const content = await fs.readFile(filepath, 'utf-8');
+        if (getMarkdownIssueNumber(content) !== Number(issueNumber)) continue;
+        await fs.unlink(filepath);
+        console.log(`🗑️  已清理旧文件: ${filename}`);
+        removedCount++;
+      } catch (error) {
+        if (error.code !== 'ENOENT') throw error;
+      }
     }
-    if (getMarkdownIssueNumber(currentContent) !== issueNumber) continue;
-
-    await fs.unlink(filepath);
-    console.log(`🗑️  已清理旧文件: ${filename}`);
-    removedCount++;
   }
 
   return removedCount;
@@ -303,6 +338,11 @@ async function syncBlog() {
     const filename = generateFilename(issue);
     const filepath = path.join(CONFIG.blogDir, filename);
     const content = buildMarkdown(issue);
+    const previous = meta.issues[issue.number];
+    const aliases = new Set(previous?.aliases || []);
+    if (previous?.filename && previous.filename !== filename) {
+      aliases.add(previous.filename);
+    }
 
     await fs.writeFile(filepath, content, 'utf-8');
     console.log(`✏️  已写入: ${filename}`);
@@ -310,25 +350,32 @@ async function syncBlog() {
     meta.issues[issue.number] = {
       updatedAt: issue.updated_at,
       filename: filename,
+      aliases: [...aliases],
     };
 
     processedCount++;
   }
 
   for (const item of changes.deleted) {
-    const filepath = path.join(CONFIG.blogDir, item.filename);
-    try {
-      await fs.unlink(filepath);
-      console.log(`🗑️  已删除: ${item.filename}`);
-      delete meta.issues[item.issueNumber];
-    } catch (error) {
-      console.warn(`⚠️  删除失败 ${item.filename}: ${error.message}`);
+    const filenames = [item.filename, ...(item.aliases || [])].filter(Boolean);
+    for (const filename of new Set(filenames)) {
+      const filepath = path.join(CONFIG.blogDir, filename);
+      try {
+        await fs.unlink(filepath);
+        console.log(`🗑️  已删除: ${filename}`);
+      } catch (error) {
+        if (error.code !== 'ENOENT') {
+          console.warn(`⚠️  删除失败 ${filename}: ${error.message}`);
+        }
+      }
     }
+    delete meta.issues[item.issueNumber];
   }
 
   const removedStaleCount = await removeStaleFiles(meta);
+  await writeRedirects(meta);
 
-  if (processedCount > 0 || changes.deleted.length > 0) {
+  if (processedCount > 0 || changes.deleted.length > 0 || removedStaleCount > 0) {
     await writeSyncMeta(meta);
   } else {
     console.log('ℹ️  没有检测到文章变更，跳过更新同步元数据');

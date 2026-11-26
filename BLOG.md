@@ -64,6 +64,8 @@ pnpm sync-blog
 - **本地预览**：`pnpm dev` 然后访问 http://localhost:4323/blog
 - **线上访问**：https://raclen.ee.cd/blog
 
+文章 URL 使用 GitHub Issue 编号，例如 `/blog/200/`。文章标题仍保留在页面标题、正文和搜索结果中，标题修改不会改变 URL；历史标题 URL 会通过 301 永久重定向到编号 URL。
+
 ## 🛠️ 本地开发
 
 ### 安装依赖
@@ -98,7 +100,7 @@ pnpm preview
 
 ## 📝 文章格式
 
-同步脚本会自动将 Issues 转换为 Markdown 文件，格式如下：
+同步脚本会自动将 Issues 转换为 Markdown 文件，文件名使用 Issue 编号（例如 `200.md`），格式如下：
 
 ```markdown
 ---

@@ -12,6 +12,19 @@
  */
 import config from "@/config";
 import commentStylesUrl from "@/styles/cwd-comments.css?url";
+import syncMeta from "@/content/blog/.sync-meta.json";
+
+interface Props {
+  issueNumber?: number;
+}
+
+const { issueNumber } = Astro.props;
+const issueMeta = syncMeta.issues as Record<string, { aliases?: string[] }>;
+const legacyFilename = issueNumber ? issueMeta[String(issueNumber)]?.aliases?.[0] : undefined;
+// 页面使用短 URL，但历史评论、点赞和 PV 继续沿用迁移前的存储键。
+const postPath = legacyFilename
+  ? new URL(`/blog/${legacyFilename.replace(/\.(md|mdx)$/i, "")}/`, Astro.site).pathname
+  : Astro.url.pathname;
 
 const comments = config.comments;
 const cwd = comments.enabled && comments.provider === "cwd" ? comments : null;
@@ -46,6 +59,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
         class="cwd-comments-host"
         data-api-base-url={apiBaseUrl}
         data-site-id={siteId}
+        data-post-path={postPath}
         data-canonical-origin={canonicalOrigin}
         data-widget-src={widgetSrc}
         data-custom-css-url={commentStylesUrl}
@@ -141,6 +155,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
             }
 
             const canonicalOrigin = (dataset.canonicalOrigin || "").replace(/\/+$/, "");
+            const postPath = dataset.postPath || window.location.pathname;
             const isDark = () =>
               document.documentElement.classList.contains("dark");
 
@@ -148,6 +163,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
               el: host,
               apiBaseUrl,
               siteId: dataset.siteId || undefined,
+              postSlug: postPath,
               theme: isDark() ? "dark" : "light",
               lang: dataset.lang || "zh-CN",
               pageSize: Number(dataset.pageSize || 20),
@@ -163,8 +179,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
             // 本站有多个域名指向同一份构建，这里把 postUrl 归一到 canonical 地址。
             // 必须在 mount() 之前覆写：组件内部的 API 客户端是在 mount() 里用 this.config 建的。
             const applyCanonicalUrl = () => {
-              if (!canonicalOrigin) return;
-              widget.config.postUrl = canonicalOrigin + window.location.pathname;
+              widget.config.postUrl = (canonicalOrigin || window.location.origin) + postPath;
             };
             applyCanonicalUrl();
 
