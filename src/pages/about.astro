@@ -2,6 +2,7 @@
 import { getCollection } from "astro:content";
 import FuwariBlogLayout from "@/layouts/FuwariBlogLayout.astro";
 import SeoJsonLd from "@/components/SeoJsonLd.astro";
+import { FRIEND_LINKS } from "@/data/friends";
 import { getSortedPosts } from "@/utils/getSortedPosts";
 import { getUniqueTagsWithCount } from "@/utils/getUniqueTags";
 import config from "@/config";
@@ -101,6 +102,62 @@ const yearsList = Array.from(yearsMap.entries())
         <div>
           <span>© {new Date().getFullYear()} All rights reserved.</span>
         </div>
+      </div>
+    </article>
+
+    <!-- 友情链接：放在关于我卡片下方 -->
+    <article class="fuwari-card p-4 sm:p-5 border border-border/80">
+      <div class="flex items-center justify-between pb-3 mb-3 border-b border-border/60">
+        <div class="flex items-center gap-2 font-bold text-sm text-foreground">
+          <span class="w-1.5 h-3.5 rounded-full bg-accent"></span>
+          <span>友情链接</span>
+        </div>
+        <span class="text-xs text-muted-foreground font-mono">
+          共收录 {FRIEND_LINKS.length} 位朋友
+        </span>
+      </div>
+
+      {
+        FRIEND_LINKS.length === 0 && (
+          <div class="py-4 text-center text-sm text-muted-foreground">
+            暂时还没有友链，欢迎来做第一位朋友～
+          </div>
+        )
+      }
+
+      <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3">
+        {
+          FRIEND_LINKS.map(friend => (
+            <a
+              href={friend.link}
+              target="_blank"
+              rel="noopener noreferrer"
+              class="group block pb-3 border-b border-border/60 hover:border-accent/60 transition-all"
+            >
+              <div class="flex items-center gap-3">
+                <img
+                  src={friend.image}
+                  alt={friend.title}
+                  loading="lazy"
+                  class="w-10 h-10 rounded-full object-cover shrink-0 border border-border/60 group-hover:border-accent group-hover:scale-105 transition-all shadow-xs"
+                  onerror="this.onerror=null; this.src='/favicon.svg';"
+                />
+                <div class="min-w-0 flex-1">
+                  <div class="font-bold text-sm text-foreground group-hover:text-accent transition-colors truncate">
+                    {friend.title}
+                  </div>
+                  <div class="text-xs text-muted-foreground line-clamp-1 mt-0.5 leading-relaxed">
+                    {friend.intro}
+                  </div>
+                </div>
+              </div>
+            </a>
+          ))
+        }
+      </div>
+
+      <div class="mt-4 pt-3 border-t border-border/60 text-xs text-muted-foreground leading-relaxed">
+        <p>💡 申请友链：欢迎志同道合、热爱技术与生活的朋友交换友链，可在 Issue 或关于我中的邮箱联系～</p>
       </div>
     </article>
   </div>

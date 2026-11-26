@@ -52,8 +52,8 @@ const {
   <!-- 严格按照 Fuwari 标准页面宽度 75rem (1200px) 约束，左侧固定 17.5rem，紧凑精致 -->
   <div class="max-w-[75rem] mx-auto px-4 sm:px-6 w-full pb-16 pt-4">
     <div class="grid grid-cols-1 lg:grid-cols-[17.5rem_1fr] gap-4 items-start">
-      <!-- 左侧边栏 (Profile + 归档挂件 + 标签挂件) -->
-      <aside class="space-y-4 lg:sticky lg:top-4 order-2 lg:order-1 w-full">
+      <!-- 左侧边栏 (Profile + 归档挂件 + 标签挂件)，移动端隐藏，避免挤在正文下方 -->
+      <aside class="hidden lg:block space-y-4 lg:sticky lg:top-4 order-2 lg:order-1 w-full">
         <FuwariProfile
           postsCount={postsCount}
           categoriesCount={years.length}
