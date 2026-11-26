@@ -47,7 +47,7 @@ export default defineAstroPaperConfig({
     provider: "cwd",
     apiBaseUrl: "https://cwd-api.raclen.qzz.io",
     siteId: "raclen.qzz.io",
-    widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js",
+    widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.3/cwd.js",
     canonicalOrigin: "https://raclen.top",
     pageSize: 20,
     lang: "zh-CN",

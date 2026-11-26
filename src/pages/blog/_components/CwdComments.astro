@@ -30,9 +30,9 @@ const comments = config.comments;
 const cwd = comments.enabled && comments.provider === "cwd" ? comments : null;
 
 const apiBaseUrl = cwd?.apiBaseUrl.replace(/\/+$/, "") ?? "";
-const widgetSrc = cwd?.widgetSrc ?? "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js";
+const widgetSrc = cwd?.widgetSrc ?? "/vendor/cwd-widget/0.2.0-raclen.3/cwd.js";
 const siteId = cwd?.siteId ?? "";
-// 归一文章点赞 / PV 所用的宿主（默认取站点 canonical 地址）
+// PV 与通知链接使用固定主域名，评论和点赞继续通过 postSlug 关联
 const canonicalOrigin = (cwd?.canonicalOrigin ?? "").replace(/\/+$/, "");
 const pageSize = cwd?.pageSize ?? 20;
 const lang = cwd?.lang ?? "zh-CN";
@@ -81,7 +81,7 @@ const compactLikeBar = cwd?.compactLikeBar === true;
         (() => {
           "use strict";
 
-          const FALLBACK_WIDGET_SRC = "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js";
+          const FALLBACK_WIDGET_SRC = "/vendor/cwd-widget/0.2.0-raclen.3/cwd.js";
 
           /** 卸载当前页面的组件实例，并断开主题监听。 */
           function teardown() {
@@ -163,7 +163,9 @@ const compactLikeBar = cwd?.compactLikeBar === true;
               el: host,
               apiBaseUrl,
               siteId: dataset.siteId || undefined,
+              // 0.2.0-raclen.3 会保留显式配置，主题切换不再重置历史 URL。
               postSlug: postPath,
+              postUrl: (canonicalOrigin || window.location.origin) + postPath,
               theme: isDark() ? "dark" : "light",
               lang: dataset.lang || "zh-CN",
               pageSize: Number(dataset.pageSize || 20),
@@ -174,14 +176,6 @@ const compactLikeBar = cwd?.compactLikeBar === true;
               // 点赞条紧凑单行，去掉评论区顶部的大块空白
               compactLikeBar: dataset.compactLikeBar === "true",
             });
-
-            // CWD 按 postSlug（路径）聚合评论，但按 postUrl（含域名）聚合文章点赞与 PV。
-            // 本站有多个域名指向同一份构建，这里把 postUrl 归一到 canonical 地址。
-            // 必须在 mount() 之前覆写：组件内部的 API 客户端是在 mount() 里用 this.config 建的。
-            const applyCanonicalUrl = () => {
-              widget.config.postUrl = (canonicalOrigin || window.location.origin) + postPath;
-            };
-            applyCanonicalUrl();
 
             widget.mount();
             window.__cwdWidget = widget;
@@ -194,8 +188,6 @@ const compactLikeBar = cwd?.compactLikeBar === true;
               lastDark = dark;
               try {
                 widget.updateConfig({ theme: dark ? "dark" : "light" });
-                // updateConfig 会把 postUrl 重置回 window.location.origin + pathname
-                applyCanonicalUrl();
               } catch (e) {
                 /* 忽略：主题同步失败不影响评论功能 */
               }

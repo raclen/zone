@@ -17,8 +17,8 @@ const commentsConfig = userConfig.comments?.enabled
       // 多站点统计用的标识，换域名时无需改（仅作为逻辑标签）
       siteId: "raclen.qzz.io",
       // 组件产物已本地化（本站自编译版），不依赖第三方 CDN
-      widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.2/cwd.js",
-      // 让文章点赞 / PV 归一到主域名，避免多域名导致的数据分裂
+      widgetSrc: "/vendor/cwd-widget/0.2.0-raclen.3/cwd.js",
+      // 让 PV 归一到主域名；评论和文章点赞沿用固定的路径标识
       canonicalOrigin: userConfig.site.url,
       pageSize: 20,
       lang: "zh-CN",

@@ -66,6 +66,8 @@ pnpm sync-blog
 
 文章 URL 使用 GitHub Issue 编号，例如 `/blog/200/`。文章标题仍保留在页面标题、正文和搜索结果中，标题修改不会改变 URL；历史标题 URL 会通过 301 永久重定向到编号 URL。
 
+评论组件使用自托管版本 `0.2.0-raclen.3`：历史文章从 `.sync-meta.json` 的 `aliases` 取原路径作为评论和点赞标识，PV 使用固定主域名与原路径；新版组件会保留显式 `postSlug`、`postUrl`，切换主题时不会重置。新文章没有历史映射时使用当前路径，不需要修改评论数据库。组件来源和回滚方法见 `public/vendor/cwd-widget/0.2.0-raclen.3/README.md`。
+
 ## 🛠️ 本地开发
 
 ### 安装依赖

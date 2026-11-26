@@ -104,12 +104,10 @@ type CommentsConfig =
       /** Path (or absolute URL) of the self-hosted widget bundle. */
       widgetSrc?: string;
       /**
-       * Canonical origin of this blog, e.g. "https://example.com".
-       *
-       * CWD groups comments by `postSlug` (the pathname) but groups article
-       * likes and page views by `postUrl` (origin + pathname). When the same
-       * build is served from several custom domains those counters would be
-       * split per domain, so the widget rewrites `postUrl` to this origin.
+       * 博客的固定主域名，例如 "https://example.com"。
+       * 评论与文章点赞通过 postSlug 关联；PV 通过 postUrl 关联。
+       * 多域名访问时把 postUrl 固定到该主域名，避免阅读量分裂。
+       * 历史文章保留迁移前的路径，配合支持显式 postUrl 的自托管组件使用。
        */
       canonicalOrigin?: string;
       /** Comments per page. */
