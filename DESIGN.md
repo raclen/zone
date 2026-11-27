@@ -1,5 +1,6 @@
 ---
 version: alpha
+status: archived
 name: Figma-design-analysis
 description: "A confident black-and-white editorial frame interrupted by oversized, hand-cut pastel color blocks. The marketing canvas is rigorously monochrome — figmaSans variable type, pure white surfaces, pure black ink, pill-shaped CTAs — while each story section drops the page into a saturated lime, lavender, cream, mint, or pink panel that reads like a sticky note placed on a clean desk. The result is a design system that feels both technical and joyful — a tool for serious work, made by people who like color."
 
@@ -269,6 +270,16 @@ components:
     rounded: "{rounded.xs}"
     padding: 64px 32px
 ---
+
+# Figma 营销页面设计参考（历史存档）
+
+> **本文件是早期外部设计分析，不是当前 zone 的设计规范。** 上方 YAML 与下方 Figma 色块、字体和营销组件参数保留作历史参考；当前个人站点采用 AstroPaper 基础样式与 Fuwari 风格卡片 / 侧栏布局，不应按此文档恢复旧宣传页或覆盖现有 token。
+
+当前样式入口为 [src/styles/astropaper.css](src/styles/astropaper.css)，颜色 / 字体见 [astropaper-theme.css](src/styles/astropaper-theme.css)，正文见 [astropaper-typography.css](src/styles/astropaper-typography.css)，卡片见 [fuwari.css](src/styles/fuwari.css)。布局与安全边界以 [PROJECT_RULES.md](PROJECT_RULES.md) 为准；项目结构见 [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)。
+
+下方 `Iteration Guide` 的工具命令及设计检查属于当时的参考流程，不代表本仓库已安装这些工具，也不是现行验证要求。
+
+## 历史分析正文
 
 ## Overview
 

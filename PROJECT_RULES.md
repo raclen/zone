@@ -1,28 +1,27 @@
 # PROJECT_RULES
 
-长期有效的经验与约束。修改排版 / 布局前先读这里。
+长期有效的经验与约束。修改内容同步、评论、域名或排版 / 布局前先读这里。
 
 ---
 
-## 1. 阅读区宽度只能通过 `--app-content-width` / `--app-gutter` 调整
+## 1. 调整宽度前先区分 Fuwari 布局与基础布局
 
 **触发信号**：想改文章正文宽度、页头页脚宽度，或发现页头和正文左右边界不对齐。
 
-**约束**：宽度是一组共享 token，定义在 [src/styles/astropaper.css](src/styles/astropaper.css)：
+**约束**：当前有两类容器，不能沿用「所有页面只改两个 token」的旧假设。
+
+- Fuwari 页面：`FuwariBlogLayout.astro`、文章详情页与 Header 使用 `max-w-[75rem]`，外层最大宽度为 1200px，左右留白为 `px-4 sm:px-6`。通用布局及文章详情的桌面网格为 `17.5rem` 侧栏加主内容列，间距 `gap-4`。
+- 基础页面及 Footer：通过 `app-layout` / `chrome-layout` 等工具类消费 [src/styles/astropaper.css](src/styles/astropaper.css) 的共享 token。
+
+基础布局 token 为：
 
 - `--app-content-width` = 正文列宽（不含左右留白）：默认 `56rem`(896px)，`min-width:1280px` 时 `61rem`(976px)
 - `--app-gutter` = 左右留白：默认 `1rem`，`min-width:640px` 时 `1.5rem`
 - `max-w-app` = `--app-content-width`；`app-layout` / `chrome-layout` = `content + 2 * gutter`
 
-**正确做法**：只改这两个变量的值。以下四处都消费同一组变量，任何一处写死像素值都会造成竖向不对齐：
+**正确做法**：先检查目标页面实际使用的容器，再修改相应布局体系。基础容器仍只通过这两个变量调整，不在使用处写死宽度；Fuwari 体系改宽度时，要同步核对 [FuwariBlogLayout.astro](src/layouts/FuwariBlogLayout.astro)、[文章详情页](src/pages/blog/[slug].astro) 和 [Header.astro](src/components/Header.astro)，不能仅修改其中一处。Footer 当前仍走 `chrome-layout`，也要单独检查。
 
-- `app-layout`（文章、博客列表、归档、标签、404、面包屑）
-- `chrome-layout`（Header / Footer）
-- `.works-main`（[src/pages/index.astro](src/pages/index.astro)）
-- `.about-page`（[src/pages/about.astro](src/pages/about.astro)，自带 padding，用 `content + 2*gutter`）
-
-**验证方式**：任意页面执行
-`header.firstElementChild.getBoundingClientRect().width` 应等于文章 `#article` 的宽度。
+**验证方式**：比较同类外层容器的左右边界，并检查桌面侧栏、正文与窄屏溢出。文章 `#article` 是网格内正文，不等于含侧栏的 Header 容器宽度；不要再用二者必须等宽作为断言。首页和关于页已使用 Fuwari 布局，不再存在旧 `.works-main` / `.about-page` 宽度入口。
 
 ---
 
@@ -56,14 +55,13 @@
 
 ---
 
-## 4. 代码块上边距不能小于 ~16px
+## 4. 代码块排版与复制按钮以当前块内定位为准
 
-**触发信号**：收紧 `pre` 的 `margin-block` 后，Copy 按钮压到上一段文字。
+**触发信号**：修改 `pre` 间距、内边距或滚动后，Copy 按钮遮挡代码或定位异常。
 
-**根因**：[src/pages/blog/\[slug\].astro](src/pages/blog/[slug].astro) 的内联脚本给每个 `pre` 套一层
-`div` 并塞入绝对定位按钮 `.copy-code`（`-top-3`），按钮有约 12px 悬在 `pre` 之外。
+**当前实现**：[文章详情页](src/pages/blog/[slug].astro) 给 `pre` 套相对定位 wrapper，将 `.copy-code` 插入 `pre`，使用 `end-3 top-3` 定位。旧版 `-top-3` 悬在代码块上沿之外的实现已不适用。
 
-**正确做法**：`pre { margin-block }` 保持 ≥ `1.125rem`(18px)。想更紧就得先把按钮改成块内定位。
+**正确做法**：保持当前 `pre { margin-block: 1.125rem }`（18px）的正文节奏；如需调整，检查真实定位祖先、内边距、长行横向滚动与复制后的反馈，不再用旧版负偏移解释当前问题。复制目标保持为 `pre code` 的文字，避免把按钮文字复制进去。
 
 ---
 
@@ -90,8 +88,40 @@
 
 ---
 
-## 7. 死代码：`src/styles/minimalism.css`
+## 7. 样式入口与已移除文件
 
-没有任何文件引用它。改主题样式时不要在这里找，也不要往里加东西。
-博客走 [src/styles/astropaper.css](src/styles/astropaper.css)。AnhePlayer 宣传页已拆分到独立项目
-`E:\code\cf-anheplayer`，原 `global.css` 现在只被 `blog/archive.astro` 使用的 Layout 引用。
+当前全局样式入口为 [src/styles/astropaper.css](src/styles/astropaper.css)，由 `AstroPaperLayout.astro` 引入，并导入：
+
+- `astropaper-theme.css`：颜色与字体 token
+- `astropaper-typography.css`：`.app-prose` 正文排版及代码样式
+- `fuwari.css`：卡片、标签等视觉样式
+
+`minimalism.css`、`global.css`、旧 `blog/archive.astro` 及其专属布局已移除，不要在不存在的入口中修改或恢复旧主题。归档统一使用 `/archives`。AnhePlayer 宣传页在独立项目 `E:\code\cf-anheplayer`，本站仅保留作品链接。
+
+---
+
+## 8. 编号短链接不能改变历史评论的数据标识
+
+**触发信号**：改文章 URL、文件名、同步元数据，或升级 / 回滚 CWD 组件。
+
+**约束**：同步文章使用 `<issue-number>.md` 和编号路径；`src/content/blog/.sync-meta.json` 的 `aliases` 不是可删除的临时缓存。它既生成 `public/_redirects` 的旧路径 301，也为 CWD 提供历史 `postSlug`。历史文章使用首个别名路径，评论与文章点赞继续沿用原键；PV 使用固定主域名和该路径组成的 `postUrl`。
+
+**正确做法**：保留已有 `siteId`、别名顺序、历史标识与永久路径重定向。CWD `.3` 组件在初始化和主题切换时保留显式 `postSlug` / `postUrl`；后续版本也必须维持该行为。升级使用新版本目录，不覆盖旧产物；回滚 `.2` 还需恢复其历史 URL 兼容代码，不能只改脚本地址。详见 [组件说明](public/vendor/cwd-widget/0.2.0-raclen.3/README.md)。
+
+**验证方式**：分别检查历史与新文章，刷新、主题切换和文章间导航后确认评论、点赞和 PV 归属。不要用清空别名、改数据库或自动合并记录作为第一步排障。
+
+---
+
+## 9. 域名迁移需分开处理 canonical、路径跳转与动态数据
+
+**约束**：站点 URL 在 `astro.config.mjs`、`astro-paper.config.ts` 及 IndexNow 脚本中保持一致；评论的 `siteId` 是数据归属标识，不应随主站域名自动修改。PV 按完整 URL 关联，改 `canonicalOrigin` 前应评估历史计数兼容，而不能假设所有互动都仅按路径统计。
+
+`public/_redirects` 是同步脚本生成的文章路径跳转，不负责域名级跳转。`functions/_middleware.js` 是有到期时间的临时旧域名跳转，两者不可互相替代。清理中间件前先确认迁移和长期跳转安排，不因时间已到就自动删除兼容数据。
+
+---
+
+## 10. 现行指南与历史记录必须明确区分
+
+文档中的当前结构、命令和行为以源码、配置与工作流为准。部署成功、浏览器交互、构建耗时、文章数和云服务配额必须有当次证据，不能把旧总结的验收或统计当成现状。
+
+旧 Figma 设计分析、JSON 评论方案及 Giscus 配置保留为历史参考，并在入口显式标注失效范围；维护时优先更新 README、BLOG 和对应的现行专题指南。只记录可复用边界，不向规则文件写入一次性任务结果或任何敏感凭据。

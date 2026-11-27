@@ -1,34 +1,88 @@
-# IndexNow 配置说明
+# IndexNow URL 提交与验证
 
-## 这是什么
+## 用途与证据边界
 
-IndexNow 是一个开放协议：站点内容更新后，主动把 URL 推给 Bing、Yandex 等搜索引擎，
-无需等爬虫自己发现。**ChatGPT 的联网检索基于 Bing 索引，所以这条通道对 AI 推荐很关键。**
+IndexNow 是内容变更通知协议：站点主动提交 URL，让支持该协议的搜索引擎更容易发现更新。本站向 `https://api.indexnow.org/indexnow` 提交。
 
-## 当前的实现
+**提交成功不等于抓取完成，也不等于已收录或被 AI 服务引用。** 不保证抓取时间，不把某个 AI 产品的检索来源当作固定前提。
 
-- 密钥文件：`public/{KEY}.txt`（内容就是 KEY 本身，由 IndexNow 协议规定）
-- 推送脚本：`scripts/indexnow.mjs`
-- 自动化：`.github/workflows/sync-blog.yml` 在同步文章后调用脚本
+## 当前实现
 
-## 换密钥时要做的事
+- 脚本：[scripts/indexnow.mjs](scripts/indexnow.mjs)。
+- 主域名：`raclen.top`，与 Astro 的 `site` 及站点 `site.url` 保持一致。
+- 验证文件：`public/<KEY>.txt`，内容为同一 KEY；构建后需能通过主站根路径访问。
+- 提交字段：`host`、`key`、`keyLocation`、`urlList`。
+- 批次上限：10000 条 URL。
+- 自动化：[.github/workflows/sync-blog.yml](.github/workflows/sync-blog.yml) 在文章同步及固定等待 180 秒后调用脚本。
 
-1. 生成新的 32 位十六进制字符串，例如：
-   `node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"`
-2. 新建 `public/<新KEY>.txt`，内容写 `<新KEY>`（一行，不要多余字符）
-3. 删除旧的 `public/<旧KEY>.txt`
-4. 把新 KEY 填进 `scripts/indexnow.mjs` 的 `INDEXNOW_KEY` 常量
+IndexNow 验证 KEY 按协议公开，不是账户密码或 API Bearer Token；这不代表可以公开 GitHub Token、通知凭据或 CWD 后台凭据。
 
-## 手动推送全部文章
+## URL 从哪里来
+
+脚本按以下顺序读取 URL：
+
+1. **优先读取本地 `dist/sitemap-0.xml`**。
+2. 文件不可读取或没有 URL 时，回退到 `src/content/blog/*.md` 的文件名，并补入脚本定义的固定页面。
+
+注意：
+
+- 脚本不会下载线上 sitemap，也不会判断本地 `dist` 是否过期。只要存在有效的旧 sitemap，就可能提交旧 URL。
+- 回退模式只拼接 `.md` 文件，不读取 MDX、草稿状态或发布日期过滤；与实际公开页面清单可能不同。
+- 回退模式的固定页面是脚本中的清单，不会自动发现所有新路由。
+- 同步工作流不运行本站构建。干净的 Actions 检出通常没有 `dist`，会使用回退模式。
+
+因此手动提交前应先构建并预览 URL 来源，不能将“读到 sitemap”直接视为与线上部署完全一致。
+
+## 手动操作
+
+### 只读预览
 
 ```bash
-node scripts/indexnow.mjs
+pnpm build
+pnpm indexnow --dry-run
 ```
 
-脚本会读取 `src/content/blog/*.md`，拼出所有文章 URL 后批量提交。
-Bing 对单次提交的 URL 数量有限制，脚本已按每批 10000 条分组（协议上限）。
+`--dry-run` 只显示 URL 来源、数量和前 10 条示例，**不会提交请求**。也可直接运行：
 
-## 验证
+```bash
+node scripts/indexnow.mjs --dry-run
+```
 
-提交后可以在 Bing Webmaster Tools 的 IndexNow 页面看到提交记录，
-通常几分钟内就会开始抓取。
+### 正式提交
+
+确认 Pages 已部署、目标 URL 可访问、验证文件可访问后，再执行：
+
+```bash
+pnpm indexnow
+```
+
+脚本会向外部服务提交 URL；不要把这条命令当作只读验证。批次日志中的 HTTP 状态及成功 / 失败数量仅表示接口接受情况。
+
+## 更换域名或验证 KEY
+
+### 域名
+
+同步检查 `scripts/indexnow.mjs` 的 `SITE_HOST`、派生的 `SITE_URL` / `KEY_LOCATION`，以及 `astro.config.mjs`、`astro-paper.config.ts` 的站点 URL。重新构建，避免旧域名 sitemap 优先被提交；确认新域名能直接提供验证文件和文章页面。
+
+旧域名跳转与新域名验证是不同机制。本站临时跳转的到期与迁移约束见 [README.md](README.md#域名与重定向)。
+
+### 验证 KEY
+
+只有需要轮换时才执行：
+
+1. 生成新的随机 KEY，例如使用 `node -e "console.log(require('crypto').randomBytes(16).toString('hex'))"`。
+2. 创建 `public/<新KEY>.txt`，内容与 KEY 完全一致。
+3. 更新脚本中的 `INDEXNOW_KEY`，检查派生的验证文件 URL。
+4. 构建并部署，确认新验证文件可访问后，再按迁移安排清理旧文件。
+
+不要先删除仍在使用的验证文件，也不要在轮换时顺带更改评论系统凭据或站点标识。
+
+## 验证清单
+
+- [ ] 预览日志的来源与目标 URL 属于当前主域名。
+- [ ] Pages 已部署对应内容，抽查的新文章不是 404。
+- [ ] `https://raclen.top/<KEY>.txt` 返回正确验证内容。
+- [ ] 正式提交日志没有失败批次。
+- [ ] 在搜索引擎站长工具中检查提交记录、抓取状态与实际收录。
+
+工作流的 `sleep 180` 只是固定等待，不会保证上述条件成立。检查自动化时应同时看同步提交、Pages 部署和 IndexNow 日志，而不是仅看某一步显示成功。

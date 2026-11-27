@@ -1,4 +1,12 @@
-# Giscus 评论系统配置指南
+# Giscus 评论系统配置指南（历史存档）
+
+> **当前站点使用 CWD，不再直接支持本指南的配置步骤。** 现行说明见 [README.md](README.md#内容与评论) 与 [BLOG.md](BLOG.md#短链接与历史评论兼容)。以下保留 Giscus 时期的参数与接入参考，不能仅修改 `comments.provider` 就期待现有页面显示 Giscus。
+
+如需恢复旧方案，应从确认的历史提交恢复 `GiscusComments.astro`，同时调整 `src/types/config.ts` 的评论类型、`src/config.ts` 的解析 / 默认值、`astro-paper.config.ts` 和文章详情页的组件接线，再重新构建并人工验证。当前源码只提供 CWD 类型与页面组件。
+
+旧 Discussions 使用完整 URL 映射；更换域名或切换编号短链接后不会自动匹配原讨论，也不会自动迁移 CWD 评论与点赞。回滚前需保留现有 CWD 配置、历史路径映射和数据恢复方案，不能以删库或清空别名替代迁移。
+
+## 历史配置正文
 
 Giscus 是基于 GitHub Discussions 的评论系统，简单、优雅、免费。
 
@@ -100,6 +108,7 @@ data-theme="light"  // 或 "dark"、"preferred_color_scheme"
 - GitHub Discussions：https://github.com/raclen/zone/discussions
 - Giscus 文档：https://github.com/giscus/giscus/blob/main/ADVANCED-USAGE.md
 
+```html
 <script src="https://giscus.app/client.js"
         data-repo="raclen/zone"
         data-repo-id="R_kgDOTAMRcg"
@@ -115,3 +124,4 @@ data-theme="light"  // 或 "dark"、"preferred_color_scheme"
         crossorigin="anonymous"
         async>
 </script>
+```

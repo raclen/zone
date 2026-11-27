@@ -1,189 +1,105 @@
-# GitHub Issues 博客系统实现总结
+# 当前实现结构与维护说明
 
-## 已完成的功能
+本文描述当前仓库实现，不是某次发布的验收报告。旧版 Astro 5、66 篇文章、标题长链接及固定构建耗时等统计不再作为当前状态依据。
 
-### ✅ 第一阶段：内容结构
-- [x] 配置 Astro Content Collections (`src/content/config.ts`)
-- [x] 创建博客内容目录 (`src/content/blog/`)
-- [x] 定义博客文章 schema（标题、日期、标签、Issue 链接等）
+## 项目边界
 
-### ✅ 第二阶段：同步脚本
-- [x] 开发 Issues 同步脚本 (`scripts/sync-blog.js`)
-  - 从 GitHub API 获取 Issues
-  - 过滤 Pull Requests
-  - 生成 Markdown 文件（包含 frontmatter）
-  - 增量同步支持（通过 `.sync-meta.json`）
-  - 文件命名：`YYYY-MM-DD-{issue-number}-{slug}.md`
-- [x] 配置 GitHub Actions 工作流 (`.github/workflows/sync-blog.yml`)
-  - 每天北京时间 08:00 自动运行
-  - 支持手动触发
-  - 自动 commit 和 push
-- [x] 成功同步 66 篇文章
+`zone` 是「当下的七炎」个人站点，包含作品首页、博客、每日分享、关于与友链页面、大模型 API 导航。AnhePlayer 宣传页已拆分为独立项目；本站只保留作品链接。
 
-### ✅ 第三阶段：前端页面
-- [x] 博客列表页 (`src/pages/blog/index.astro`)
-  - Hero 区域展示统计信息
-  - 标签筛选功能
-  - 响应式卡片布局
-  - 按发布日期倒序排列
-- [x] 文章详情页 (`src/pages/blog/[slug].astro`)
-  - 文章头部（标题、日期、标签、阅读时间）
-  - Markdown 渲染（代码高亮、表格、引用等）
-  - GitHub Issue 讨论入口
-  - 返回列表链接
-- [x] 博客卡片组件 (`src/pages/blog/_components/BlogCard.astro`)
-  - 悬停效果
-  - 标签展示
-  - 日期格式化
-- [x] 更新首页，添加博客入口卡片
-- [x] 继承 Figma 设计风格（色彩、字体、布局）
+- 页面：Astro 6 + TypeScript，`output: "static"`。
+- 样式：Tailwind CSS 4，AstroPaper 基础样式与 Fuwari 风格卡片 / 侧栏组合。
+- 内容：Markdown / MDX，经 Content Collections 校验与转换。
+- 搜索：构建期 Pagefind 索引，浏览器端查询。
+- 动态互动：独立的 CWD API，Cloudflare Workers + D1 + KV。
+- 部署目标：Cloudflare Pages；`functions/_middleware.js` 仅承担临时旧域名跳转。
 
-### ✅ 第四阶段：搜索功能
-- [x] 集成 Pagefind
-  - 安装依赖 (`pagefind`, `astro-pagefind`)
-  - 配置 Astro 集成
-  - 创建搜索组件 (`src/pages/blog/_components/SearchBar.astro`)
-  - 自定义样式（与设计系统一致）
-  - 中文搜索支持
-- [x] 索引 69 个页面（66 篇博客 + 3 个其他页面）
-
-### ✅ 第五阶段：验证测试
-- [x] 本地同步测试通过
-- [x] 构建测试通过（生成 69 个页面）
-- [x] Pagefind 索引生成成功
-- [x] 开发服务器运行正常
-
-## 技术栈
-
-- **框架**: Astro 5.x
-- **包管理**: pnpm 9
-- **Node 版本**: 22
-- **部署平台**: Cloudflare Pages
-- **搜索引擎**: Pagefind
-- **自动化**: GitHub Actions
-- **设计系统**: Figma 风格（黑白主调 + 彩色块）
-
-## 文件清单
-
-### 新建文件（15 个）
-1. `src/content/config.ts` - Content Collections 配置
-2. `src/content/blog/.gitkeep` - 博客目录占位文件
-3. `src/content/blog/.sync-meta.json` - 同步元数据（自动生成）
-4. `src/content/blog/*.md` - 66 篇博客文章（自动生成）
-5. `scripts/sync-blog.js` - 同步脚本
-6. `.github/workflows/sync-blog.yml` - GitHub Actions 工作流
-7. `src/pages/blog/index.astro` - 博客列表页
-8. `src/pages/blog/[slug].astro` - 博客详情页
-9. `src/pages/blog/_components/BlogCard.astro` - 文章卡片组件
-10. `src/pages/blog/_components/SearchBar.astro` - 搜索组件
-11. `BLOG.md` - 博客系统使用文档
-12. `IMPLEMENTATION_SUMMARY.md` - 本文档
-
-### 修改文件（5 个）
-1. `package.json` - 添加 `sync-blog` 脚本和依赖
-2. `tsconfig.json` - 添加路径别名 `@/*`
-3. `astro.config.mjs` - 配置路径别名、Pagefind 集成、Vite 外部化
-4. `src/pages/index.astro` - 添加博客入口卡片
-5. `.gitignore` - （如需要）忽略临时文件
+Node.js 最低版本为 22.12.0。版本范围以 `package.json`、实际安装版本以锁文件和运行环境为准，不把依赖声明当作线上运行版本。
 
 ## 数据流
 
-```
-GitHub Issues (内容源)
-    ↓
-GitHub Actions (每天 08:00 触发)
-    ↓
-sync-blog.js (获取 Issues、生成 Markdown)
-    ↓
-src/content/blog/*.md (Git 提交)
-    ↓
-Cloudflare Pages (自动构建)
-    ↓
-Astro 构建 (Content Collections 解析)
-    ↓
-Pagefind 索引 (搜索功能)
-    ↓
-静态站点 (https://raclen.ee.cd/blog)
+### Issue 博客
+
+```text
+raclen/zone 中带 blog 标签的 open Issues
+                 ↓
+GitHub Actions（北京时间每天 08:00 / 手动 / 工作流文件变更）
+                 ↓
+scripts/sync-blog.js
+                 ↓
+编号 Markdown + .sync-meta.json + public/_redirects
+                 ↓
+自动提交 → 已连接仓库的 Cloudflare Pages 构建
+                 ↓
+Astro HTML + Pagefind 索引 + RSS + sitemap + llms.txt 清单
 ```
 
-## 关键特性
+同步只处理文章，不处理 Issue 评论 JSON。工作流同步后固定等待 180 秒并调用 IndexNow；它既不检查线上部署状态，也不在此步骤重新构建本地 `dist`。详见 [BLOG.md](BLOG.md) 与 [INDEXNOW.md](INDEXNOW.md)。
 
-1. **增量同步**：只更新变化的文章，避免重复处理
-2. **中文友好**：URL slug 支持中文（保留原文）
-3. **标签筛选**：前端 JavaScript 实现即时筛选
-4. **全文搜索**：Pagefind 支持中文分词
-5. **响应式设计**：移动端和桌面端自适应
-6. **设计一致性**：完全继承项目的 Figma 设计系统
-7. **SEO 优化**：自动生成 sitemap，包含所有博客页面
-8. **GitHub 集成**：每篇文章都链接到原 Issue，支持评论讨论
+### 每日分享与导航
 
-## 性能指标
+- 每日分享：手工维护 `src/content/daily/YYYY-MM.md`，`daily` 集合加载，`parseDaily.ts` 解析日期目录、锚点和月份导航。
+- API 导航：维护 `src/pages/llm-api/llm-api.json` 中的 `freeSites` / `paidSites`，页面只展示链接，不提供中转 API。
+- 友链：维护 `src/data/friends.ts`；页面保留，顶部导航不提供友链入口。
 
-- **构建时间**: ~1.6 秒
-- **页面数量**: 69 个静态页面
-- **搜索索引**: 自动生成，支持中文
-- **部署方式**: 静态托管（Cloudflare Pages）
+### 评论、点赞与阅读量
 
-## 后续优化建议
+```text
+文章 Issue 编号 + .sync-meta.json 历史 aliases
+                 ↓
+CwdComments.astro 选择稳定路径及固定主域名 URL
+                 ↓
+自托管 cwd-widget 0.2.0-raclen.3
+                 ↓
+独立 CWD API（评论 / 点赞 / PV）
+```
 
-### 短期（可选）
-- [ ] RSS feed 生成
-- [ ] 阅读进度条
-- [ ] 文章目录（TOC）侧边栏
-- [ ] 代码块复制按钮
-- [ ] 图片点击放大（lightbox）
+评论与文章点赞按 `postSlug` 关联，PV 按 `postUrl` 关联。历史文章优先使用原路径，新文章使用当前路径；不要为了统一短链接而更换已有数据标识。CWD 后端源码、D1 数据和 KV 不在本仓库维护，不能把本站 Git 备份当作评论数据备份。
 
-### 中期（可选）
-- [ ] 评论系统集成（giscus）
-- [ ] 文章分享按钮
-- [ ] 相关文章推荐
-- [ ] 文章归档页面（按年份、月份）
-- [ ] 标签云页面
+## 配置与目录职责
 
-### 长期（可选）
-- [ ] 多语言支持（i18n）
-- [ ] 深色模式
-- [ ] 文章统计（字数、阅读时间）
-- [ ] Webhook 实时同步（替代定时任务）
-- [ ] 草稿预览功能
+| 文件 / 目录 | 职责 |
+| --- | --- |
+| [astro-paper.config.ts](astro-paper.config.ts) | 站点信息、分页、功能开关、社交分享与 CWD 配置 |
+| [astro.config.mjs](astro.config.mjs) | 主站 URL、静态构建、MDX、Pagefind、sitemap、Shiki 与 Vite |
+| [src/config.ts](src/config.ts) | 解析配置与默认值，日常配置优先修改上面的入口 |
+| [src/types/config.ts](src/types/config.ts) | 配置类型；当前评论 provider 仅支持 CWD |
+| [src/content.config.ts](src/content.config.ts) | `posts` 与 `daily` 集合、日期与描述转换 |
+| [src/layouts/AstroPaperLayout.astro](src/layouts/AstroPaperLayout.astro) | 基础 HTML、主题、SEO 与页面过渡 |
+| [src/layouts/FuwariBlogLayout.astro](src/layouts/FuwariBlogLayout.astro) | 通用卡片 / 侧栏布局；文章详情自行组合基础布局和侧栏 |
+| [src/components/fuwari](src/components/fuwari) | 文章卡片、个人信息、归档 / 标签挂件、目录和搜索弹窗 |
+| [src/pages](src/pages) | 路由、内容页面、RSS 和 AI 抓取辅助端点 |
+| [src/styles/astropaper.css](src/styles/astropaper.css) | 当前全局样式入口，导入主题、正文排版及 Fuwari 样式 |
+| [scripts/sync-blog.js](scripts/sync-blog.js) | 增量同步、编号文件名、历史别名及路径重定向 |
+| [.github/workflows/sync-blog.yml](.github/workflows/sync-blog.yml) | 同步调度、自动提交、固定等待与 IndexNow 调用 |
+| [scripts/indexnow.mjs](scripts/indexnow.mjs) | URL 预览与批量提交 |
+| [functions/_middleware.js](functions/_middleware.js) | 有到期时间的旧域名 301 |
 
-## 成本与限制
+## 必须保留的兼容边界
 
-### GitHub Actions
-- **免费额度**: 2000 分钟/月
-- **当前使用**: 每天运行一次，约 1 分钟/次 = 30 分钟/月
-- **剩余额度**: 充足
+1. **文章 URL 与历史映射**：编号路径稳定；保留 `.sync-meta.json` 的 `aliases` 和生成的旧路径重定向。
+2. **评论归属**：不要随意改动 `siteId`、历史 `postSlug` 或 `postUrl`；主题切换不能重置文章标识。
+3. **组件版本**：CWD 配置、默认值、组件备用地址要指向同一版本目录。不要覆盖旧产物；回滚 `.2` 还需恢复其历史 URL 兼容代码。
+4. **域名配置**：`astro.config.mjs`、`astro-paper.config.ts` 和 IndexNow 的主域名应一致；域名变更不等于可以改评论站点标识。
+5. **跳转生命周期**：旧域名 `raclen.ee.cd` 的临时中间件在 2026-12-18 08:00（北京时间）停止跳转；到期不会自动删文件，也不能替代长期迁移方案。
+6. **内容源**：同步文章在 Issues 修改，避免直接修改生成内容；每日分享独立手工维护，不纳入同步。
+7. **凭据**：不把本地 `.env`、后台凭据或 Token 放入公开文档、提交或日志。同步脚本不会自动加载 `.env`。
+8. **前端验证**：不编写 UI 单元测试或测试脚手架；前端改动保证构建通过，并向用户列出 UI 影响范围和人工验证 Todo。
 
-### Cloudflare Pages
-- **免费额度**: 500 次构建/月
-- **当前使用**: 每天最多 1 次 = 30 次/月
-- **剩余额度**: 充足
+布局和排版的具体约束以 [PROJECT_RULES.md](PROJECT_RULES.md) 为准。旧 Figma 分析、JSON 评论总结及 Giscus 配置已标为历史存档，不能反向覆盖当前实现。
 
-### GitHub API
-- **未认证**: 60 次/小时
-- **已认证**: 5000 次/小时（使用 GITHUB_TOKEN）
-- **当前使用**: 每天 1-2 次请求
-- **状态**: 充足
+## 维护与验证
 
-## 维护指南
-
-### 日常维护
-- Issues 为唯一内容源，本地不手动编辑 `src/content/blog/`
-- 定期查看 GitHub Actions 运行日志
-- 监控 Cloudflare Pages 构建状态
-
-### 故障排查
-1. **同步失败**: 检查 GitHub Actions 日志
-2. **构建失败**: 检查 Cloudflare Pages 构建日志
-3. **搜索不工作**: 清除缓存重新构建
-4. **文章不显示**: 检查 frontmatter 格式是否正确
-
-### 更新依赖
 ```bash
-pnpm update
-pnpm build  # 测试构建
+pnpm dev
+pnpm build
+pnpm preview
+pnpm indexnow --dry-run
 ```
 
-## 总结
+- 页面 / 搜索：使用生产构建后的预览；详见 [PAGEFIND_FIX.md](PAGEFIND_FIX.md)。
+- 同步失败：先看 GitHub Actions / GitHub API 返回及环境认证，不能因本地文件存在就认为远端同步成功。
+- 新文章未上线：区分同步提交、Pages 构建和线上访问三个阶段。
+- 评论异常：先检查稳定路径、`siteId`、组件版本与 API 请求，不能直接清空别名或迁移数据。
+- 收录异常：区分 URL 提交成功、搜索引擎抓取和实际收录，三者不是同一状态。
 
-成功实现了一个完整的 GitHub Issues 自动博客系统，从内容创作、自动同步、前端展示到搜索功能，全部打通。系统稳定、易维护，充分利用了 GitHub 生态和现代静态站点技术栈。
+文章数、索引页面数、构建耗时、GitHub / Cloudflare 配额等应按当次日志或账号状态验证。本文不宣称线上部署、浏览器交互或历史性能测试已重新通过。

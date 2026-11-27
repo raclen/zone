@@ -1,4 +1,21 @@
-# 博客页面优化总结
+# 博客页面优化总结（历史存档）
+
+> **历史记录，不是当前操作指南。** 以下保留早期优化方案、当时的代码路径和效果描述；其中评论 JSON、每小时同步、旧归档页、旧搜索组件与排版数值已被后续实现替代，不应直接执行下方历史命令。
+
+## 当前对应实现
+
+| 历史方案 | 当前实现 |
+| --- | --- |
+| `CommentsLocal.astro` / `src/data/comments/` | 独立 CWD API + `CwdComments.astro`，不再同步评论 JSON |
+| 每小时同步文章和评论 | 北京时间每天 08:00 同步带 `blog` 标签的 open Issues，只同步文章 |
+| `/blog/archive` | `/archives`，旧页面及专属布局已移除 |
+| `SearchBar.astro` | 顶部 Fuwari 搜索弹窗 + `/search`，使用 Pagefind |
+| 本文件中的字号和布局参数 | 当前样式源码与 `PROJECT_RULES.md` |
+| 复制 `.env.example` 自动加载 Token | 仓库未提供该模板；同步脚本只读取进程环境，需显式注入 |
+
+当前使用方法见 [BLOG.md](BLOG.md)，架构见 [IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)，排版约束见 [PROJECT_RULES.md](PROJECT_RULES.md)。原文中的“已完成 / 已测试”和性能描述仅属于历史记录，本次文档整理未重新验证这些历史结论。
+
+## 历史正文
 
 ## 完成的改进
 

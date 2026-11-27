@@ -1,4 +1,12 @@
-# 🎉 博客优化完成总结
+# 博客优化完成总结（历史存档）
+
+> **这是一份早期阶段总结，不代表当前功能、部署或验收状态。** 原文中的 JSON 评论、每小时同步、`/blog/archive`、`CommentsLocal.astro`、旧搜索组件、`.env.example` 以及构建性能指标已不适用于当前项目。下方命令、文件清单和“全部测试通过”描述只保留作历史参考，不作为现行操作建议。
+
+当前站点使用 Astro 6、Tailwind CSS 4、Fuwari 风格布局与独立 CWD 评论服务；文章按北京时间每天 08:00 从带 `blog` 标签的 open Issues 同步，归档路由统一为 `/archives`。评论数据不在本站 Git 仓库内，不能沿用原文的 JSON 备份或 GitHub Issues 审核说明。
+
+现行文档入口：[README.md](README.md)、[BLOG.md](BLOG.md)、[IMPLEMENTATION_SUMMARY.md](IMPLEMENTATION_SUMMARY.md)。原文引用的 `QUICK_START.md`、`COMMENTS_SYSTEM.md` 和评论数据目录已不在当前仓库，请使用上述入口。
+
+## 历史正文
 
 ## ✅ 已完成的所有功能
 
